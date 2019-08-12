@@ -19,7 +19,7 @@ const config = {
     })
   ],
   watch: {
-    include: 'src/**, lib/**',
+    include: 'src/**',
     exclude: 'node_modules/**'
   }
 }
