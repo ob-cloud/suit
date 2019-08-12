@@ -1,0 +1,35 @@
+{
+  "name": "suit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/suit.umd.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "rollup -w --config rollup.config.js --format umd --file dist/yield.umd.dev.js",
+    "build": "npm run build:iife & npm run build:es & npm run build:umd",
+    "build:umd": "rollup --config rollup.config.js --format umd --file dist/yield.umd.js",
+    "build:es": "rollup --config rollup.config.js --format es --file dist/yield.esm.js",
+    "build:iife": "rollup --config rollup.config.js --format iife --file dist/yield.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ob-cloud/suit.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ob-cloud/suit/issues"
+  },
+  "homepage": "https://github.com/ob-cloud/suit#readme",
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "minimist": "^1.2.0",
+    "rollup": "^1.16.2",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.0.1",
+    "rollup-plugin-terser": "^5.0.0"
+  }
+}
