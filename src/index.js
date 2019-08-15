@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2019-08-12 11:28:24
  * @Last Modified by: eamiear
- * @Last Modified time: 2019-08-15 15:43:00
+ * @Last Modified time: 2019-08-15 15:59:24
  */
 
 import Converter from './modules/converter'
@@ -39,26 +39,14 @@ class Suit {
    * @param {string} deviceSubType 设备子类型
    */
   getStatusDescriptor (status, deviceType, deviceSubType) {
-    // let statusDescriptor = ''
-    // 1. 根据状态类型，找到类型判断方法，返回状态方法
-    const findKey = Array.from(Object.keys(Suiter)).find(key => {
-      const capKey = key.slice(0, 1).toUpperCase() + key.slice(1)
+    const typeKey = Array.from(Object.keys(Suiter)).find(key => {
+      const capKey = key.toCapital()
       return this.typeHints[`is${capKey}`].call(this.typeHints, deviceType)
     })
-    const statusMethodName = `get${findKey.toCapital()}StatusDescriptor`
+    const statusMethodName = `get${typeKey.toCapital()}StatusDescriptor`
     if (this.statusDescriptor[statusMethodName]) {
       return this.statusDescriptor[statusMethodName].call(this.statusDescriptor, status, deviceType, deviceSubType)
     }
-    // Array.from(Object.keys(this.typeHints)).forEach(typeHintKey => {
-    //   if (this.typeHints[typeHintKey].call(this.typeHints, deviceType, deviceSubType)) {
-    //     const statusMethodName = `get${typeHintKey.replace('is', '')}StatusDescriptor`
-    //     if (this.statusDescriptor[statusMethodName]) {
-    //       statusDescriptor = this.statusDescriptor[statusMethodName].call(this.statusDescriptor, status, deviceType, deviceSubType)
-    //       return statusDescriptor
-    //     }
-    //   }
-    // })
-    // return statusDescriptor
   }
  }
 
