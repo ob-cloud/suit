@@ -345,7 +345,7 @@ const SuitStatus = Array.from(Object.keys(Suiter)).reduce((item, next, index) =>
  * @Author: eamiear
  * @Date: 2019-08-12 11:22:42
  * @Last Modified by: eamiear
- * @Last Modified time: 2019-08-12 11:33:23
+ * @Last Modified time: 2019-08-15 14:49:08
  */
 
 class TypeHints {
@@ -383,10 +383,18 @@ class TypeHints {
 
 
   __rootProcessor() {
-    const typeList = Array.from(Object.keys(Suiter)).map(item => item.slice(0, 1).toUpperCase() + item.slice(1));
-    typeList.forEach(item => {
-      this[`is${item}`] = (deviceType, deviceSubType) => {
-        return this.__handler(Suiter[item.toLocaleLowerCase()], deviceType, deviceSubType);
+    // const typeList = Array.from(Object.keys(Suiter)).map(item => item.slice(0, 1).toUpperCase() + item.slice(1))
+    // typeList.forEach(item => {
+    //   this[`is${item}`] = (deviceType, deviceSubType) => {
+    //     return this.__handler(Suiter[item.toLocaleLowerCase()], deviceType, deviceSubType)
+    //   }
+    // })
+    Array.from(Object.keys(Suiter)).map(item => {
+      const types = Suiter[item].type;
+      const keyCapital = item.slice(0, 1).toUpperCase() + item.slice(1);
+
+      this[`is${keyCapital}`] = (deviceType, deviceSubType) => {
+        return this.__handler(types, deviceType, deviceSubType);
       };
     });
   }
