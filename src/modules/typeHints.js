@@ -2,10 +2,11 @@
  * @Author: eamiear
  * @Date: 2019-08-12 11:22:42
  * @Last Modified by: eamiear
- * @Last Modified time: 2019-08-15 14:49:08
+ * @Last Modified time: 2019-08-15 15:39:17
  */
 import Suiter from './suiter'
 import Converter from './converter'
+require('../utils/string')
 class TypeHints {
   constructor () {
     this.__rootProcessor()
@@ -41,7 +42,7 @@ class TypeHints {
     // })
     Array.from(Object.keys(Suiter)).map(item => {
       const types = Suiter[item].type
-      const keyCapital = item.slice(0, 1).toUpperCase() + item.slice(1)
+      const keyCapital = item.toCapital()
       this[`is${keyCapital}`] = (deviceType, deviceSubType) => {
         return this.__handler(types, deviceType, deviceSubType)
       }
@@ -54,10 +55,10 @@ class TypeHints {
   __subDeviceProcessor () {
     Array.from(Object.keys(Suiter)).map(item => {
       const group = Suiter[item].group
-      const itemKey = item.slice(0, 1).toUpperCase() + item.slice(1) // sensors --> Sensors
+      const itemKey = item.toCapital() // sensors --> Sensors
       if (!group) return
       Array.from(Object.keys(group)).map((groupKey) => {
-        const key = groupKey.slice(0, 1).toUpperCase() + groupKey.slice(1) // touch --> Touch
+        const key = groupKey.toCapital() // touch --> Touch
         this[`is${key}${itemKey}`] = (deviceSubType) => { // this.isTouchSensor = (deviceSubType) => {}
           return this.__handleSubType(group[groupKey], deviceSubType)
         }
