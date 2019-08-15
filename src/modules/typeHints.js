@@ -2,11 +2,11 @@
  * @Author: eamiear
  * @Date: 2019-08-12 11:22:42
  * @Last Modified by: eamiear
- * @Last Modified time: 2019-08-15 15:39:17
+ * @Last Modified time: 2019-08-15 15:47:48
  */
 import Suiter from './suiter'
 import Converter from './converter'
-require('../utils/string')
+import s from '../utils/string'
 class TypeHints {
   constructor () {
     this.__rootProcessor()
