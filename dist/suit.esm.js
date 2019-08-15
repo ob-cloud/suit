@@ -341,14 +341,20 @@ const SuitStatus = Array.from(Object.keys(Suiter)).reduce((item, next, index) =>
   };
 });
 
+String.prototype.toCapital = function () {
+  return this.slice(0, 1).toUpperCase() + this.slice(1);
+};
+
+String.prototype.toLower = function () {
+  return this.slice(0, 1).toLowerCase() + this.slice(1);
+};
+
 /*
  * @Author: eamiear
  * @Date: 2019-08-12 11:22:42
  * @Last Modified by: eamiear
- * @Last Modified time: 2019-08-15 15:39:17
+ * @Last Modified time: 2019-08-15 15:47:48
  */
-
-require('../utils/string');
 
 class TypeHints {
   constructor() {
