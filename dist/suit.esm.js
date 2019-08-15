@@ -345,8 +345,10 @@ const SuitStatus = Array.from(Object.keys(Suiter)).reduce((item, next, index) =>
  * @Author: eamiear
  * @Date: 2019-08-12 11:22:42
  * @Last Modified by: eamiear
- * @Last Modified time: 2019-08-15 14:49:08
+ * @Last Modified time: 2019-08-15 15:39:17
  */
+
+require('../utils/string');
 
 class TypeHints {
   constructor() {
@@ -391,7 +393,7 @@ class TypeHints {
     // })
     Array.from(Object.keys(Suiter)).map(item => {
       const types = Suiter[item].type;
-      const keyCapital = item.slice(0, 1).toUpperCase() + item.slice(1);
+      const keyCapital = item.toCapital();
 
       this[`is${keyCapital}`] = (deviceType, deviceSubType) => {
         return this.__handler(types, deviceType, deviceSubType);
@@ -407,11 +409,11 @@ class TypeHints {
   __subDeviceProcessor() {
     Array.from(Object.keys(Suiter)).map(item => {
       const group = Suiter[item].group;
-      const itemKey = item.slice(0, 1).toUpperCase() + item.slice(1); // sensors --> Sensors
+      const itemKey = item.toCapital(); // sensors --> Sensors
 
       if (!group) return;
       Array.from(Object.keys(group)).map(groupKey => {
-        const key = groupKey.slice(0, 1).toUpperCase() + groupKey.slice(1); // touch --> Touch
+        const key = groupKey.toCapital(); // touch --> Touch
 
         this[`is${key}${itemKey}`] = deviceSubType => {
           // this.isTouchSensor = (deviceSubType) => {}
@@ -654,7 +656,7 @@ var StatusDescriptor$1 = new StatusDescriptor();
  * @Author: eamiear
  * @Date: 2019-08-12 11:28:24
  * @Last Modified by: eamiear
- * @Last Modified time: 2019-08-12 11:36:13
+ * @Last Modified time: 2019-08-15 15:43:00
  */
 
 class Suit {
@@ -692,18 +694,27 @@ class Suit {
 
 
   getStatusDescriptor(status, deviceType, deviceSubType) {
-    let statusDescriptor = '';
-    Array.from(Object.keys(this.typeHints)).forEach(typeHintKey => {
-      if (this.typeHints[typeHintKey].call(this.typeHints, deviceType, deviceSubType)) {
-        const statusMethodName = `get${typeHintKey.replace('is', '')}StatusDescriptor`;
-
-        if (this.statusDescriptor[statusMethodName]) {
-          statusDescriptor = this.statusDescriptor[statusMethodName].call(this.statusDescriptor, status, deviceType, deviceSubType);
-          return statusDescriptor;
-        }
-      }
+    // let statusDescriptor = ''
+    // 1. 根据状态类型，找到类型判断方法，返回状态方法
+    const findKey = Array.from(Object.keys(Suiter)).find(key => {
+      const capKey = key.slice(0, 1).toUpperCase() + key.slice(1);
+      return this.typeHints[`is${capKey}`].call(this.typeHints, deviceType);
     });
-    return statusDescriptor;
+    const statusMethodName = `get${findKey.toCapital()}StatusDescriptor`;
+
+    if (this.statusDescriptor[statusMethodName]) {
+      return this.statusDescriptor[statusMethodName].call(this.statusDescriptor, status, deviceType, deviceSubType);
+    } // Array.from(Object.keys(this.typeHints)).forEach(typeHintKey => {
+    //   if (this.typeHints[typeHintKey].call(this.typeHints, deviceType, deviceSubType)) {
+    //     const statusMethodName = `get${typeHintKey.replace('is', '')}StatusDescriptor`
+    //     if (this.statusDescriptor[statusMethodName]) {
+    //       statusDescriptor = this.statusDescriptor[statusMethodName].call(this.statusDescriptor, status, deviceType, deviceSubType)
+    //       return statusDescriptor
+    //     }
+    //   }
+    // })
+    // return statusDescriptor
+
   }
 
 }
