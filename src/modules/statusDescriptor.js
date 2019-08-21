@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2019-08-12 11:25:00
  * @Last Modified by: eamiear
- * @Last Modified time: 2019-08-21 17:59:05
+ * @Last Modified time: 2019-08-21 18:24:24
  */
 
 import Converter from './converter'
@@ -63,6 +63,10 @@ class StatusDescriptor {
     // 当前格式 关/关/关/开
     if (TypeHints.isTouchSocketSwitch(deviceSubType) || TypeHints.isNormalSocketSwitch(deviceSubType)) {
       return this.__combineSocketStatus(deviceType, status.slice(0, 2))
+    }
+
+    if (TypeHints.isMixSocketSwitch(deviceSubType)) {
+      return this.__combineSocketStatus(deviceType, status.slice(2, 4))
     }
 
     if (TypeHints.isSceneSocketSwitch(deviceSubType)) {
