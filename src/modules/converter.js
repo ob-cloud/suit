@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2019-08-12 11:21:09
  * @Last Modified by: eamiear
- * @Last Modified time: 2019-08-12 11:21:41
+ * @Last Modified time: 2019-08-20 14:40:54
  */
 
 /**
@@ -15,7 +15,7 @@ function _fn (number, from, to) {
   return parseInt(number, +from).toString(+to)
 }
 function toBinary (number, from) {
-  return _fn(number, from).toString(2)
+  return _fn(number, from, 2)
 }
 function toOctal (number, from) {
   const radix = _fn(number, from, 8)
