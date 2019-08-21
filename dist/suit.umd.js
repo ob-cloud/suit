@@ -8,7 +8,7 @@
    * @Author: eamiear
    * @Date: 2019-08-12 11:21:09
    * @Last Modified by: eamiear
-   * @Last Modified time: 2019-08-12 11:21:41
+   * @Last Modified time: 2019-08-20 14:40:54
    */
 
   /**
@@ -22,7 +22,7 @@
   }
 
   function toBinary(number, from) {
-    return _fn(number, from).toString(2);
+    return _fn(number, from, 2);
   }
 
   function toOctal(number, from) {
@@ -54,7 +54,7 @@
    * @Author: eamiear
    * @Date: 2019-08-12 11:21:50
    * @Last Modified by: eamiear
-   * @Last Modified time: 2019-08-12 11:26:42
+   * @Last Modified time: 2019-08-21 18:00:46
    */
 
   /**
@@ -66,10 +66,10 @@
     led: {
       type: {
         '01': '灯',
-        '0101': '单色调光',
+        '0101': '单色光',
         '0102': '落地灯',
         // 冷暖色调光，双色灯
-        '0103': '三色调光',
+        '0103': '三色光',
         '0111': '1路滑条调光',
         '0112': '2路滑条调光',
         '0113': '3路滑条',
@@ -83,18 +83,20 @@
         '0132': '',
         '0133': '风扇灯'
       },
-      status: {
-        '0100': '关',
-        '0101': '开',
-        '0143': '微弱',
-        '0186': '弱光',
-        '01129': '亮',
-        '01172': '较亮',
-        '01215': '非常亮',
-        '01254': '最大亮度'
+      status: {// '0100': '关',
+        // '0101': '开',
+        // '0143': '微弱',
+        // '0186': '弱光',
+        // '01129': '亮',
+        // '01172': '较亮',
+        // '01215': '非常亮',
+        // '01254': '最大亮度'
       },
       group: {
-        root: ['01']
+        root: ['01'],
+        simple: ['01', '02'],
+        color: ['03'],
+        way: ['13']
       }
     },
     cooker: {
@@ -113,50 +115,61 @@
       // 插座开关
       type: {
         '04': '插座/开关',
-        '0401': '插座',
-        '0402': '面板',
+        '0401': '智能插座',
+        '0402': '单线开关',
         '0403': '触摸开关',
         '0412': '智能插座',
         '0413': '智能插座',
         '0414': '智能插座',
-        '0421': '普通触摸开关',
-        '0422': '普通触摸开关',
-        '0423': '普通触摸开关',
-        '0424': '普通触摸开关',
+        '0421': '1路开关',
+        '0422': '2路开关',
+        '0423': '3路开关',
+        '0424': '4路开关',
         '0425': '普通触摸开关',
         '0426': '普通触摸开关',
         '0427': '普通触摸开关',
         '0428': '普通触摸开关',
-        '0431': '情景面板',
-        '0432': '情景面板',
-        '0433': '情景面板',
-        '0436': '情景面板',
-        '0441': '混合面板',
-        '0442': '混合面板',
-        '0443': '混合面板',
-        '0451': '单火线开关',
-        '0452': '单火线开关',
+        '0431': '一路情景面板',
+        '0432': '两路情景面板',
+        '0433': '3路情景面板',
+        '0434': '4路情景面板',
+        '0436': '六键情景',
+        '0441': '1路开关 + 3路情景面板',
+        '0442': '2路开关 + 3路情景面板',
+        '0443': '3路开关 + 3路情景面板',
+        '0451': '一键单线开关',
+        '0452': '二键单线开关',
+        '0462': '2开关+2情景面板',
         '0480': '红外面板',
         '0481': '红外面板',
-        '0483': '红外面板',
-        '0486': '红外面板',
-        '0490': 'WiFi插座'
+        '0483': '红外对管、3路开关 + 3路情景面板',
+        '0486': '六键情景+红外对管',
+        '0490': 'WiFi插座',
+        '0491': '单一窗帘面板',
+        '0492': '两个窗帘面板'
       },
       status: {
         '0400': '关',
         '0401': '开',
         '0410': '置反',
-        '0411': '保持不变'
+        '0411': '保持不变',
+        // 0401 socket 4位bit，按含1开，不含1关处理
+        '04s1': '开',
+        '04s0': '关'
       },
       group: {
-        // 类别分组， 状态取值区间相同
+        // 类别分组， 状态取值区间相同，配置后会自动生成相应的判断方法
         root: ['04'],
-        // 触摸开关，子类型组
-        touch: ['21', '22', '23', '24', '25', '26', '28'],
+        // 触摸开关，子类型组 byte[0]
+        touch: ['02', '21', '22', '23', '24', '25', '26', '28', '51', '52'],
         // 情景面板
         scene: ['31', '32', '33', '35'],
+        // 混合面板 byte[1]
+        mix: ['41', '42', '43', '62', '83'],
         // 普通开关
-        normal: ['01', '03', '12', '13', '14']
+        normal: ['03', '12', '13', '14'],
+        // 插座 byte[0]
+        simple: ['01']
       }
     },
     switchgear: {
@@ -165,6 +178,11 @@
         '05': "",
         "0501": "窗帘",
         "0502": "投影仪幕布"
+      },
+      status: {
+        '0500': '关',
+        '0501': '停',
+        '0510': '开'
       }
     },
     fans: {
@@ -182,6 +200,11 @@
         '08': '兼容型智能电视'
       }
     },
+    usbRf: {
+      type: {
+        '09': '测试用USB_RF模块'
+      }
+    },
     gateway: {
       type: {
         '10': '网关',
@@ -192,17 +215,17 @@
     sensors: {
       type: {
         "11": "传感器",
-        "1101": "ALS",
+        "1101": "光明",
         "1102": "水浸",
         "1103": "雷达",
         "1104": "CO",
-        "1105": "环境",
-        "1106": "人体感应",
-        "1107": "空气质量",
+        "1105": "环境（光湿温）",
+        "1106": "人体感应（雷达+红外）",
+        "1107": "空气质量（PM2.5+VOC）",
         "1108": "供电检测器",
         "1109": "虚拟雷达",
         "1110": "光线传感器",
-        "1111": "温度湿度传感器",
+        "1111": "温湿度传感器",
         "1112": "烟雾传感器",
         "1113": "超声波传感器",
         "1114": "雷达传感器",
@@ -210,12 +233,14 @@
         // 插卡传感器
         "1116": "环境传感器",
         "1117": "感应面板",
-        "1118": "DC供电版红外",
+        "1118": "DC红外",
         "1119": "AC红外",
         "1120": "PM2.5",
         "1121": "门窗磁",
         // 门磁
-        "1122": "雷达灯"
+        "1122": "雷达灯",
+        "1123": "DC人体+光感",
+        "1124": "AC人体+光感"
       },
       status: {
         // AC 红外
@@ -261,6 +286,14 @@
       type: {
         '13': '线控面板',
         '1301': '空调线控器'
+      },
+      group: {
+        root: ['11'],
+        ac: ['01']
+      },
+      status: {
+        '1300': '关',
+        '1301': '开'
       }
     },
     transponder: {
@@ -273,15 +306,35 @@
     },
     remoteControl: {
       type: {
-        '15': '遥控设备',
+        '15': '智能遥控设备',
         '1501': '手持单向遥控器'
       }
     },
     autoMover: {
       type: {
         '16': '智能自行设备',
-        '1601': '四旋翼飞行器',
+        '1601': '飞机',
         '1602': '机械车'
+      },
+      group: {
+        plane: ['01']
+      }
+    },
+    camera: {
+      type: {
+        '17': '智能摄像类设备',
+        '1701': '固定摄像设备（家用）',
+        '1702': '防抖摄像设备（配合云台）'
+      },
+      group: {
+        root: ['17'],
+        fixed: ['01'],
+        moving: ['02']
+      }
+    },
+    finger: {
+      type: {
+        '16': '智能门禁，中控指纹机'
       }
     },
     doorLock: {
@@ -289,8 +342,8 @@
         "21": "锁",
         "2101": "亚太天能智能门锁",
         "2102": "亿万家智能门锁",
-        "2103": "OB智能门锁",
-        "2104": "OB酒店门锁"
+        "2103": "昂宝智能门锁（家居）",
+        "2104": "昂宝智能门锁（酒店公寓）"
       },
       status: {
         '2100': '指纹开锁',
@@ -309,6 +362,21 @@
       type: {
         '22': '遥控灯',
         '2201': '遥控灯'
+      }
+    },
+    smartCamera: {
+      type: {
+        '32': '摄像头'
+      }
+    },
+    wifiSocket: {
+      type: {
+        '80': '单品wifi插座'
+      }
+    },
+    wifiIr: {
+      type: {
+        '81': '单品wifi红外转发器，不存储版本'
       }
     },
     obox: {
@@ -443,7 +511,7 @@
    * @Author: eamiear
    * @Date: 2019-08-12 11:25:00
    * @Last Modified by: eamiear
-   * @Last Modified time: 2019-08-12 11:32:42
+   * @Last Modified time: 2019-08-21 17:59:05
    */
   /**
    * @class
@@ -469,16 +537,28 @@
      */
 
 
-    __combineStatus(deviceType, number) {
-      const binary = Converter.toBinary(number, 16);
-      let descriptor = '';
-      let binaryList = binary.length % 2 ? `0${binary}` : binary;
+    __combineSocketStatus(deviceType, number) {
+      let bitStr = Converter.toBinary(number, 16);
+      let descriptor = []; // 长度，奇数转偶数
 
-      for (let i = 0; i <= binaryList.length; i + 2) {
-        descriptor += SuitStatus[this.__getStatusKey(deviceType, binary.slice(i, i + 2))] + '/';
+      bitStr = bitStr.length % 2 ? `0${bitStr}` : bitStr;
+
+      for (let i = bitStr.length; i > 0; i -= 2) {
+        descriptor.push(SuitStatus[this.__getStatusKey(deviceType, bitStr.slice(i - 2, i))]);
       }
 
-      return descriptor.slice(0, -1);
+      return descriptor.join(',');
+    }
+    /**
+     * 0401 socket 取第一个字节，后四位bit决定状态（特殊: 一个位一个状态）
+     * @param {string} status 16进制状态码
+     */
+
+
+    __parseSimpleSocket(deviceType, status) {
+      let bitStr = Converter.toBinary(status.slice(0, 2), 16);
+      bitStr = bitStr.slice(-4);
+      return SuitStatus[this.__getStatusKey(deviceType, `s${bitStr.includes('1') ? 1 : 0}`)];
     }
     /**
      * 获取插座开关状态
@@ -489,14 +569,20 @@
 
 
     getSocketSwitchStatusDescriptor(status, deviceType, deviceSubType) {
-      if (!deviceSubType) return SuitStatus[this.__getStatusKey(deviceType, status.slice(6, 8))];
+      if (!deviceSubType) return SuitStatus[this.__getStatusKey(deviceType, status.slice(6, 8))]; // 智能插座
+
+      if (TypeHints$1.isSimpleSocketSwitch(deviceSubType)) {
+        return this.__parseSimpleSocket(deviceType, status);
+      } // TODO 单键、双键、三键、四键开关区分 ==》 开、开/关、开/开/关、关/关/关/开
+      // 当前格式 关/关/关/开
+
 
       if (TypeHints$1.isTouchSocketSwitch(deviceSubType) || TypeHints$1.isNormalSocketSwitch(deviceSubType)) {
-        return this.__combineStatus(deviceType, status.slice(0, 2));
+        return this.__combineSocketStatus(deviceType, status.slice(0, 2));
       }
 
       if (TypeHints$1.isSceneSocketSwitch(deviceSubType)) {
-        return this.__combineStatus(deviceType, status.slice(6, 8));
+        return this.__combineSocketStatus(deviceType, status.slice(6, 8));
       }
     }
     /**
@@ -506,15 +592,23 @@
      */
 
 
-    getLedStatusDescriptor(status, deviceType) {
-      const light = Converter.toBinary(status.slice(0, 2));
+    getLedStatusDescriptor(status, deviceType, deviceSubType) {
+      let light = 0;
+      let num = +Converter.toDecimal(status.slice(0, 2), 16);
 
-      if (+light > 1) {
-        let code = light < 43 ? '43' : light > 43 && light < 86 ? '86' : light > 86 && light < 129 ? '129' : light > 129 && light < 172 ? '172' : light < 172 && light > 215 ? '215' : '254';
-        return SuitStatus[this.__getStatusKey(deviceType, code)];
-      } else {
-        return SuitStatus[this.__getStatusKey(deviceType, status.slice(0, 2))];
+      if (this.isSimpleLed(deviceSubType)) {
+        light = `${(num - 128) * 100 / 126}%`;
       }
+
+      if (this.isColorLed(deviceSubType)) {
+        light = `${num}%`;
+      }
+
+      if (this.isWayLed(deviceSubType)) {
+        light = `${num}%${+Converter.toDecimal(status.slice(2, 4), 16)}%${+Converter.toDecimal(status.slice(4, 6), 16)}%`;
+      }
+
+      return light;
     }
     /**
      * 获取传感器状态
@@ -578,7 +672,16 @@
      */
 
 
-    getSwitchgearStatusDescriptor(status, deviceType) {}
+    getSwitchgearStatusDescriptor(status, deviceType) {
+      const hexbyte = status.slice(0, 2);
+      const num = Converter.toDecimal(hexbyte, 16);
+
+      if (num === 4) {
+        return Converter.toDecimal(status.slice(2, 4), 16) + '%';
+      } else {
+        return SuitStatus[this.__getStatusKey(deviceType, hexbyte)];
+      }
+    }
     /**
      * 风扇状态
      * @param {string} status 16进制状态码
@@ -626,7 +729,11 @@
      */
 
 
-    getWireControlPanelStatusDescriptor(status, deviceType) {}
+    getWireControlPanelStatusDescriptor(status, deviceType, deviceSubType) {
+      if (this.isAcWireControlPanel(deviceSubType)) {
+        return SuitStatus[this.__getStatusKey(deviceType, status.slice(0, 2))];
+      }
+    }
     /**
      * 转发器
      * @param {string} status 16进制状态码
@@ -668,7 +775,7 @@
    * @Author: eamiear
    * @Date: 2019-08-12 11:28:24
    * @Last Modified by: eamiear
-   * @Last Modified time: 2019-08-15 15:59:24
+   * @Last Modified time: 2019-08-21 11:40:35
    */
 
   class Suit {
