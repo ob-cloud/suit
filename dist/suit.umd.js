@@ -54,7 +54,7 @@
    * @Author: eamiear
    * @Date: 2019-08-12 11:21:50
    * @Last Modified by: eamiear
-   * @Last Modified time: 2019-08-21 18:00:46
+   * @Last Modified time: 2019-08-21 18:21:27
    */
 
   /**
@@ -142,7 +142,7 @@
         '0462': '2开关+2情景面板',
         '0480': '红外面板',
         '0481': '红外面板',
-        '0483': '红外对管、3路开关 + 3路情景面板',
+        '0483': '红外面板',
         '0486': '六键情景+红外对管',
         '0490': 'WiFi插座',
         '0491': '单一窗帘面板',
@@ -342,8 +342,8 @@
         "21": "锁",
         "2101": "亚太天能智能门锁",
         "2102": "亿万家智能门锁",
-        "2103": "昂宝智能门锁（家居）",
-        "2104": "昂宝智能门锁（酒店公寓）"
+        "2103": "家居门锁",
+        "2104": "酒店门锁"
       },
       status: {
         '2100': '指纹开锁',
@@ -511,7 +511,7 @@
    * @Author: eamiear
    * @Date: 2019-08-12 11:25:00
    * @Last Modified by: eamiear
-   * @Last Modified time: 2019-08-21 17:59:05
+   * @Last Modified time: 2019-08-21 18:24:24
    */
   /**
    * @class
@@ -579,6 +579,10 @@
 
       if (TypeHints$1.isTouchSocketSwitch(deviceSubType) || TypeHints$1.isNormalSocketSwitch(deviceSubType)) {
         return this.__combineSocketStatus(deviceType, status.slice(0, 2));
+      }
+
+      if (TypeHints$1.isMixSocketSwitch(deviceSubType)) {
+        return this.__combineSocketStatus(deviceType, status.slice(2, 4));
       }
 
       if (TypeHints$1.isSceneSocketSwitch(deviceSubType)) {
