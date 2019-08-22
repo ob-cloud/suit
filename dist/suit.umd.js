@@ -8,7 +8,7 @@
    * @Author: eamiear
    * @Date: 2019-08-12 11:21:09
    * @Last Modified by: eamiear
-   * @Last Modified time: 2019-08-22 16:05:55
+   * @Last Modified time: 2019-08-22 17:51:43
    */
 
   /**
@@ -26,6 +26,8 @@
    * @memberof Converter
    * @param {String|Number} number 转换的值
    * @param {Number} from x进制值
+   * @example
+   * Converter.toBinary('aa', 16)
    */
 
 
@@ -37,6 +39,8 @@
    * @memberof Converter
    * @param {String|Number} number 转换的值
    * @param {Number} from x进制值
+   * @example
+   * Converter.toOctal('aa', 16)
    */
 
 
@@ -50,6 +54,8 @@
    * @memberof Converter
    * @param {String|Number} number 转换的值
    * @param {Number} from x进制值
+   * @example
+   * Converter.toDecimal('ff', 16)
    */
 
 
@@ -64,6 +70,8 @@
    * @memberof Converter
    * @param {String|Number} number 转换的值
    * @param {Number} from x进制值
+   * @example
+   * Converter.toHex('1011', 2)
    */
 
 
@@ -89,7 +97,7 @@
    * @Author: eamiear
    * @Date: 2019-08-12 11:21:50
    * @Last Modified by: eamiear
-   * @Last Modified time: 2019-08-22 17:42:06
+   * @Last Modified time: 2019-08-22 17:48:50
    */
 
   /**
@@ -104,7 +112,8 @@
    */
   const Suiter = {
     /**
-     * @namespace led
+     * 灯
+     * @namespace Suiter.led
      */
     led: {
       /** led.type 类型*/
@@ -149,7 +158,8 @@
     },
 
     /**
-     * @namespace cooker
+     * 电饭煲
+     * @namespace Suiter.cooker
     */
     cooker: {
       // 电饭煲
@@ -159,7 +169,8 @@
     },
 
     /**
-     * @namespace humidifier
+     * 加湿器
+     * @namespace Suiter.humidifier
     */
     humidifier: {
       // 加湿器
@@ -169,7 +180,8 @@
     },
 
     /**
-     * @namespace socketSwitch
+     * 插座开关
+     * @namespace Suiter.socketSwitch
     */
     socketSwitch: {
       // 插座开关
@@ -234,7 +246,8 @@
     },
 
     /**
-     * @namespace switchgear
+     * 开关类设备
+     * @namespace Suiter.switchgear
     */
     switchgear: {
       // 开关类设备
@@ -251,7 +264,8 @@
     },
 
     /**
-     * @namespace fans
+     * 智能风扇
+     * @namespace Suiter.fans
     */
     fans: {
       type: {
@@ -260,7 +274,8 @@
     },
 
     /**
-     * @namespace airCleaner
+     * 智能空气净化器
+     * @namespace Suiter.airCleaner
     */
     airCleaner: {
       type: {

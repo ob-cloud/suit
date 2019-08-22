@@ -83,7 +83,7 @@ const Converter = {
  * @Author: eamiear
  * @Date: 2019-08-12 11:21:50
  * @Last Modified by: eamiear
- * @Last Modified time: 2019-08-22 17:36:47
+ * @Last Modified time: 2019-08-22 17:48:50
  */
 
 /**
@@ -98,7 +98,8 @@ const Converter = {
  */
 const Suiter = {
   /**
-   * @namespace led
+   * 灯
+   * @namespace Suiter.led
    */
   led: {
     /** led.type 类型*/
@@ -143,8 +144,8 @@ const Suiter = {
   },
 
   /**
-   * @namespace cooker
    * 电饭煲
+   * @namespace Suiter.cooker
   */
   cooker: {
     // 电饭煲
@@ -154,8 +155,8 @@ const Suiter = {
   },
 
   /**
-   * @namespace humidifier
    * 加湿器
+   * @namespace Suiter.humidifier
   */
   humidifier: {
     // 加湿器
@@ -165,8 +166,8 @@ const Suiter = {
   },
 
   /**
-   * @namespace socketSwitch
    * 插座开关
+   * @namespace Suiter.socketSwitch
   */
   socketSwitch: {
     // 插座开关
@@ -231,8 +232,8 @@ const Suiter = {
   },
 
   /**
-   * @namespace switchgear
    * 开关类设备
+   * @namespace Suiter.switchgear
   */
   switchgear: {
     // 开关类设备
@@ -249,8 +250,8 @@ const Suiter = {
   },
 
   /**
-   * @namespace fans
    * 智能风扇
+   * @namespace Suiter.fans
   */
   fans: {
     type: {
@@ -259,8 +260,8 @@ const Suiter = {
   },
 
   /**
-   * @namespace airCleaner
    * 智能空气净化器
+   * @namespace Suiter.airCleaner
   */
   airCleaner: {
     type: {

@@ -9,5 +9,5 @@ echo 'push  files to  repo...'
 echo ''
 ggit init
 git add -A
-git commit -m '打包构建'
+git commit -m '打包构建发布'
 git push origin master:master
