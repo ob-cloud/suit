@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2019-08-12 11:22:42
  * @Last Modified by: eamiear
- * @Last Modified time: 2019-08-22 17:13:04
+ * @Last Modified time: 2019-08-22 18:12:32
  */
 import Suiter from './suiter'
 import Converter from './converter'
@@ -21,6 +21,7 @@ class TypeHints {
   /**
    * 判断套件设备一级类型
    * @private
+   * @name __handler
    * @param {object} suitsType 套件类型对象
    * @param {number} type 套件类型
    * @param {number} [subType]  套件子类型
@@ -36,6 +37,7 @@ class TypeHints {
   /**
    * 设备子类型处理器
    * @private
+   * @name __handleSubType
    * @param {Object} group 子类型分组
    * @param {String} subType 子设备类型
    */
