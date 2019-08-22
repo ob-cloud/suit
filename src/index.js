@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2019-08-12 11:28:24
  * @Last Modified by: eamiear
- * @Last Modified time: 2019-08-22 16:14:33
+ * @Last Modified time: 2019-08-22 18:04:14
  */
 
 import Converter from './modules/converter'
@@ -11,7 +11,7 @@ import StatusDescriptor from './modules/statusDescriptor'
 import Suiter, {SuitTypes} from './modules/suiter'
 
 /**
- * 套件类
+ * 套件类： 使用时主要使用该类中的方法
  * <pre>
  * 协议格式：
  * ===================================================
@@ -51,6 +51,8 @@ class Suit {
    * 获取主设备类型描述信息
    * @param {string} deviceType 设备类型
    * @returns 设备类型值
+   * @example
+   * new Suit().getRootDeviceDescriptor('04')
    */
   getRootDeviceDescriptor (deviceType) {
     return SuitTypes[Converter.toDecimal(deviceType, 16)]
@@ -59,7 +61,9 @@ class Suit {
    * 设备子类型
    * @param {string} deviceType 设备类型
    * @param {string} deviceSubType 设备子类型
-   * @returns 设备类型值
+   * @example
+   * new Suit().getDeviceTypeDescriptor('04', '53')
+   * @returns 设备类型描述
    */
   getDeviceTypeDescriptor (deviceType, deviceSubType) {
     const typeStr = Converter.toDecimal(deviceType, 16)
@@ -71,6 +75,8 @@ class Suit {
    * @param {string} status 16进制状态码
    * @param {string} deviceType 设备类型
    * @param {string} deviceSubType 设备子类型
+   * @example
+   * new Suit().getStatusDescriptor('0008001521000000', '04', '53')
    */
   getStatusDescriptor (status, deviceType, deviceSubType) {
     const typeKey = Array.from(Object.keys(Suiter)).find(key => {
