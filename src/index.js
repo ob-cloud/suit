@@ -2,9 +2,17 @@
  * @Author: eamiear
  * @Date: 2019-08-12 11:28:24
  * @Last Modified by: eamiear
- * @Last Modified time: 2019-08-21 11:40:35
+ * @Last Modified time: 2019-08-22 16:14:33
  */
+
+import Converter from './modules/converter'
+import TypeHints from './modules/typeHints'
+import StatusDescriptor from './modules/statusDescriptor'
+import Suiter, {SuitTypes} from './modules/suiter'
+
 /**
+ * 套件类
+ * <pre>
  * 协议格式：
  * ===================================================
  * | 节点完整地址 | 情景开关状态 | 按键开关状态 | 填充0 |
@@ -22,21 +30,27 @@
  * 00 表示情景开关状态字节
  * 08 表示按键开关状态字节
  * 后面的0为填充值
+ * </pre>
+ * @class
+ * @name Suit
  */
-
-import Converter from './modules/converter'
-import TypeHints from './modules/typeHints'
-import StatusDescriptor from './modules/statusDescriptor'
-import Suiter, {SuitTypes} from './modules/suiter'
-
 class Suit {
   constructor () {
+    /**
+     * 类型检测器
+     * @memberof Suit
+     */
     this.typeHints = TypeHints
+    /**
+     * 状态描述器
+     * @memberof Suit
+     */
     this.statusDescriptor = StatusDescriptor
   }
   /**
    * 获取主设备类型描述信息
    * @param {string} deviceType 设备类型
+   * @returns 设备类型值
    */
   getRootDeviceDescriptor (deviceType) {
     return SuitTypes[Converter.toDecimal(deviceType, 16)]
@@ -45,6 +59,7 @@ class Suit {
    * 设备子类型
    * @param {string} deviceType 设备类型
    * @param {string} deviceSubType 设备子类型
+   * @returns 设备类型值
    */
   getDeviceTypeDescriptor (deviceType, deviceSubType) {
     const typeStr = Converter.toDecimal(deviceType, 16)

@@ -2,16 +2,25 @@
  * @Author: eamiear
  * @Date: 2019-08-12 11:21:50
  * @Last Modified by: eamiear
- * @Last Modified time: 2019-08-21 18:21:27
+ * @Last Modified time: 2019-08-22 17:42:06
  */
 
 /**
-*  type: 设备类型匹配表，由主类型、子类型编码值组成key
-*  status: 设备状态匹配表， 由主类型码+状态码组成key
-*  group: 设备类型分组，同组类型状态截码位相同
-*/
+ * @description 套件配置表模块<br>
+ * <pre>
+ *  type: 设备类型匹配表，由主类型、子类型编码值组成key <br/>
+ *  status: 设备状态匹配表， 由主类型码+状态码组成key<br/>
+ *  group: 设备类型分组，同组类型状态截码位相同<br/>
+ * </pre>
+ * @namespace
+ * @name Suiter
+ */
 export const Suiter = {
+  /**
+   * @namespace led
+   */
   led: {
+    /** led.type 类型*/
     type: {
       '01': '灯',
       '0101': '单色光',
@@ -30,6 +39,7 @@ export const Suiter = {
       '0132': '',
       '0133': '风扇灯'
     },
+    /** led.status 状态*/
     status: {
       // '0100': '关',
       // '0101': '开',
@@ -40,6 +50,7 @@ export const Suiter = {
       // '01215': '非常亮',
       // '01254': '最大亮度'
     },
+    /** led.group 状态分组*/
     group: {
       root: ['01'],
       simple: ['01', '02'],
@@ -47,19 +58,28 @@ export const Suiter = {
       way: ['13']
     }
   },
+  /**
+   * @namespace cooker
+  */
   cooker: { // 电饭煲
     type: {
       '02': '智能电饭煲'
     }
   },
+  /**
+   * @namespace humidifier
+  */
   humidifier: { // 加湿器
     type: {
       '03': '智能加湿器'
     }
   },
+  /**
+   * @namespace socketSwitch
+  */
   socketSwitch: { // 插座开关
     type: {
-      '04': '插座/开关',
+      '04': '插座开关',
       '0401': '智能插座',
       '0402': '单线开关',
       '0403': '触摸开关',
@@ -123,6 +143,9 @@ export const Suiter = {
       simple: ['01']
     }
   },
+  /**
+   * @namespace switchgear
+  */
   switchgear: { // 开关类设备
     type: {
       '05': "",
@@ -135,11 +158,17 @@ export const Suiter = {
       '0510': '开',
     }
   },
+  /**
+   * @namespace fans
+  */
   fans: {
     type: {
       '06': '智能风扇'
     }
   },
+  /**
+   * @namespace airCleaner
+  */
   airCleaner: {
     type: {
       '07': '智能空气净化器'
@@ -334,7 +363,19 @@ export const Suiter = {
     },
     satus: { // device_type + status
       '100': '离线',
-      '101': '在线'
+      '101': '在线',
+      '10open0': '指纹开锁',
+      '10open1': '密码开锁',
+      '10open2': '门卡开锁',
+      '10open3': '钥匙开锁',
+      '10open4': '电子控制',
+      '10open5': '临时开锁',
+      '10close4': '反锁',
+      '10close5': '门关闭',
+      '10close7': '掩门',
+      '10close8': '锁开',
+      '10close9': '反锁开',
+      '10card': '门卡开锁'
     },
     group: {
       root: ['10']
@@ -342,7 +383,12 @@ export const Suiter = {
   }
 }
 
-// 套件类型
+/**
+ * 套件类型
+ * @const
+ * @memberof Suiter
+ * @name SuitTypes
+ */
 export const SuitTypes = (Array.from(Object.keys(Suiter)).reduce((item, next, index)=> {
   if (index === 1) {
     item = Suiter[item].type
@@ -350,7 +396,12 @@ export const SuitTypes = (Array.from(Object.keys(Suiter)).reduce((item, next, in
   return {...item, ...(Suiter[next].type)}
 }))
 
-// 套件状态
+/**
+ * 套件状态
+ * @const
+ * @memberof Suiter
+ * @name SuitStatus
+ */
 export const SuitStatus = (Array.from(Object.keys(Suiter)).reduce((item, next, index)=> {
   if (index === 1) {
     item = Suiter[item].status

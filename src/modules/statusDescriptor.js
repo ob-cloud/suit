@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2019-08-12 11:25:00
  * @Last Modified by: eamiear
- * @Last Modified time: 2019-08-21 18:24:24
+ * @Last Modified time: 2019-08-22 17:27:31
  */
 
 import Converter from './converter'
@@ -10,13 +10,19 @@ import TypeHints from './typeHints'
 import {SuitStatus} from './suiter'
 /**
  * @class
- * @classdesc 状态描述器 命名规则： get[设备类型名称]StatusDescriptor； 设备类型名称与SuiterMap配置表的key字段相同，如led --> getLedStatusDescriptor
+ * @classdesc 状态描述器<br>
+ *
+ * <pre>
+ * 命名规则： get[设备类型名称]StatusDescriptor； 设备类型名称与SuiterMap配置表的key字段相同，<br>
+ * 如led --> getLedStatusDescriptor<br>
+ * </pre>
  */
 class StatusDescriptor {
   constructor () {
   }
   /**
    * 设备类型码+状态码
+   * @private
    * @param {string} deviceType 设备类型码
    * @param {string} status 状态码
    */
@@ -25,6 +31,7 @@ class StatusDescriptor {
   }
   /**
    * 组合状态描述 -- 010010 --> 开/关/置反
+   * @private
    * @param {string} deviceType 设备类型
    * @param {string | number} number 16进制状态码
    */
@@ -40,6 +47,7 @@ class StatusDescriptor {
   }
   /**
    * 0401 socket 取第一个字节，后四位bit决定状态（特殊: 一个位一个状态）
+   * @private
    * @param {string} status 16进制状态码
    */
   __parseSimpleSocket (deviceType, status) {
@@ -60,7 +68,6 @@ class StatusDescriptor {
       return this.__parseSimpleSocket(deviceType, status)
     }
     // TODO 单键、双键、三键、四键开关区分 ==》 开、开/关、开/开/关、关/关/关/开
-    // 当前格式 关/关/关/开
     if (TypeHints.isTouchSocketSwitch(deviceSubType) || TypeHints.isNormalSocketSwitch(deviceSubType)) {
       return this.__combineSocketStatus(deviceType, status.slice(0, 2))
     }
@@ -124,7 +131,19 @@ class StatusDescriptor {
    * @param {string} deviceType 设备类型状态码
    */
   getOboxStatusDescriptor(status, deviceType) {
-    return SuitStatus[this.__getStatusKey(deviceType, status.slice(0, 1))]
+    function _openTypeStatus (byte) {
+      return SuitStatus[this.__getStatusKey(deviceType, `open${Converter.toDecimal(byte, 16)}`)]
+    }
+    function _closeTypeStatus (byte) {
+      return SuitStatus[this.__getStatusKey(deviceType, `close${Converter.toDecimal(byte, 16)}`)]
+    }
+    const cmd = status.slice(0, 2)
+    const cmdMap = {
+      '0xc3': _openTypeStatus(status.slice(8, 10)),
+      '0xcd': SuitStatus[this.__getStatusKey(deviceType, 'card')],
+      '0xc6': _closeTypeStatus(status.slice(2, 4))
+    }
+    return cmdMap[cmd]
   }
   /**
    * 获取电饭煲状态

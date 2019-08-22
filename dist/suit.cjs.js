@@ -1,3 +1,7 @@
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
 /*
  * @Author: eamiear
  * @Date: 2019-08-12 11:21:09
@@ -996,4 +1000,4 @@ class Suit {
 
 var index = new Suit();
 
-export default index;
+exports.default = index;

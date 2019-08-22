@@ -2,11 +2,17 @@
  * @Author: eamiear
  * @Date: 2019-08-12 11:22:42
  * @Last Modified by: eamiear
- * @Last Modified time: 2019-08-15 15:47:48
+ * @Last Modified time: 2019-08-22 17:13:04
  */
 import Suiter from './suiter'
 import Converter from './converter'
 import s from '../utils/string'
+
+/**
+ * 类型检测器
+ * @class
+ * @name TypeHints
+ */
 class TypeHints {
   constructor () {
     this.__rootProcessor()
@@ -14,9 +20,10 @@ class TypeHints {
   }
   /**
    * 判断套件设备一级类型
+   * @private
    * @param {object} suitsType 套件类型对象
    * @param {number} type 套件类型
-   * @param [options] {number}  subType 套件子类型
+   * @param {number} [subType]  套件子类型
    */
   __handler (suitsType, type, subType) {
     if (!suitsType) return false
@@ -26,11 +33,20 @@ class TypeHints {
     const typeStr = Converter.toDecimal(type, 16) + Converter.toDecimal(subType, 16)
     return !!suitsType[typeStr]
   }
+  /**
+   * 设备子类型处理器
+   * @private
+   * @param {Object} group 子类型分组
+   * @param {String} subType 子设备类型
+   */
   __handleSubType (group, subType) {
     return group.includes(Converter.toDecimal(subType, 16))
   }
   /**
    * 一级设备类型判断方法生成器
+   * @private
+   *
+   * @example
    * this.isSensor = (type, subType) => {}
    */
   __rootProcessor () {
@@ -50,6 +66,8 @@ class TypeHints {
   }
   /**
    * 子设备类型，判断方法生成器
+   * @private
+   * @example
    * this.isTouchSensor = (deviceSubType) => {}
    */
   __subDeviceProcessor () {
