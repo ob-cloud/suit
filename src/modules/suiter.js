@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2019-08-12 11:21:50
  * @Last Modified by: eamiear
- * @Last Modified time: 2019-08-22 17:42:06
+ * @Last Modified time: 2019-08-22 17:48:50
  */
 
 /**
@@ -17,7 +17,8 @@
  */
 export const Suiter = {
   /**
-   * @namespace led
+   * 灯
+   * @namespace Suiter.led
    */
   led: {
     /** led.type 类型*/
@@ -59,7 +60,8 @@ export const Suiter = {
     }
   },
   /**
-   * @namespace cooker
+   * 电饭煲
+   * @namespace Suiter.cooker
   */
   cooker: { // 电饭煲
     type: {
@@ -67,7 +69,8 @@ export const Suiter = {
     }
   },
   /**
-   * @namespace humidifier
+   * 加湿器
+   * @namespace Suiter.humidifier
   */
   humidifier: { // 加湿器
     type: {
@@ -75,7 +78,8 @@ export const Suiter = {
     }
   },
   /**
-   * @namespace socketSwitch
+   * 插座开关
+   * @namespace Suiter.socketSwitch
   */
   socketSwitch: { // 插座开关
     type: {
@@ -144,7 +148,8 @@ export const Suiter = {
     }
   },
   /**
-   * @namespace switchgear
+   * 开关类设备
+   * @namespace Suiter.switchgear
   */
   switchgear: { // 开关类设备
     type: {
@@ -159,7 +164,8 @@ export const Suiter = {
     }
   },
   /**
-   * @namespace fans
+   * 智能风扇
+   * @namespace Suiter.fans
   */
   fans: {
     type: {
@@ -167,7 +173,8 @@ export const Suiter = {
     }
   },
   /**
-   * @namespace airCleaner
+   * 智能空气净化器
+   * @namespace Suiter.airCleaner
   */
   airCleaner: {
     type: {

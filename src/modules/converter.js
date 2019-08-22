@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2019-08-12 11:21:09
  * @Last Modified by: eamiear
- * @Last Modified time: 2019-08-22 16:05:55
+ * @Last Modified time: 2019-08-22 17:51:43
  */
 
 /**
@@ -20,6 +20,8 @@ function _fn (number, from, to) {
  * @memberof Converter
  * @param {String|Number} number 转换的值
  * @param {Number} from x进制值
+ * @example
+ * Converter.toBinary('aa', 16)
  */
 function toBinary (number, from) {
   return _fn(number, from, 2)
@@ -29,6 +31,8 @@ function toBinary (number, from) {
  * @memberof Converter
  * @param {String|Number} number 转换的值
  * @param {Number} from x进制值
+ * @example
+ * Converter.toOctal('aa', 16)
  */
 function toOctal (number, from) {
   const radix = _fn(number, from, 8)
@@ -39,6 +43,8 @@ function toOctal (number, from) {
  * @memberof Converter
  * @param {String|Number} number 转换的值
  * @param {Number} from x进制值
+ * @example
+ * Converter.toDecimal('ff', 16)
  */
 function toDecimal (number, from) {
   const radix = _fn(number, from, 10)
@@ -50,6 +56,8 @@ function toDecimal (number, from) {
  * @memberof Converter
  * @param {String|Number} number 转换的值
  * @param {Number} from x进制值
+ * @example
+ * Converter.toHex('1011', 2)
  */
 function toHex (number, from) {
   const radix = _fn(number, from, 16)
