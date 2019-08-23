@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2019-08-12 11:25:00
  * @Last Modified by: eamiear
- * @Last Modified time: 2019-08-22 17:27:31
+ * @Last Modified time: 2019-08-23 09:51:06
  */
 
 import Converter from './converter'
@@ -88,13 +88,13 @@ class StatusDescriptor {
   getLedStatusDescriptor (status, deviceType, deviceSubType) {
     let light = 0
     let num = +Converter.toDecimal(status.slice(0, 2), 16)
-    if (this.isSimpleLed(deviceSubType)) {
+    if (TypeHints.isSimpleLed(deviceSubType)) {
       light = `${(num - 128) * 100 / 126}%`
     }
-    if (this.isColorLed(deviceSubType)) {
+    if (TypeHints.isColorLed(deviceSubType)) {
       light = `${num}%`
     }
-    if (this.isWayLed(deviceSubType)) {
+    if (TypeHints.isWayLed(deviceSubType)) {
       light = `${num}%${+Converter.toDecimal(status.slice(2, 4), 16)}%${+Converter.toDecimal(status.slice(4, 6), 16)}%`
     }
     return light
