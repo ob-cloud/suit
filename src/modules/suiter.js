@@ -382,7 +382,8 @@ export const Suiter = {
       '10close7': '掩门',
       '10close8': '锁开',
       '10close9': '反锁开',
-      '10card': '门卡开锁'
+      '10card': '门卡开锁',
+      'default': '关闭'
     },
     group: {
       root: ['10']

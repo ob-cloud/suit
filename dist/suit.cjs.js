@@ -484,7 +484,8 @@ const Suiter = {
       '10close7': '掩门',
       '10close8': '锁开',
       '10close9': '反锁开',
-      '10card': '门卡开锁'
+      '10card': '门卡开锁',
+      'default': '关闭'
     },
     group: {
       root: ['10']
@@ -640,7 +641,7 @@ var TypeHints$1 = new TypeHints();
  * @Author: eamiear
  * @Date: 2019-08-12 11:25:00
  * @Last Modified by: eamiear
- * @Last Modified time: 2019-08-23 09:51:06
+ * @Last Modified time: 2019-08-23 10:02:31
  */
 /**
  * @class
@@ -737,7 +738,7 @@ class StatusDescriptor {
     let num = +Converter.toDecimal(status.slice(0, 2), 16);
 
     if (TypeHints$1.isSimpleLed(deviceSubType)) {
-      light = `${(num - 128) * 100 / 126}%`;
+      light = num === 0 ? '灯灭' : `${parseInt(num - 128) * 100 / 126}%`;
     }
 
     if (TypeHints$1.isColorLed(deviceSubType)) {
@@ -745,7 +746,7 @@ class StatusDescriptor {
     }
 
     if (TypeHints$1.isWayLed(deviceSubType)) {
-      light = `${num}%${+Converter.toDecimal(status.slice(2, 4), 16)}%${+Converter.toDecimal(status.slice(4, 6), 16)}%`;
+      light = `${num}% ${+Converter.toDecimal(status.slice(2, 4), 16)}% ${+Converter.toDecimal(status.slice(4, 6), 16)}%`;
     }
 
     return light;
@@ -801,7 +802,7 @@ class StatusDescriptor {
       '0xcd': SuitStatus[this.__getStatusKey(deviceType, 'card')],
       '0xc6': _closeTypeStatus(status.slice(2, 4))
     };
-    return cmdMap[cmd];
+    return cmdMap[cmd] || SuitStatus['default'];
   }
   /**
    * 获取电饭煲状态
