@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2019-08-12 11:25:00
  * @Last Modified by: eamiear
- * @Last Modified time: 2019-08-23 10:02:31
+ * @Last Modified time: 2019-08-23 10:27:05
  */
 
 import Converter from './converter'
@@ -89,7 +89,7 @@ class StatusDescriptor {
     let light = 0
     let num = +Converter.toDecimal(status.slice(0, 2), 16)
     if (TypeHints.isSimpleLed(deviceSubType)) {
-      light = num === 0 ? '灯灭' : `${(parseInt(num - 128) * 100 / 126)}%`
+      light = num === 0 ? '灯灭' : `${parseInt((num - 128) * 100 / 126)}%`
     }
     if (TypeHints.isColorLed(deviceSubType)) {
       light = `${num}%`
@@ -117,25 +117,19 @@ class StatusDescriptor {
    * @param {string} status 16进制状态码
    * @param {string} deviceType 设备类型状态码
    */
-  getLockStatusDescriptor (status, deviceType) {
-    const cmd = status.slice(2, 4)
-    const cmdMap = {
-      'c3': Converter.toDecimal(status.slice(10, 12), 16),
-      'cd': '2'
-    }
-    return SuitStatus[this.__getStatusKey(deviceType, (cmdMap[cmd] || '-1'))]
-  }
-  /**
-   * 获取OBOX状态
-   * @param {string} status 16进制状态码
-   * @param {string} deviceType 设备类型状态码
-   */
-  getOboxStatusDescriptor(status, deviceType) {
+  getDoorLockStatusDescriptor (status, deviceType) {
+    // const cmd = status.slice(2, 4)
+    // const cmdMap = {
+    //   'c3': Converter.toDecimal(status.slice(10, 12), 16),
+    //   'cd': '2'
+    // }
+    // return SuitStatus[this.__getStatusKey(deviceType, (cmdMap[cmd] || '-1'))]
+    const _this = this
     function _openTypeStatus (byte) {
-      return SuitStatus[this.__getStatusKey(deviceType, `open${Converter.toDecimal(byte, 16)}`)]
+      return SuitStatus[_this.__getStatusKey(deviceType, `open${Converter.toDecimal(byte, 16)}`)]
     }
     function _closeTypeStatus (byte) {
-      return SuitStatus[this.__getStatusKey(deviceType, `close${Converter.toDecimal(byte, 16)}`)]
+      return SuitStatus[_this.__getStatusKey(deviceType, `close${Converter.toDecimal(byte, 16)}`)]
     }
     const cmd = status.slice(0, 2)
     const cmdMap = {
@@ -144,6 +138,14 @@ class StatusDescriptor {
       '0xc6': _closeTypeStatus(status.slice(2, 4))
     }
     return cmdMap[cmd] || SuitStatus['default']
+  }
+  /**
+   * 获取OBOX状态
+   * @param {string} status 16进制状态码
+   * @param {string} deviceType 设备类型状态码
+   */
+  getOboxStatusDescriptor(status, deviceType) {
+
   }
   /**
    * 获取电饭煲状态

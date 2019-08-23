@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2019-08-12 11:21:50
  * @Last Modified by: eamiear
- * @Last Modified time: 2019-08-22 17:48:50
+ * @Last Modified time: 2019-08-23 10:30:20
  */
 
 /**
@@ -336,7 +336,20 @@ export const Suiter = {
       '2103': '钥匙开锁',
       '2104': '遥控开锁',
       '2105': '临时用户开锁',
-      '21-1': '关闭'
+      '21-1': '关闭',
+      '21open0': '指纹开锁',
+      '21open1': '密码开锁',
+      '21open2': '卡开锁',
+      '21open3': '钥匙开锁',
+      '21open4': '遥控开锁',
+      '21open5': '临时用户开锁',
+      '21close4': '反锁',
+      '21close5': '门关闭',
+      '21close7': '掩门',
+      '21close8': '锁开',
+      '21close9': '反锁开',
+      '21card': '门卡开锁',
+      'default': '关闭'
     },
     group: {
       root: ['21']
@@ -370,20 +383,7 @@ export const Suiter = {
     },
     satus: { // device_type + status
       '100': '离线',
-      '101': '在线',
-      '10open0': '指纹开锁',
-      '10open1': '密码开锁',
-      '10open2': '门卡开锁',
-      '10open3': '钥匙开锁',
-      '10open4': '电子控制',
-      '10open5': '临时开锁',
-      '10close4': '反锁',
-      '10close5': '门关闭',
-      '10close7': '掩门',
-      '10close8': '锁开',
-      '10close9': '反锁开',
-      '10card': '门卡开锁',
-      'default': '关闭'
+      '101': '在线'
     },
     group: {
       root: ['10']
