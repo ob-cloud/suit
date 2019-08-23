@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2019-08-12 11:21:50
  * @Last Modified by: eamiear
- * @Last Modified time: 2019-08-23 10:30:20
+ * @Last Modified time: 2019-08-23 11:10:15
  */
 
 /**
@@ -349,7 +349,7 @@ export const Suiter = {
       '21close8': '锁开',
       '21close9': '反锁开',
       '21card': '门卡开锁',
-      'default': '关闭'
+      'default': '关门'
     },
     group: {
       root: ['21']
