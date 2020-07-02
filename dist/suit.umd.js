@@ -81,6 +81,20 @@
     return +radix < 16 ? '0' + radix : radix;
   }
   /**
+   * 转为指定长度字符串,长度不足前面0填充
+   * @public
+   * @memberof Converter
+   * @param {String|Number} number 转换的值
+   * @param {Number} len 目标长度
+   * @example
+   * Converter.toLength('1011', 2)
+   */
+
+
+  function toLength(number, len) {
+    return (new Array(len + 1).fill('0').join('') + number).slice(-len);
+  }
+  /**
    * 进制转换器
    * @namespace  Converter
    */
@@ -90,14 +104,15 @@
     toBinary,
     toDecimal,
     toOctal,
-    toHex
+    toHex,
+    toLength
   };
 
   /*
    * @Author: eamiear
    * @Date: 2019-08-12 11:21:50
    * @Last Modified by: eamiear
-   * @Last Modified time: 2019-08-23 10:30:20
+   * @Last Modified time: 2019-08-23 11:10:15
    */
 
   /**
@@ -239,9 +254,29 @@
         // 混合面板 byte[1]
         mix: ['41', '42', '43', '62', '83'],
         // 普通开关
-        normal: ['03', '12', '13', '14'],
+        normal: ['03'],
         // 插座 byte[0]
-        simple: ['01']
+        simple: ['01', '12', '13', '14']
+      },
+      statusLength: {
+        //不同设备的状态码长度取值
+        '01': 2,
+        '12': 4,
+        '13': 6,
+        '14': 8,
+        '21': 2,
+        '22': 4,
+        '23': 6,
+        '24': 8,
+        '41': 2,
+        '42': 4,
+        '43': 6,
+        '51': 2,
+        '52': 4,
+        '62': 4,
+        '71': 2,
+        '81': 2,
+        '83': 6
       }
     },
 
@@ -252,14 +287,15 @@
     switchgear: {
       // 开关类设备
       type: {
-        '05': "",
+        '05': "智能开关类设备",
         "0501": "窗帘",
         "0502": "投影仪幕布"
       },
       status: {
         '0500': '关',
         '0501': '停',
-        '0510': '开'
+        '0510': '开',
+        '0502': '开'
       }
     },
 
@@ -327,7 +363,12 @@
         // 门磁
         "1122": "雷达灯",
         "1123": "DC人体+光感",
-        "1124": "AC人体+光感"
+        "1124": "AC人体+光感",
+        "1125": "一键呼救传感器",
+        "1126": "尿床传感器",
+        "1127": "烟雾传感器",
+        "1128": "燃气传感器",
+        "1129": "插卡取电"
       },
       status: {
         // AC 红外
@@ -336,7 +377,21 @@
         // 插卡取电
         '11fe': '通电导通',
         '11fd': '断电',
-        '11ff': '首次上电'
+        '11ff': '首次上电',
+        // 水浸
+        '110201': '水浸警报',
+        '112801': '燃气警报',
+        '112701': '烟雾警报',
+        '112601': '尿床警报',
+        '112501': '呼救警报',
+        '112401': '有人',
+        '112400': '无人',
+        '112301': '有人',
+        '112300': '无人',
+        '112100': '闭合',
+        '112101': '打开',
+        '111901': '有人',
+        '111900': '无人'
       },
       group: {
         root: ['11'],
@@ -357,10 +412,15 @@
         envSense: ['16'],
         induction: ['17'],
         dc: '18',
-        ac: '19',
+        ac: ['19'],
         pm: ['20'],
         gate: ['21'],
-        radarLight: ['22']
+        radarLight: ['22'],
+        acdcman: ['23', '24'],
+        gas: ['28'],
+        smoke: ['27'],
+        Bedwetting: ['26'],
+        help: ['25']
       }
     },
     meterReader: {
@@ -452,7 +512,7 @@
         '21close8': '锁开',
         '21close9': '反锁开',
         '21card': '门卡开锁',
-        'default': '关闭'
+        'default': '关门'
       },
       group: {
         root: ['21']
@@ -511,7 +571,7 @@
     };
   });
   /**
-   * 套件状态
+   * 套件状态，整合所有设备状态
    * @const
    * @memberof Suiter
    * @name SuitStatus
@@ -567,10 +627,10 @@
       if (!suitsType) return false;
 
       if (!subType) {
-        return !!suitsType[Converter.toDecimal(type, 16)];
+        return !!suitsType[type];
       }
 
-      const typeStr = Converter.toDecimal(type, 16) + Converter.toDecimal(subType, 16);
+      const typeStr = type + subType + '';
       return !!suitsType[typeStr];
     }
     /**
@@ -583,7 +643,7 @@
 
 
     __handleSubType(group, subType) {
-      return group.includes(Converter.toDecimal(subType, 16));
+      return group.includes(subType + '');
     }
     /**
      * 一级设备类型判断方法生成器
@@ -611,7 +671,7 @@
       });
     }
     /**
-     * 子设备类型，判断方法生成器
+     * 子设备类型，判断方法生成器+状态码长度生成器
      * @private
      * @example
      * this.isTouchSensor = (deviceSubType) => {}
@@ -621,17 +681,28 @@
     __subDeviceProcessor() {
       Array.from(Object.keys(Suiter)).map(item => {
         const group = Suiter[item].group;
+        const statusLength = Suiter[item].statusLength;
         const itemKey = item.toCapital(); // sensors --> Sensors
 
-        if (!group) return;
-        Array.from(Object.keys(group)).map(groupKey => {
-          const key = groupKey.toCapital(); // touch --> Touch
+        if (group) {
+          //判断方法生成器
+          Array.from(Object.keys(group)).map(groupKey => {
+            const key = groupKey.toCapital(); // touch --> Touch
 
-          this[`is${key}${itemKey}`] = deviceSubType => {
-            // this.isTouchSensor = (deviceSubType) => {}
-            return this.__handleSubType(group[groupKey], deviceSubType);
+            this[`is${key}${itemKey}`] = deviceSubType => {
+              // this.isTouchSensor = (deviceSubType) => {}
+              return this.__handleSubType(group[groupKey], deviceSubType);
+            };
+          });
+        }
+
+        if (statusLength) {
+          //状态码长度生成器
+          this[`statusLength${itemKey}`] = deviceSubType => {
+            // this.statusLengthSocketSwitch = (deviceSubType) => {}
+            return statusLength[deviceSubType] || 8;
           };
-        });
+        }
       });
     }
 
@@ -643,7 +714,7 @@
    * @Author: eamiear
    * @Date: 2019-08-12 11:25:00
    * @Last Modified by: eamiear
-   * @Last Modified time: 2019-08-23 10:27:05
+   * @Last Modified time: 2019-08-23 10:59:47
    */
   /**
    * @class
@@ -669,18 +740,31 @@
       return `${deviceType}${status}`;
     }
     /**
+     * 设备类型码+设备子类型+状态码
+     * @private
+     * @param {string} deviceType 设备类型码
+     * @param {string} deviceSubType 设备子类型状态码
+     * @param {string} status 状态码
+     */
+
+
+    __getStatusSubKey(deviceType, deviceSubType, status) {
+      return `${deviceType}${deviceSubType}${status}`;
+    }
+    /**
      * 组合状态描述 -- 010010 --> 开/关/置反
      * @private
      * @param {string} deviceType 设备类型
      * @param {string | number} number 16进制状态码
+     * @param {string | number} len 状态码长度取值
      */
 
 
-    __combineSocketStatus(deviceType, number) {
+    __combineSocketStatus(deviceType, number, len) {
       let bitStr = Converter.toBinary(number, 16);
-      let descriptor = []; // 长度，奇数转偶数
+      let descriptor = []; // 长度处理
 
-      bitStr = bitStr.length % 2 ? `0${bitStr}` : bitStr;
+      bitStr = Converter.toLength(bitStr, len);
 
       for (let i = bitStr.length; i > 0; i -= 2) {
         descriptor.push(SuitStatus[this.__getStatusKey(deviceType, bitStr.slice(i - 2, i))]);
@@ -695,10 +779,16 @@
      */
 
 
-    __parseSimpleSocket(deviceType, status) {
+    __parseSimpleSocket(deviceType, status, len) {
       let bitStr = Converter.toBinary(status.slice(0, 2), 16);
-      bitStr = bitStr.slice(-4);
-      return SuitStatus[this.__getStatusKey(deviceType, `s${bitStr.includes('1') ? 1 : 0}`)];
+      let descriptor = [];
+      bitStr = Converter.toLength(bitStr, len);
+
+      for (let i = bitStr.length; i > 0; i -= 2) {
+        descriptor.push(SuitStatus[this.__getStatusKey(deviceType, bitStr.slice(i - 2, i))]);
+      }
+
+      return descriptor.join(',');
     }
     /**
      * 获取插座开关状态
@@ -709,23 +799,24 @@
 
 
     getSocketSwitchStatusDescriptor(status, deviceType, deviceSubType) {
-      if (!deviceSubType) return SuitStatus[this.__getStatusKey(deviceType, status.slice(6, 8))]; // 智能插座
+      if (!deviceSubType) return SuitStatus[this.__getStatusKey(deviceType, status.slice(6, 8))];
+      const len = TypeHints$1.statusLengthSocketSwitch(deviceSubType); // 智能插座
 
       if (TypeHints$1.isSimpleSocketSwitch(deviceSubType)) {
-        return this.__parseSimpleSocket(deviceType, status);
+        return this.__parseSimpleSocket(deviceType, status, len);
       } // TODO 单键、双键、三键、四键开关区分 ==》 开、开/关、开/开/关、关/关/关/开
 
 
       if (TypeHints$1.isTouchSocketSwitch(deviceSubType) || TypeHints$1.isNormalSocketSwitch(deviceSubType)) {
-        return this.__combineSocketStatus(deviceType, status.slice(0, 2));
+        return this.__combineSocketStatus(deviceType, status.slice(0, 2), len);
       }
 
       if (TypeHints$1.isMixSocketSwitch(deviceSubType)) {
-        return this.__combineSocketStatus(deviceType, status.slice(2, 4));
+        return this.__combineSocketStatus(deviceType, status.slice(2, 4), len);
       }
 
       if (TypeHints$1.isSceneSocketSwitch(deviceSubType)) {
-        return this.__combineSocketStatus(deviceType, status.slice(6, 8));
+        return this.__combineSocketStatus(deviceType, status.slice(6, 8), len);
       }
     }
     /**
@@ -740,7 +831,7 @@
       let num = +Converter.toDecimal(status.slice(0, 2), 16);
 
       if (TypeHints$1.isSimpleLed(deviceSubType)) {
-        light = num === 0 ? '灯灭' : `${parseInt((num - 128) * 100 / 126)}%`;
+        light = num === 0 ? 0 : `${parseInt((num - 128) * 100 / 126)}%`;
       }
 
       if (TypeHints$1.isColorLed(deviceSubType)) {
@@ -751,7 +842,7 @@
         light = `${num}% ${+Converter.toDecimal(status.slice(2, 4), 16)}% ${+Converter.toDecimal(status.slice(4, 6), 16)}%`;
       }
 
-      return light;
+      return light ? '开' : '关';
     }
     /**
      * 获取传感器状态
@@ -762,10 +853,24 @@
 
 
     getSensorsStatusDescriptor(status, deviceType, deviceSubType) {
-      // ac sensor
-      if (!deviceSubType || TypeHints$1.isAcSensor(deviceSubType)) return SuitStatus[this.__getStatusKey(deviceType, status.slice(8, 10))]; // cardSenseSensor
+      // ac ac
+      if (!deviceSubType || TypeHints$1.isAcSensors(deviceSubType)) return SuitStatus[this.__getStatusKey(deviceType, status.slice(8, 10))]; // cardSenseSensor
 
-      if (TypeHints$1.isCardSenseSensors(deviceSubType)) return SuitStatus[this.__getStatusKey(deviceType, status.slice(0, 2))];
+      if (TypeHints$1.isCardSenseSensors(deviceSubType)) return SuitStatus[this.__getStatusKey(deviceType, status.slice(0, 2))]; // acdcman(红外+光感)
+
+      if (TypeHints$1.isAcdcmanSensors(deviceSubType)) return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(2, 4))]; // ac红外
+
+      if (TypeHints$1.isAcSensors(deviceSubType)) return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(4, 6))]; //humidifier
+
+      if (TypeHints$1.isHumidifierSensors(deviceSubType)) {
+        const tempNum = status.slice(4, 6);
+        const temp = (tempNum === 'ff' ? '-' : Converter.toDecimal(status.slice(4, 6), 16) - 30) + '℃';
+        const RH = Converter.toDecimal(status.slice(8, 10), 16) + '%RH';
+        return `${temp}-${RH}`;
+      } // 其它类型传感器烟雾，燃气，尿床，一键呼救，水浸，门磁
+
+
+      return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(0, 2))] || '';
     }
     /**
      * 获取门锁状态
@@ -1014,12 +1119,12 @@
     getStatusDescriptor(status, deviceType, deviceSubType) {
       const typeKey = Array.from(Object.keys(Suiter)).find(key => {
         const capKey = key.toCapital();
-        return this.typeHints[`is${capKey}`].call(this.typeHints, deviceType);
+        return this.typeHints[`is${capKey}`].call(this.typeHints, Converter.toDecimal(deviceType, 16));
       });
       const statusMethodName = `get${typeKey.toCapital()}StatusDescriptor`;
 
       if (this.statusDescriptor[statusMethodName]) {
-        return this.statusDescriptor[statusMethodName].call(this.statusDescriptor, status, deviceType, deviceSubType);
+        return this.statusDescriptor[statusMethodName].call(this.statusDescriptor, status, Converter.toDecimal(deviceType, 16), Converter.toDecimal(deviceSubType, 16));
       }
     }
 

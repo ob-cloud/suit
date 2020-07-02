@@ -29,9 +29,9 @@ class TypeHints {
   __handler (suitsType, type, subType) {
     if (!suitsType) return false
     if (!subType) {
-        return !!suitsType[Converter.toDecimal(type, 16)]
+        return !!suitsType[type]
     }
-    const typeStr = Converter.toDecimal(type, 16) + Converter.toDecimal(subType, 16)
+    const typeStr = type + subType + ''
     return !!suitsType[typeStr]
   }
   /**
@@ -42,7 +42,7 @@ class TypeHints {
    * @param {String} subType 子设备类型
    */
   __handleSubType (group, subType) {
-    return group.includes(Converter.toDecimal(subType, 16))
+    return group.includes(subType + '')
   }
   /**
    * 一级设备类型判断方法生成器
@@ -67,7 +67,7 @@ class TypeHints {
     })
   }
   /**
-   * 子设备类型，判断方法生成器
+   * 子设备类型，判断方法生成器+状态码长度生成器
    * @private
    * @example
    * this.isTouchSensor = (deviceSubType) => {}
@@ -75,14 +75,21 @@ class TypeHints {
   __subDeviceProcessor () {
     Array.from(Object.keys(Suiter)).map(item => {
       const group = Suiter[item].group
+      const statusLength = Suiter[item].statusLength
       const itemKey = item.toCapital() // sensors --> Sensors
-      if (!group) return
-      Array.from(Object.keys(group)).map((groupKey) => {
-        const key = groupKey.toCapital() // touch --> Touch
-        this[`is${key}${itemKey}`] = (deviceSubType) => { // this.isTouchSensor = (deviceSubType) => {}
-          return this.__handleSubType(group[groupKey], deviceSubType)
+      if (group) { //判断方法生成器
+        Array.from(Object.keys(group)).map((groupKey) => {
+          const key = groupKey.toCapital() // touch --> Touch
+          this[`is${key}${itemKey}`] = (deviceSubType) => { // this.isTouchSensor = (deviceSubType) => {}
+            return this.__handleSubType(group[groupKey], deviceSubType)
+          }
+        })
+      }
+      if (statusLength) { //状态码长度生成器
+        this[`statusLength${itemKey}`] = (deviceSubType) => { // this.statusLengthSocketSwitch = (deviceSubType) => {}
+          return statusLength[deviceSubType] || 8
         }
-      })
+      }
     })
   }
 }

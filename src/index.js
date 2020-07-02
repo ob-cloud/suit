@@ -81,11 +81,11 @@ class Suit {
   getStatusDescriptor (status, deviceType, deviceSubType) {
     const typeKey = Array.from(Object.keys(Suiter)).find(key => {
       const capKey = key.toCapital()
-      return this.typeHints[`is${capKey}`].call(this.typeHints, deviceType)
+      return this.typeHints[`is${capKey}`].call(this.typeHints, Converter.toDecimal(deviceType, 16))
     })
     const statusMethodName = `get${typeKey.toCapital()}StatusDescriptor`
     if (this.statusDescriptor[statusMethodName]) {
-      return this.statusDescriptor[statusMethodName].call(this.statusDescriptor, status, deviceType, deviceSubType)
+      return this.statusDescriptor[statusMethodName].call(this.statusDescriptor, status, Converter.toDecimal(deviceType, 16), Converter.toDecimal(deviceSubType, 16))
     }
   }
  }
