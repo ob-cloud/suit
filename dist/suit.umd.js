@@ -854,7 +854,7 @@
 
     getSensorsStatusDescriptor(status, deviceType, deviceSubType) {
       // ac ac
-      if (!deviceSubType || TypeHints$1.isAcSensors(deviceSubType)) return SuitStatus[this.__getStatusKey(deviceType, status.slice(8, 10))]; // cardSenseSensor
+      if (!deviceSubType) return SuitStatus[this.__getStatusKey(deviceType, status.slice(8, 10))]; // cardSenseSensor
 
       if (TypeHints$1.isCardSenseSensors(deviceSubType)) return SuitStatus[this.__getStatusKey(deviceType, status.slice(0, 2))]; // acdcman(红外+光感)
 

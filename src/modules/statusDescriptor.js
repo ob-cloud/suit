@@ -123,7 +123,7 @@ class StatusDescriptor {
    */
   getSensorsStatusDescriptor (status, deviceType, deviceSubType) {
     // ac ac
-    if (!deviceSubType || TypeHints.isAcSensors(deviceSubType)) return SuitStatus[this.__getStatusKey(deviceType, status.slice(8, 10))]
+    if (!deviceSubType) return SuitStatus[this.__getStatusKey(deviceType, status.slice(8, 10))]
 
     // cardSenseSensor
     if (TypeHints.isCardSenseSensors(deviceSubType)) return SuitStatus[this.__getStatusKey(deviceType, status.slice(0, 2))]
