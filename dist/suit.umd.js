@@ -379,19 +379,37 @@
         '11fd': '断电',
         '11ff': '首次上电',
         // 水浸
+        '110200': '无异常',
+        '110202': '无异常',
         '110201': '水浸警报',
+        '112800': '无异常',
+        '112802': '无异常',
         '112801': '燃气警报',
+        '112700': '无异常',
+        '112702': '无异常',
         '112701': '烟雾警报',
+        '112600': '无异常',
+        '112602': '无异常',
         '112601': '尿床警报',
+        '112500': '无异常',
+        '112502': '无异常',
         '112501': '呼救警报',
-        '112401': '有人',
+        '111900': '无人',
+        '111901': '有人',
+        '111902': '无人',
+        '111903': '有人',
         '112400': '无人',
-        '112301': '有人',
+        '112401': '有人',
         '112300': '无人',
+        '112301': '有人',
+        '112302': '无人',
+        '112303': '有人',
         '112100': '闭合',
         '112101': '打开',
-        '111901': '有人',
-        '111900': '无人'
+        '112102': '闭合',
+        '112103': '打开',
+        '111900': '无人',
+        '111901': '有人'
       },
       group: {
         root: ['11'],
@@ -857,20 +875,20 @@
       if (!deviceSubType) return SuitStatus[this.__getStatusKey(deviceType, status.slice(8, 10))]; // cardSenseSensor
 
       if (TypeHints$1.isCardSenseSensors(deviceSubType)) return SuitStatus[this.__getStatusKey(deviceType, status.slice(0, 2))]; // acdcman(红外+光感)
-
-      if (TypeHints$1.isAcdcmanSensors(deviceSubType)) return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(2, 4))]; // ac红外
-
-      if (TypeHints$1.isAcSensors(deviceSubType)) return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(4, 6))]; //humidifier
+      // if (TypeHints.isAcdcmanSensors(deviceSubType)) return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(2, 4))]
+      // ac红外
+      // if (TypeHints.isAcSensors(deviceSubType)) return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(2, 4))]
+      //humidifier
 
       if (TypeHints$1.isHumidifierSensors(deviceSubType)) {
-        const tempNum = status.slice(4, 6);
-        const temp = (tempNum === 'ff' ? '-' : Converter.toDecimal(status.slice(4, 6), 16) - 30) + '℃';
-        const RH = Converter.toDecimal(status.slice(8, 10), 16) + '%RH';
+        const tempNum = status.slice(2, 4);
+        const temp = (tempNum === 'ff' ? '-' : Converter.toDecimal(status.slice(2, 4), 16) - 30) + '℃';
+        const RH = Converter.toDecimal(status.slice(6, 8), 16) + '%RH';
         return `${temp}-${RH}`;
-      } // 其它类型传感器烟雾，燃气，尿床，一键呼救，水浸，门磁
+      } // 其它类型传感器烟雾，燃气，尿床，一键呼救，水浸，门磁,ac红外,dc红外
 
 
-      return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(0, 2))] || '';
+      return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(2, 4))] || '';
     }
     /**
      * 获取门锁状态

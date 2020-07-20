@@ -129,10 +129,10 @@ class StatusDescriptor {
     if (TypeHints.isCardSenseSensors(deviceSubType)) return SuitStatus[this.__getStatusKey(deviceType, status.slice(0, 2))]
     
     // acdcman(红外+光感)
-    if (TypeHints.isAcdcmanSensors(deviceSubType)) return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(2, 4))]
+    // if (TypeHints.isAcdcmanSensors(deviceSubType)) return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(2, 4))]
     
     // ac红外
-    if (TypeHints.isAcSensors(deviceSubType)) return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(4, 6))]
+    // if (TypeHints.isAcSensors(deviceSubType)) return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(2, 4))]
 
     //humidifier
     if (TypeHints.isHumidifierSensors(deviceSubType)) {
@@ -142,7 +142,7 @@ class StatusDescriptor {
       return `${temp}-${RH}`
     }
 
-    // 其它类型传感器烟雾，燃气，尿床，一键呼救，水浸，门磁
+    // 其它类型传感器烟雾，燃气，尿床，一键呼救，水浸，门磁,ac红外,dc红外
     return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(2, 4))] || ''
   }
   /**
