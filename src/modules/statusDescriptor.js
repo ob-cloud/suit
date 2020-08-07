@@ -30,16 +30,27 @@ class StatusDescriptor {
     return `${deviceType}${status}`
   }
   /**
+   * 设备类型码+设备子类型+状态码
+   * @private
+   * @param {string} deviceType 设备类型码
+   * @param {string} deviceSubType 设备子类型状态码
+   * @param {string} status 状态码
+   */
+  __getStatusSubKey (deviceType, deviceSubType, status) {
+    return `${deviceType}${deviceSubType}${status}`
+  }
+  /**
    * 组合状态描述 -- 010010 --> 开/关/置反
    * @private
    * @param {string} deviceType 设备类型
    * @param {string | number} number 16进制状态码
+   * @param {string | number} len 状态码长度取值
    */
-  __combineSocketStatus (deviceType, number) {
+  __combineSocketStatus (deviceType, number, len) {
     let bitStr = Converter.toBinary(number, 16)
     let descriptor = []
-    // 长度，奇数转偶数
-    bitStr = bitStr.length % 2 ? `0${bitStr}` : bitStr
+    // 长度处理
+    bitStr = Converter.toLength(bitStr, len)
     for (let i = bitStr.length; i > 0; i -= 2) {
       descriptor.push(SuitStatus[this.__getStatusKey(deviceType, bitStr.slice(i - 2, i))])
     }
@@ -50,10 +61,14 @@ class StatusDescriptor {
    * @private
    * @param {string} status 16进制状态码
    */
-  __parseSimpleSocket (deviceType, status) {
+  __parseSimpleSocket (deviceType, status, len) {
     let bitStr = Converter.toBinary(status.slice(0, 2), 16)
-    bitStr = bitStr.slice(-4)
-    return SuitStatus[this.__getStatusKey(deviceType, `s${bitStr.includes('1') ? 1 : 0}`)]
+    let descriptor = []
+    bitStr =  Converter.toLength(bitStr, len)
+    for (let i = bitStr.length; i > 0; i -= 2) {
+      descriptor.push(SuitStatus[this.__getStatusKey(deviceType, bitStr.slice(i - 2, i))])
+    }
+    return descriptor.join(',')
   }
   /**
    * 获取插座开关状态
@@ -63,21 +78,22 @@ class StatusDescriptor {
    */
   getSocketSwitchStatusDescriptor (status, deviceType, deviceSubType) {
     if (!deviceSubType) return SuitStatus[this.__getStatusKey(deviceType, status.slice(6, 8))]
+    const len = TypeHints.statusLengthSocketSwitch(deviceSubType)
     // 智能插座
     if (TypeHints.isSimpleSocketSwitch(deviceSubType)) {
-      return this.__parseSimpleSocket(deviceType, status)
+      return this.__parseSimpleSocket(deviceType, status, len)
     }
     // TODO 单键、双键、三键、四键开关区分 ==》 开、开/关、开/开/关、关/关/关/开
     if (TypeHints.isTouchSocketSwitch(deviceSubType) || TypeHints.isNormalSocketSwitch(deviceSubType)) {
-      return this.__combineSocketStatus(deviceType, status.slice(0, 2))
+      return this.__combineSocketStatus(deviceType, status.slice(0, 2), len)
     }
 
     if (TypeHints.isMixSocketSwitch(deviceSubType)) {
-      return this.__combineSocketStatus(deviceType, status.slice(2, 4))
+      return this.__combineSocketStatus(deviceType, status.slice(2, 4), len)
     }
 
     if (TypeHints.isSceneSocketSwitch(deviceSubType)) {
-      return this.__combineSocketStatus(deviceType, status.slice(6, 8))
+      return this.__combineSocketStatus(deviceType, status.slice(6, 8), len)
     }
   }
   /**
@@ -106,11 +122,28 @@ class StatusDescriptor {
    * @param {string} deviceSubType 设备子类型状态码
    */
   getSensorsStatusDescriptor (status, deviceType, deviceSubType) {
-    // ac sensor
-    if (!deviceSubType || TypeHints.isAcSensor(deviceSubType)) return SuitStatus[this.__getStatusKey(deviceType, status.slice(8, 10))]
+    // ac ac
+    if (!deviceSubType) return SuitStatus[this.__getStatusKey(deviceType, status.slice(8, 10))]
 
     // cardSenseSensor
     if (TypeHints.isCardSenseSensors(deviceSubType)) return SuitStatus[this.__getStatusKey(deviceType, status.slice(0, 2))]
+    
+    // acdcman(红外+光感)
+    // if (TypeHints.isAcdcmanSensors(deviceSubType)) return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(2, 4))]
+    
+    // ac红外
+    // if (TypeHints.isAcSensors(deviceSubType)) return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(2, 4))]
+
+    //humidifier
+    if (TypeHints.isHumidifierSensors(deviceSubType)) {
+      const tempNum = status.slice(2, 4);
+      const temp = (tempNum === 'ff' ? '-' : (Converter.toDecimal(status.slice(2, 4), 16) - 30))+ '℃'
+      const RH =  Converter.toDecimal(status.slice(6, 8), 16) + '%RH'
+      return `${temp}-${RH}`
+    }
+
+    // 其它类型传感器烟雾，燃气，尿床，一键呼救，水浸，门磁,ac红外,dc红外
+    return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(2, 4))] || ''
   }
   /**
    * 获取门锁状态

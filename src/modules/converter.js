@@ -64,6 +64,18 @@ function toHex (number, from) {
   return +radix < 16 ? '0' + radix : radix
 }
 /**
+ * 转为指定长度字符串,长度不足前面0填充
+ * @public
+ * @memberof Converter
+ * @param {String|Number} number 转换的值
+ * @param {Number} len 目标长度
+ * @example
+ * Converter.toLength('1011', 2)
+ */
+function toLength (number, len) {
+  return (new Array(len + 1).fill('0').join('') + number).slice(-len)
+}
+/**
  * 进制转换器
  * @namespace  Converter
  */
@@ -71,7 +83,8 @@ export const Converter = {
   toBinary,
   toDecimal,
   toOctal,
-  toHex
+  toHex,
+  toLength
 }
 
 export default Converter
