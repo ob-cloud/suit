@@ -1,9 +1,15 @@
 /**
  * @description 套件配置表模块<br>
  * <pre>
- *  type: 设备类型匹配表，由主类型、子类型编码值组成key <br/>
- *  status: 设备状态匹配表， 由主类型码+状态码组成key<br/>
- *  group: 设备类型分组，同组类型状态截码位相同<br/>
+ *  object<string, string> type:  设备类型匹配表.
+ *    设备分为主设备类型及子设备类型，主类型的key为主类型码，
+ *    子类型由主类型码及子类型码组成key <br/>
+ *
+ *  object<string, string> status: 设备状态匹配表，
+ *    分类主类型设备状态，及子类型设备状态，其中主类型状态key由主类型码+状态码组成，
+ *    子设备类型状态key由主类型码+子类型码+状态码组成 <br/>
+ *
+ *  object<string, array> group: 设备类型分组，同组类型状态截码位相同<br/>
  * </pre>
  * @namespace
  * @name Suiter
@@ -133,7 +139,8 @@ export const Suiter = {
       // 普通开关
       normal: ['03'],
       // 插座 byte[0]
-      simple: ['01', '12', '13', '14']
+      simple: ['01', '12', '13', '14'],
+      plug: ['01', '12', '13', '14']
     },
     statusLength: { //不同设备的状态码长度取值
       '01': 2,

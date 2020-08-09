@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2019-08-12 11:21:50
  * @Last Modified by: eamiear
- * @Last Modified time: 2019-08-23 11:10:15
+ * @Last Modified time: 2020-08-09 01:29:55
  */
 
 /**
@@ -144,7 +144,8 @@ export const Suiter = {
       // 普通开关
       normal: ['03'],
       // 插座 byte[0]
-      simple: ['01', '12', '13', '14']
+      simple: ['01', '12', '13', '14'],
+      plug: ['01', '12', '13', '14']
     },
     statusLength: { //不同设备的状态码长度取值
       '01': 2,

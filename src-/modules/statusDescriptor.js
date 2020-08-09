@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2019-08-12 11:25:00
  * @Last Modified by: eamiear
- * @Last Modified time: 2019-08-23 10:59:47
+ * @Last Modified time: 2020-08-08 16:59:54
  */
 
 import Converter from './converter'
@@ -127,10 +127,10 @@ class StatusDescriptor {
 
     // cardSenseSensor
     if (TypeHints.isCardSenseSensors(deviceSubType)) return SuitStatus[this.__getStatusKey(deviceType, status.slice(0, 2))]
-    
+
     // acdcman(红外+光感)
     // if (TypeHints.isAcdcmanSensors(deviceSubType)) return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(2, 4))]
-    
+
     // ac红外
     // if (TypeHints.isAcSensors(deviceSubType)) return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(2, 4))]
 

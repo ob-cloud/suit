@@ -53,12 +53,6 @@ class TypeHints {
           }
         })
       }
-      // compatible for old version
-      if (statusLength) { //状态码长度生成器
-        this[`statusLength${mainType}`] = (deviceSubType) => { // this.statusLengthSocketSwitch = (deviceSubType) => {}
-          return statusLength[deviceSubType] || 8
-        }
-      }
     })
   }
   __statusLengthProcessor () {
@@ -66,7 +60,7 @@ class TypeHints {
       const statusLength = Suiter[item].statusLength
       const mainType = item.toCapital()
       if (statusLength) {
-        this[`get${mainType}Len`] = (deviceSubType): number => {
+        this[`get${mainType}BitLen`] = (deviceSubType): number => {
           return statusLength[deviceSubType] || 8
         }
       }
