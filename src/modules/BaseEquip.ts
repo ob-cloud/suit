@@ -2,7 +2,7 @@ import Suiter, {SuitStatus, SuitTypes} from '../utils/suiter'
 import TypeHints from '../utils/typeHints'
 import { Converter } from '../utils/converter'
 
-export class BaseDescriptor {
+export class BaseEquip {
   Suiter = {}
   SuitStatus = {}
   SuitTypes = {}

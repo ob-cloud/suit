@@ -1,14 +1,14 @@
-import { BaseDescriptor } from './BaseDescriptor'
+import { BaseEquip } from './BaseEquip'
 
-class LedEquip extends BaseDescriptor {
-  deviceType: string = ''
-  deviceSubType: string = ''
+class LedEquip extends BaseEquip {
+  primaryType: string = ''
+  secondaryType: string = ''
   status: string = ''
   codeBit: string = ''
-  constructor (deviceType: string, deviceSubType: string, status: string) {
+  constructor (primaryType: string, secondaryType: string, status: string) {
     super()
-    this.deviceType = deviceType
-    this.deviceSubType = deviceSubType
+    this.primaryType = primaryType
+    this.secondaryType = secondaryType
     this.status = status
     this.codeBit = status.slice(0, 2)
   }

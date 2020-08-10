@@ -1,6 +1,6 @@
-import { BaseDescriptor } from './BaseDescriptor'
+import { BaseEquip } from './BaseEquip'
 
-class SocketEquip extends BaseDescriptor{
+class SocketEquip extends BaseEquip{
   deviceType: string = ''
   deviceSubType: string = ''
   status: string = ''

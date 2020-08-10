@@ -1,4 +1,5 @@
 interface String {
-  toCapital(): void;
-  toLower(): void;
+  toCapital(): string;
+  toLower(): string;
+  format(...args: string[]): string
 }
