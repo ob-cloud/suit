@@ -44,7 +44,7 @@ export class BaseEquip {
   getDescriptors (mainDevType: string, statusBitStr:string, separator: string = ','): string {
     const descriptor  = []
     for (let i = statusBitStr.length; i > 0; i -= 2) {
-      let statusBit = statusBitStr.slice(i - 2, i)
+      const statusBit = statusBitStr.slice(i - 2, i)
       descriptor.push(this.getDescriptorByCode(this.getPrimaryStatusCode(mainDevType, statusBit)))
     }
     return descriptor.join(separator)

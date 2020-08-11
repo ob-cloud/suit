@@ -16,7 +16,9 @@
  */
 export declare const Suiter: {
     led: {
-        /** led.type 类型*/
+        /**
+         * led.type 类
+         */
         type: {
             '01': string;
             '0101': string;
@@ -35,9 +37,13 @@ export declare const Suiter: {
             '0132': string;
             '0133': string;
         };
-        /** led.status 状态*/
+        /**
+         * led.status 状态
+         */
         status: {};
-        /** led.group 状态分组*/
+        /**
+         * led.group 状态分组
+         */
         group: {
             root: string[];
             simple: string[];
@@ -48,7 +54,7 @@ export declare const Suiter: {
     /**
      * 电饭煲
      * @namespace Suiter.cooker
-    */
+     */
     cooker: {
         type: {
             '02': string;
@@ -57,7 +63,7 @@ export declare const Suiter: {
     /**
      * 加湿器
      * @namespace Suiter.humidifier
-    */
+     */
     humidifier: {
         type: {
             '03': string;
@@ -66,7 +72,7 @@ export declare const Suiter: {
     /**
      * 插座开关
      * @namespace Suiter.socketSwitch
-    */
+     */
     socketSwitch: {
         type: {
             '04': string;
@@ -118,6 +124,7 @@ export declare const Suiter: {
             mix: string[];
             normal: string[];
             simple: string[];
+            plug: string[];
         };
         statusLength: {
             '01': number;
@@ -142,12 +149,12 @@ export declare const Suiter: {
     /**
      * 开关类设备
      * @namespace Suiter.switchgear
-    */
+     */
     switchgear: {
         type: {
             '05': string;
-            "0501": string;
-            "0502": string;
+            '0501': string;
+            '0502': string;
         };
         status: {
             '0500': string;
@@ -159,7 +166,7 @@ export declare const Suiter: {
     /**
      * 智能风扇
      * @namespace Suiter.fans
-    */
+     */
     fans: {
         type: {
             '06': string;
@@ -168,7 +175,7 @@ export declare const Suiter: {
     /**
      * 智能空气净化器
      * @namespace Suiter.airCleaner
-    */
+     */
     airCleaner: {
         type: {
             '07': string;

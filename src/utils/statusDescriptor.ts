@@ -4,6 +4,7 @@
 //  * @Last Modified by: eamiear
 //  * @Last Modified time: 2020-08-11 10:12:00
 //  */
+
 // import * as Converter from './converter'
 // import TypeHints from './typeHints'
 // import {SuitStatus} from './suiter'
@@ -86,9 +87,11 @@
 //     if (TypeHints.isTouchSocketSwitch(deviceSubType) || TypeHints.isNormalSocketSwitch(deviceSubType)) {
 //       return this.__combineSocketStatus(deviceType, status.slice(0, 2), len)
 //     }
+
 //     if (TypeHints.isMixSocketSwitch(deviceSubType)) {
 //       return this.__combineSocketStatus(deviceType, status.slice(2, 4), len)
 //     }
+
 //     if (TypeHints.isSceneSocketSwitch(deviceSubType)) {
 //       return this.__combineSocketStatus(deviceType, status.slice(6, 8), len)
 //     }
@@ -121,12 +124,16 @@
 //   getSensorsStatusDescriptor (status, deviceType, deviceSubType) {
 //     // ac ac
 //     if (!deviceSubType) return SuitStatus[this.__getStatusKey(deviceType, status.slice(8, 10))]
+
 //     // cardSenseSensor
 //     if (TypeHints.isCardSenseSensors(deviceSubType)) return SuitStatus[this.__getStatusKey(deviceType, status.slice(0, 2))]
+
 //     // acdcman(红外+光感)
 //     // if (TypeHints.isAcdcmanSensors(deviceSubType)) return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(2, 4))]
+
 //     // ac红外
 //     // if (TypeHints.isAcSensors(deviceSubType)) return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(2, 4))]
+
 //     //humidifier
 //     if (TypeHints.isHumidifierSensors(deviceSubType)) {
 //       const tempNum = status.slice(2, 4);
@@ -134,6 +141,7 @@
 //       const RH =  Converter.toDecimal(status.slice(6, 8), 16) + '%RH'
 //       return `${temp}-${RH}`
 //     }
+
 //     // 其它类型传感器烟雾，燃气，尿床，一键呼救，水浸，门磁,ac红外,dc红外
 //     return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(2, 4))] || ''
 //   }
@@ -170,6 +178,7 @@
 //    * @param {string} deviceType 设备类型状态码
 //    */
 //   getOboxStatusDescriptor(status, deviceType) {
+
 //   }
 //   /**
 //    * 获取电饭煲状态
@@ -177,6 +186,7 @@
 //    * @param {string} deviceType 设备类型状态码
 //    */
 //   getCookerStatusDescriptor(status, deviceType) {
+
 //   }
 //   /**
 //    * 获取加湿器状态
@@ -184,6 +194,7 @@
 //    * @param {string} deviceType 设备类型状态码
 //    */
 //   getHumidifierStatusDescriptor(status, deviceType) {
+
 //   }
 //   /**
 //    * 获取可开关类设备状态
@@ -205,6 +216,7 @@
 //    * @param {string} deviceType 设备类型状态码
 //    */
 //   getFansStatusDescriptor(status, deviceType) {
+
 //   }
 //   /**
 //    * 空气清洁器状态
@@ -212,6 +224,7 @@
 //    * @param {string} deviceType 设备类型状态码
 //    */
 //   getAirCleanerStatusDescriptor(status, deviceType) {
+
 //   }
 //   /**
 //    * tv
@@ -219,6 +232,7 @@
 //    * @param {string} deviceType 设备类型状态码
 //    */
 //   getTvStatusDescriptor(status, deviceType) {
+
 //   }
 //   /**
 //    * 网关
@@ -226,6 +240,7 @@
 //    * @param {string} deviceType 设备类型状态码
 //    */
 //   getGateWayStatusDescriptor(status, deviceType) {
+
 //   }
 //   /**
 //    * 抄表器
@@ -233,6 +248,7 @@
 //    * @param {string} deviceType 设备类型状态码
 //    */
 //   getMeterReaderStatusDecriptor(status, deviceType) {
+
 //   }
 //   /**
 //    * 远程控制面板
@@ -243,6 +259,7 @@
 //     if (this.isAcWireControlPanel(deviceSubType)) {
 //       return SuitStatus[this.__getStatusKey(deviceType, status.slice(0, 2))]
 //     }
+
 //   }
 //   /**
 //    * 转发器
@@ -250,6 +267,7 @@
 //    * @param {string} deviceType 设备类型状态码
 //    */
 //   getTransponderStatusDescriptor(status, deviceType) {
+
 //   }
 //   /**
 //    * 远程控制
@@ -257,6 +275,7 @@
 //    * @param {string} deviceType 设备类型状态码
 //    */
 //   getRemoteControlStatusDescriptor(status, deviceType) {
+
 //   }
 //   /**
 //    * 自动移动器
@@ -264,6 +283,7 @@
 //    * @param {string} deviceType 设备类型状态码
 //    */
 //   getAutoMoverStatusDescriptor(status, deviceType) {
+
 //   }
 //   /**
 //    * 远程控制灯
@@ -271,6 +291,8 @@
 //    * @param {string} deviceType 设备类型状态码
 //    */
 //   getRemoteControlLampStatusDescriptor(status, deviceType) {
+
 //   }
 // }
+
 // export default new StatusDescriptor()

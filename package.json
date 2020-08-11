@@ -1,54 +1,48 @@
 {
-  "name": "suit",
+  "name": "hardware-suit",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/suit.umd.js",
+  "main": "lib/index.js",
+  "module": "",
+  "types": "lib/index.d.ts",
   "directories": {
     "lib": "lib"
   },
   "scripts": {
-    "dev": "rollup -w --config rollup.config.js --format umd --file dist/suit.umd.dev.js",
-    "build": "npm run build:cjs & node build.js & npm run build:iife & npm run build:es & npm run build:umd & npm run build:doc & deploy.sh",
-    "build:umd": "rollup --config rollup.config.js --format umd --file dist/suit.umd.js",
-    "build:es": "rollup --config rollup.config.js --format es --file dist/suit.esm.js",
-    "build:iife": "rollup --config rollup.config.js --format iife --file dist/suit.min.js",
-    "build:cjs": "rollup --config rollup.config.js --format cjs --file dist/suit.cjs.js",
-    "build:doc": "./node_modules/.bin/jsdoc -c ./docConf.json",
-    "doc:test": "npm run build:es & npm run build:doc",
     "test": "jest --coverage",
-    "build:ts": "tsc --declaration",
     "lint": "tslint --project tsconfig.json",
     "lint:fix": "npm run lint -- --fix",
-    "prepublish": "npm run build:ts && npm test"
-  },
-  "jest": {
-    "testEnvironment": "node"
+    "build:ts": "tsc --declaration",
+    "build": "npm run lint:fix && node scripts/build.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ob-cloud/suit.git"
+    "url": "git+https://github.com/ob-cloud/hardware-suit.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ob-cloud/suit/issues"
+    "url": "https://github.com/ob-cloud/hardware-suit/issues"
   },
-  "homepage": "https://github.com/ob-cloud/suit#readme",
+  "homepage": "https://github.com/ob-cloud/hardware-suit#readme",
   "devDependencies": {
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-typescript": "^7.10.4",
+    "@rollup/plugin-buble": "^0.21.3",
+    "@rollup/plugin-typescript": "^5.0.2",
     "@types/jest": "^26.0.9",
     "jest": "^26.2.2",
     "jsdoc": "^3.6.3",
     "jsdoc-docio": "0.0.1",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.5",
     "qs": "^6.8.0",
     "rollup": "^1.16.2",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.0.1",
     "rollup-plugin-terser": "^5.0.0",
-    "rollup-plugin-uglify": "^6.0.2",
+    "rollup-plugin-typescript2": "^0.27.2",
+    "rollup-plugin-uglify": "^6.0.4",
     "ts-jest": "^26.1.4",
     "tslint": "^6.1.3",
     "typescript": "^3.9.7"
