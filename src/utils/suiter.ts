@@ -64,7 +64,8 @@ export const Suiter = {
    * 电饭煲
    * @namespace Suiter.cooker
    */
-  cooker: { // 电饭煲
+  cooker: {
+    // 电饭煲
     type: {
       '02': '智能电饭煲'
     }
@@ -73,7 +74,8 @@ export const Suiter = {
    * 加湿器
    * @namespace Suiter.humidifier
    */
-  humidifier: { // 加湿器
+  humidifier: {
+    // 加湿器
     type: {
       '03': '智能加湿器'
     }
@@ -82,7 +84,8 @@ export const Suiter = {
    * 插座开关
    * @namespace Suiter.socketSwitch
    */
-  socketSwitch: { // 插座开关
+  socketSwitch: {
+    // 插座开关
     type: {
       '04': '插座开关',
       '0401': '智能插座',
@@ -123,7 +126,7 @@ export const Suiter = {
 
       '0490': 'WiFi插座',
       '0491': '单一窗帘面板',
-      '0492': '两个窗帘面板',
+      '0492': '两个窗帘面板'
     },
     status: {
       '0400': '关',
@@ -134,7 +137,8 @@ export const Suiter = {
       '04s1': '开',
       '04s0': '关'
     },
-    group: { // 类别分组， 状态取值区间相同，配置后会自动生成相应的判断方法
+    group: {
+      // 类别分组， 状态取值区间相同，配置后会自动生成相应的判断方法
       root: ['04'],
       // 触摸开关，子类型组 byte[0]
       touch: ['02', '21', '22', '23', '24', '25', '26', '28', '51', '52'],
@@ -148,7 +152,8 @@ export const Suiter = {
       simple: ['01', '12', '13', '14'],
       plug: ['01', '12', '13', '14']
     },
-    statusLength: { // 不同设备的状态码长度取值
+    statusLength: {
+      // 不同设备的状态码长度取值
       '01': 2,
       '12': 4,
       '13': 6,
@@ -165,14 +170,15 @@ export const Suiter = {
       '62': 4,
       '71': 2,
       '81': 2,
-      '83': 6,
+      '83': 6
     }
   },
   /**
    * 开关类设备
    * @namespace Suiter.switchgear
    */
-  switchgear: { // 开关类设备
+  switchgear: {
+    // 开关类设备
     type: {
       '05': '智能开关类设备',
       '0501': '窗帘',
@@ -182,7 +188,7 @@ export const Suiter = {
       '0500': '关',
       '0501': '停',
       '0510': '开',
-      '0502': '开',
+      '0502': '开'
     }
   },
   /**
@@ -243,7 +249,7 @@ export const Suiter = {
       '1118': 'DC红外',
       '1119': 'AC红外',
       '1120': 'PM2.5',
-      '1121': '门窗磁',// 门磁
+      '1121': '门窗磁', // 门磁
       '1122': '雷达灯',
       '1123': 'DC人体+光感',
       '1124': 'AC人体+光感',
@@ -251,7 +257,7 @@ export const Suiter = {
       '1126': '尿床传感器',
       '1127': '烟雾传感器',
       '1128': '燃气传感器',
-      '1129': '插卡取电',
+      '1129': '插卡取电'
     },
     status: {
       // AC 红外
@@ -290,7 +296,7 @@ export const Suiter = {
       '112100': '闭合',
       '112101': '打开',
       '112102': '闭合',
-      '112103': '打开',
+      '112103': '打开'
     },
     group: {
       root: ['11'],
@@ -315,7 +321,7 @@ export const Suiter = {
       pm: ['20'],
       gate: ['21'],
       radarLight: ['22'],
-      acdcman: ['23','24'],
+      acdcman: ['23', '24'],
       gas: ['28'],
       // smoke: ['27'],
       Bedwetting: ['26'],
@@ -380,7 +386,7 @@ export const Suiter = {
   },
   finger: {
     type: {
-      '16': '智能门禁，中控指纹机',
+      '16': '智能门禁，中控指纹机'
     }
   },
   doorLock: {
@@ -411,7 +417,7 @@ export const Suiter = {
       '21close8': '锁开',
       '21close9': '反锁开',
       '21card': '门卡开锁',
-      'default': '关门'
+      default: '关门'
     },
     group: {
       root: ['21']
@@ -425,17 +431,17 @@ export const Suiter = {
   },
   smartCamera: {
     type: {
-      '32': '摄像头',
+      '32': '摄像头'
     }
   },
   wifiSocket: {
     type: {
-      '80': '单品wifi插座',
+      '80': '单品wifi插座'
     }
   },
   wifiIr: {
     type: {
-      '81': '单品wifi红外转发器，不存储版本',
+      '81': '单品wifi红外转发器，不存储版本'
     }
   },
   obox: {
@@ -443,7 +449,8 @@ export const Suiter = {
       '10': 'obox',
       '1010': 'obox'
     },
-    satus: { // device_type + status
+    satus: {
+      // device_type + status
       '100': '离线',
       '101': '在线'
     },
@@ -451,7 +458,7 @@ export const Suiter = {
       root: ['10']
     }
   }
-}
+};
 
 /**
  * 套件类型
@@ -459,13 +466,15 @@ export const Suiter = {
  * @memberof Suiter
  * @name SuitTypes
  */
-export const SuitTypes = (Array.from(Object.keys(Suiter)).reduce((item, next, index) => {
-  let firstType = {}
-  if (index === 1) {
-    firstType = Suiter[item].type
+export const SuitTypes = Array.from(Object.keys(Suiter)).reduce(
+  (item, next, index) => {
+    const firstType = {};
+    if (index === 1) {
+      firstType = Suiter[item].type;
+    }
+    return { ...firstType, ...Suiter[next].type };
   }
-  return {...firstType, ...(Suiter[next].type)}
-}))
+);
 
 /**
  * 套件状态，整合所有设备状态
@@ -473,12 +482,14 @@ export const SuitTypes = (Array.from(Object.keys(Suiter)).reduce((item, next, in
  * @memberof Suiter
  * @name SuitStatus
  */
-export const SuitStatus = (Array.from(Object.keys(Suiter)).reduce((item, next, index)=> {
-  let firstStatus = {}
-  if (index === 1) {
-    firstStatus = Suiter[item].status
+export const SuitStatus = Array.from(Object.keys(Suiter)).reduce(
+  (item, next, index) => {
+    const firstStatus = {};
+    if (index === 1) {
+      firstStatus = Suiter[item].status;
+    }
+    return { ...firstStatus, ...Suiter[next].status };
   }
-  return {...firstStatus, ...(Suiter[next].status)}
-}))
+);
 
-export default Suiter
+export default Suiter;

@@ -1,5 +1,3 @@
-import {LampEquip} from './LampEquip'
+import { LampEquip } from './LampEquip';
 
-class ControlLampEquip extends LampEquip{
-
-}
+class ControlLampEquip extends LampEquip {}

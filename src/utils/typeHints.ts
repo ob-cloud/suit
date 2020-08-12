@@ -1,11 +1,10 @@
-
-import Suiter from './suiter'
+import Suiter from './suiter';
 
 class TypeHints {
   constructor() {
-    this.__normalTypeProcessor()
-    this.__groupTypeProcessor()
-    this.__statusLengthProcessor()
+    this.__normalTypeProcessor();
+    this.__groupTypeProcessor();
+    this.__statusLengthProcessor();
   }
 
   /**
@@ -14,10 +13,14 @@ class TypeHints {
    * @param mainType 主类型
    * @param subType  子类型
    */
-  __hasNormalType (suitTypes: object, mainType: string, subType: string): boolean {
-    if (!suitTypes) return false
-    if (!subType) return !!suitTypes[mainType]
-    return !!suitTypes[`${mainType}${subType}`]
+  public __hasNormalType(
+    suitTypes: object,
+    mainType: string,
+    subType: string
+  ): boolean {
+    if (!suitTypes) { return false; }
+    if (!subType) { return !!suitTypes[mainType]; }
+    return !!suitTypes[`${mainType}${subType}`];
   }
 
   /**
@@ -25,47 +28,50 @@ class TypeHints {
    * @param group 分组设备类型
    * @param subType 子类型
    */
-  __hasGroupType (group, subType) {
-    if (!group || !group.length) return false
-    return group.includes(subType)
+  public __hasGroupType(group, subType) {
+    if (!group || !group.length) { return false; }
+    return group.includes(subType);
   }
 
-  __normalTypeProcessor () {
+  public __normalTypeProcessor() {
     Array.from(Object.keys(Suiter)).map(item => {
-      const normalTypes = Suiter[item].type  // ==> Suiter['led'].type
-      const capital = item.toCapital()
-      this[`is${capital}`] = (deviceType: string, deviceSubType: string): boolean => {
-        return this.__hasNormalType(normalTypes, deviceType, deviceSubType)
-      }
-    })
+      const normalTypes = Suiter[item].type; // ==> Suiter['led'].type
+      const capital = item.toCapital();
+      this[`is${capital}`] = (
+        deviceType: string,
+        deviceSubType: string
+      ): boolean => {
+        return this.__hasNormalType(normalTypes, deviceType, deviceSubType);
+      };
+    });
   }
 
-  __groupTypeProcessor () {
+  public __groupTypeProcessor() {
     Array.from(Object.keys(Suiter)).map(item => {
-      const group = Suiter[item].group
-      const statusLength = Suiter[item].statusLength
-      const mainType = item.toCapital()
+      const group = Suiter[item].group;
+      const statusLength = Suiter[item].statusLength;
+      const mainType = item.toCapital();
       if (group) {
         Array.from(Object.keys(group)).map(key => {
-          const camel = key.toCapital()
+          const camel = key.toCapital();
           this[`is${camel}${mainType}`] = (deviceSubType): boolean => {
-            return this.__hasGroupType(group[camel], deviceSubType)
-          }
-        })
+            return this.__hasGroupType(group[camel], deviceSubType);
+          };
+        });
       }
-    })
+    });
   }
-  __statusLengthProcessor () {
+  public __statusLengthProcessor() {
     Array.from(Object.keys(Suiter)).map(item => {
-      const statusLength = Suiter[item].statusLength
-      const mainType = item.toCapital()
+      const statusLength = Suiter[item].statusLength;
+      const mainType = item.toCapital();
       if (statusLength) {
         this[`get${mainType}BitLen`] = (deviceSubType): number => {
-          return statusLength[deviceSubType] || 8
-        }
+          return statusLength[deviceSubType] || 8;
+        };
       }
-    })
+    });
   }
 }
 
-export default new TypeHints()
+export default new TypeHints();

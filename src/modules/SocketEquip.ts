@@ -1,16 +1,18 @@
-import { BaseEquip } from './BaseEquip'
+import { BaseEquip } from './BaseEquip';
 
-class SocketEquip extends BaseEquip{
-  deviceType: string = ''
-  deviceSubType: string = ''
-  status: string = ''
-  constructor (deviceType: string, deviceSubType:string, status:string) {
-    super()
-    this.deviceType = deviceType
-    this.deviceSubType = deviceSubType
-    this.status = status
+class SocketEquip extends BaseEquip {
+  public readonly deviceType: string = '';
+  public readonly deviceSubType: string = '';
+  public readonly status: string = '';
+  constructor(deviceType: string, deviceSubType: string, status: string) {
+    super();
+    this.deviceType = deviceType;
+    this.deviceSubType = deviceSubType;
+    this.status = status;
   }
-  getDescriptor () {
-    if (!this.deviceSubType) return this.getMainDescriptor(this.deviceType, this.status)
+  public getDescriptor() {
+    if (!this.deviceSubType) {
+      return this.getMainDescriptor(this.deviceType, this.status);
+    }
   }
 }
