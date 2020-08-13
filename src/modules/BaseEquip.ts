@@ -1,6 +1,6 @@
 import Suiter, { SuitStatus, SuitTypes } from '../utils/suiter';
 import TypeHints from '../utils/typeHints';
-import { Converter } from '../utils/converter';
+import Converter from '../utils/converter';
 
 export class BaseEquip {
   public readonly Suiter = {};

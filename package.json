@@ -76,7 +76,7 @@
     "files": [
       "build/main/**/*.spec.js"
     ],
-    "sources": [
+    "ignoredByWatcher": [
       "build/main/**/*.js"
     ]
   },

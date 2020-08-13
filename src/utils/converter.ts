@@ -31,7 +31,7 @@ const _fillLength = (value: string | number, len: number): string => {
   return (new Array(len + 1).fill('0').join('') + value).slice(-len);
 };
 
-export class Converter {
+export default class Converter {
   public readonly value: string = '';
   public readonly from: number = 10;
   constructor(value: string, from: number) {
