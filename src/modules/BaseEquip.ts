@@ -38,7 +38,7 @@ export class BaseEquip {
 
   public getDescriptorByCode(code: string): string {
     if (!code) { console.warn('key code can not be empty!'); }
-    return this.SuitStatus[code];
+    return (this.SuitStatus as any)[code];
   }
 
   public getMainDescriptor(mainDevType: string, code: string): string {
@@ -52,8 +52,8 @@ export class BaseEquip {
     statusBitStr: string,
     separator: string = ','
   ): string {
-    const descriptor: ReadonlyArray<any> = [];
-    for (const i = statusBitStr.length; i > 0; i -= 2) {
+    let descriptor: Array<any> = [];
+    for (let i = statusBitStr.length; i > 0; i -= 2) {
       const statusBit = statusBitStr.slice(i - 2, i);
       descriptor.push(
         this.getDescriptorByCode(

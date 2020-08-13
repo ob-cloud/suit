@@ -1,5 +1,5 @@
-import Suiter from './suiter';
-
+import Suit from './suiter';
+const Suiter: any = Suit
 class TypeHints {
   constructor() {
     this.__normalTypeProcessor();
@@ -19,8 +19,8 @@ class TypeHints {
     subType: string
   ): boolean {
     if (!suitTypes) { return false; }
-    if (!subType) { return !!suitTypes[mainType]; }
-    return !!suitTypes[`${mainType}${subType}`];
+    if (!subType) { return !!(suitTypes as any)[mainType]; }
+    return !!(suitTypes as any)[`${mainType}${subType}`];
   }
 
   /**
@@ -28,7 +28,7 @@ class TypeHints {
    * @param group 分组设备类型
    * @param subType 子类型
    */
-  public __hasGroupType(group, subType) {
+  public __hasGroupType(group: string, subType: string) {
     if (!group || !group.length) { return false; }
     return group.includes(subType);
   }
@@ -37,7 +37,7 @@ class TypeHints {
     Array.from(Object.keys(Suiter)).map(item => {
       const normalTypes = Suiter[item].type; // ==> Suiter['led'].type
       const capital = item.toCapital();
-      this[`is${capital}`] = (
+      (this as any)[`is${capital}`] = (
         deviceType: string,
         deviceSubType: string
       ): boolean => {
@@ -49,12 +49,11 @@ class TypeHints {
   public __groupTypeProcessor() {
     Array.from(Object.keys(Suiter)).map(item => {
       const group = Suiter[item].group;
-      const statusLength = Suiter[item].statusLength;
       const mainType = item.toCapital();
       if (group) {
         Array.from(Object.keys(group)).map(key => {
           const camel = key.toCapital();
-          this[`is${camel}${mainType}`] = (deviceSubType): boolean => {
+          (this as any)[`is${camel}${mainType}`] = (deviceSubType: string): boolean => {
             return this.__hasGroupType(group[camel], deviceSubType);
           };
         });
@@ -66,7 +65,7 @@ class TypeHints {
       const statusLength = Suiter[item].statusLength;
       const mainType = item.toCapital();
       if (statusLength) {
-        this[`get${mainType}BitLen`] = (deviceSubType): number => {
+        (this as any)[`get${mainType}BitLen`] = (deviceSubType: string): number => {
           return statusLength[deviceSubType] || 8;
         };
       }

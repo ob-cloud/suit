@@ -14,5 +14,6 @@ class SocketEquip extends BaseEquip {
     if (!this.deviceSubType) {
       return this.getMainDescriptor(this.deviceType, this.status);
     }
+    return ''
   }
 }

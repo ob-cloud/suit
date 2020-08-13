@@ -1,11 +1,11 @@
 import { LampEquip } from './LampEquip';
 
-class LedLampEquip extends LampEquip {
+export class LedLampEquip extends LampEquip {
 
-  public readonly bytes: `{0}{1}{2}000000000200`;
-  private readonly brightness: string = '';
-  private readonly coldColor: string = '';
-  private readonly warmColor: string = '';
+  private bytes = `{0}{1}{2}000000000200`;
+  private brightness: string = '';
+  private coldColor: string = '';
+  private warmColor: string = '';
 
   constructor(status: string, primaryType?: string, secondaryType?: string) {
     super(status, primaryType, secondaryType);
@@ -25,24 +25,24 @@ class LedLampEquip extends LampEquip {
   public isPlainColor() {
     return !this.isBicolor();
   }
-  public setBrightness(value: number) {
+  public setBrightness(value: number): LedLampEquip {
     if (!value || value < 0 || value > 100) {
       console.warn('value should be 0 ~ 100');
-      return;
+      return this;
     }
     this.brightness =
-      value === 0 ? '00' : new this.Converter(+value + 154, 10).toHex();
+      value === 0 ? '00' : new (this.Converter as any)(+value + 154, 10).toHex();
     return this;
   }
   public getBrightness(): number {
     const brightness = this.brightness
-      ? new this.Converter(this.brightness, 16).toDecimal()
+      ? new (this.Converter as any)(this.brightness, 16).toDecimal()
       : 0;
     return brightness ? brightness - 154 : 0;
   }
-  public setColdColor(value: number) {
-    if (!value) { return; }
-    const coldColor = new this.Converter(
+  public setColdColor(value: number): LedLampEquip {
+    if (!value) { return this; }
+    const coldColor = new (this.Converter as any)(
       255 - Math.round(value * 2.55),
       10
     ).toHex();
@@ -51,11 +51,11 @@ class LedLampEquip extends LampEquip {
   }
   public getColdColor(): number {
     const coldColor = this.coldColor
-      ? new this.Converter(this.coldColor, 16).toDecimal()
+      ? new (this.Converter as any)(this.coldColor, 16).toDecimal()
       : 0;
     return 100 - Math.round(coldColor / 2.55);
   }
-  public setWarmColor() {
+  public setWarmColor(): LedLampEquip {
     this.warmColor = this.isBicolor() ? 'ff' : '00';
     return this;
   }
@@ -65,7 +65,7 @@ class LedLampEquip extends LampEquip {
   public getBytes() {
     return this.bytes.format(this.brightness, this.coldColor, this.warmColor);
   }
-  public getTurnOffBytes() {
+  public getTurnOffBytes(): string {
     return this.setBrightness(0)
       .setColdColor(0)
       .setWarmColor()

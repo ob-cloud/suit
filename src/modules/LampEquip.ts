@@ -1,9 +1,9 @@
 import { BaseEquip } from './BaseEquip';
 
 export class LampEquip extends BaseEquip {
-  public readonly primaryType: string = '';
-  public readonly secondaryType: string = '';
-  public readonly status: string = '';
+  public primaryType: string | undefined = '';
+  public secondaryType: string | undefined = '';
+  public status: string = '';
   constructor(status: string, primaryType?: string, secondaryType?: string) {
     super();
     this.primaryType = primaryType;

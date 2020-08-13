@@ -109,6 +109,7 @@ export const Suiter = {
       '0433': '3路情景面板',
       '0434': '4路情景面板',
       '0436': '六键情景',
+      '04122': '可设置6键情景面板',
 
       '0441': '1路开关 + 3路情景面板',
       '0442': '2路开关 + 3路情景面板',
@@ -468,11 +469,11 @@ export const Suiter = {
  */
 export const SuitTypes = Array.from(Object.keys(Suiter)).reduce(
   (item, next, index) => {
-    const firstType = {};
+    let firstType = {};
     if (index === 1) {
-      firstType = Suiter[item].type;
+      firstType = (Suiter as any)[item].type;
     }
-    return { ...firstType, ...Suiter[next].type };
+    return { ...firstType, ...(Suiter as any)[next].type };
   }
 );
 
@@ -484,11 +485,11 @@ export const SuitTypes = Array.from(Object.keys(Suiter)).reduce(
  */
 export const SuitStatus = Array.from(Object.keys(Suiter)).reduce(
   (item, next, index) => {
-    const firstStatus = {};
+    let firstStatus = {};
     if (index === 1) {
-      firstStatus = Suiter[item].status;
+      firstStatus = (Suiter as any)[item].status;
     }
-    return { ...firstStatus, ...Suiter[next].status };
+    return { ...firstStatus, ...(Suiter as any)[next].status };
   }
 );
 

@@ -15,7 +15,6 @@
     "no-delete": true,
     "no-method-signature": true,
 
-    "no-this": true,
     "no-class": true,
     "no-mixed-interface": true,
     "no-expression-statement": [

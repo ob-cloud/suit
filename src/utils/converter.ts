@@ -52,7 +52,7 @@ export class Converter {
   public toHex() {
     return _toHex(this.value, this.from);
   }
-  public fill(len) {
+  public fill(len: number) {
     return _fillLength(this.value, len);
   }
 }
