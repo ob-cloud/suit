@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2019-08-12 11:25:00
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-08-14 00:32:36
+ * @Last Modified time: 2020-08-15 16:45:13
  */
 
 import Converter, { fillLength } from './converter'
@@ -75,22 +75,38 @@ class StatusDescriptor {
     }
     return descriptor.join(separator);
   }
-  getSwitchDescriptor (status:string, deviceType:string, deviceChildType:string): string {
-    if(!deviceChildType) return this.getMainDescriptor(deviceType, status.slice(6, 8))
+  getSwitchDescriptor (status:string, deviceType:string, deviceChildType?:string): string {
+    const socketStatus = new SocketStatus(status)
+    if(!deviceChildType) return this.getMainDescriptor(deviceType, socketStatus.getState())
 
     const TypeHints = this.TypeHints as any
-    const statusLen = TypeHints.getSocketSwitchLen(deviceChildType)
-    const socketStatus = new SocketStatus(status)
+    const bitlen = TypeHints.getSocketSwitchLen(deviceChildType)
 
     if (TypeHints.isPlugSocketSwitch(deviceChildType)) {
-      const statusBitStr = fillLength(socketStatus.getPlugStatus(), statusLen)
+      const statusBitStr = fillLength(socketStatus.getPlugStatus(), bitlen)
       return this.getDescriptors(deviceType, statusBitStr)
     }
     if (TypeHints.isTouchSocketSwitch(deviceChildType)) {
-      const statusBitStr = fillLength(socketStatus.getTouchStatus(), statusLen)
+      const statusBitStr = fillLength(socketStatus.getTouchStatus(), bitlen)
+      return this.getDescriptors(deviceType, statusBitStr)
+    }
+    if (TypeHints.isNormalSocketSwitch(deviceChildType)) {
+      const statusBitStr = fillLength(socketStatus.getTouchStatus(), bitlen)
+      return this.getDescriptors(deviceType, statusBitStr)
+    }
+    if (TypeHints.isMixSocketSwitch(deviceChildType)) {
+      const statusBitStr = fillLength(socketStatus.getMixupStatus(), bitlen)
+      return this.getDescriptors(deviceType, statusBitStr)
+    }
+    if (TypeHints.isSceneSocketSwitch(deviceChildType)) {
+      const statusBitStr = fillLength(socketStatus.getSceneStatus(), bitlen)
       return this.getDescriptors(deviceType, statusBitStr)
     }
     return ''
+  }
+  getLampDescriptor (status:string, deviceType:string, deviceChildType:string) {
+    const lampStatus = new LampStatus(status)
+    // if (TypeHints.isSimpleLed())
   }
   /**
    * 组合状态描述 -- 010010 --> 开/关/置反
@@ -99,56 +115,56 @@ class StatusDescriptor {
    * @param {string | number} number 16进制状态码
    * @param {string | number} len 状态码长度取值
    */
-  __combineSocketStatus (deviceType, number, len) {
-    let bitStr = Converter.toBinary(number, 16)
-    let descriptor = []
-    // 长度处理
-    bitStr = Converter.fillLength(bitStr, len)
-    for (let i = bitStr.length; i > 0; i -= 2) {
-      descriptor.push(SuitStatus[this.__getStatusKey(deviceType, bitStr.slice(i - 2, i))])
-    }
-    return descriptor.join(',')
-  }
+  // __combineSocketStatus (deviceType, number, len) {
+  //   let bitStr = Converter.toBinary(number, 16)
+  //   let descriptor = []
+  //   // 长度处理
+  //   bitStr = Converter.fillLength(bitStr, len)
+  //   for (let i = bitStr.length; i > 0; i -= 2) {
+  //     descriptor.push(SuitStatus[this.__getStatusKey(deviceType, bitStr.slice(i - 2, i))])
+  //   }
+  //   return descriptor.join(',')
+  // }
   /**
    * 0401 socket 取第一个字节，后四位bit决定状态（特殊: 一个位一个状态）
    * @private
    * @param {string} status 16进制状态码
    */
-  __parseSimpleSocket (deviceType, status, len) {
-    let bitStr = Converter.toBinary(status.slice(0, 2), 16)
-    let descriptor = []
-    bitStr =  Converter.fillLength(bitStr, len)
-    for (let i = bitStr.length; i > 0; i -= 2) {
-      descriptor.push(SuitStatus[this.__getStatusKey(deviceType, bitStr.slice(i - 2, i))])
-    }
-    return descriptor.join(',')
-  }
+  // __parseSimpleSocket (deviceType, status, len) {
+  //   let bitStr = Converter.toBinary(status.slice(0, 2), 16)
+  //   let descriptor = []
+  //   bitStr =  Converter.fillLength(bitStr, len)
+  //   for (let i = bitStr.length; i > 0; i -= 2) {
+  //     descriptor.push(SuitStatus[this.__getStatusKey(deviceType, bitStr.slice(i - 2, i))])
+  //   }
+  //   return descriptor.join(',')
+  // }
   /**
    * 获取插座开关状态
    * @param {string} status 16进制状态码
    * @param {string} deviceType 设备类型状态码
    * @param {string} deviceSubType 设备子类型状态码
    */
-  getSocketSwitchStatusDescriptor (status, deviceType, deviceSubType) {
-    if (!deviceSubType) return SuitStatus[this.__getStatusKey(deviceType, status.slice(6, 8))]
-    const len = TypeHints.statusLengthSocketSwitch(deviceSubType)
-    // 智能插座
-    if (TypeHints.isSimpleSocketSwitch(deviceSubType)) {
-      return this.__parseSimpleSocket(deviceType, status, len)
-    }
-    // TODO 单键、双键、三键、四键开关区分 ==》 开、开/关、开/开/关、关/关/关/开
-    if (TypeHints.isTouchSocketSwitch(deviceSubType) || TypeHints.isNormalSocketSwitch(deviceSubType)) {
-      return this.__combineSocketStatus(deviceType, status.slice(0, 2), len)
-    }
+  // getSocketSwitchStatusDescriptor (status, deviceType, deviceSubType) {
+  //   if (!deviceSubType) return SuitStatus[this.__getStatusKey(deviceType, status.slice(6, 8))]
+  //   const len = TypeHints.statusLengthSocketSwitch(deviceSubType)
+  //   // 智能插座
+  //   if (TypeHints.isSimpleSocketSwitch(deviceSubType)) {
+  //     return this.__parseSimpleSocket(deviceType, status, len)
+  //   }
+  //   // TODO 单键、双键、三键、四键开关区分 ==》 开、开/关、开/开/关、关/关/关/开
+  //   if (TypeHints.isTouchSocketSwitch(deviceSubType) || TypeHints.isNormalSocketSwitch(deviceSubType)) {
+  //     return this.__combineSocketStatus(deviceType, status.slice(0, 2), len)
+  //   }
 
-    if (TypeHints.isMixSocketSwitch(deviceSubType)) {
-      return this.__combineSocketStatus(deviceType, status.slice(2, 4), len)
-    }
+  //   if (TypeHints.isMixSocketSwitch(deviceSubType)) {
+  //     return this.__combineSocketStatus(deviceType, status.slice(2, 4), len)
+  //   }
 
-    if (TypeHints.isSceneSocketSwitch(deviceSubType)) {
-      return this.__combineSocketStatus(deviceType, status.slice(6, 8), len)
-    }
-  }
+  //   if (TypeHints.isSceneSocketSwitch(deviceSubType)) {
+  //     return this.__combineSocketStatus(deviceType, status.slice(6, 8), len)
+  //   }
+  // }
   /**
    * 获取LED灯状态
    * @param {string} status 16进制状态码
