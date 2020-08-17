@@ -1,3 +1,3 @@
 import { LampEquip } from './LampEquip';
 
-class ControlLampEquip extends LampEquip {}
+export class ControlLampEquip extends LampEquip {}

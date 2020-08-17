@@ -1,6 +1,6 @@
 import Suit from './suiter';
 const Suiter: any = Suit
-class TypeHints {
+class _TypeHints {
   constructor() {
     this.__normalTypeProcessor();
     this.__groupTypeProcessor();
@@ -73,4 +73,4 @@ class TypeHints {
   }
 }
 
-export default new TypeHints();
+export const TypeHints =  new _TypeHints();

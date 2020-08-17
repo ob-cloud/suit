@@ -2,12 +2,15 @@
  * @Author: eamiear
  * @Date: 2019-08-12 11:25:00
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-08-15 16:45:13
+ * @Last Modified time: 2020-08-17 17:04:21
  */
 
-import Converter, { fillLength } from './converter'
-import TypeHints from './typeHints'
+import { Converter, fillLength } from './converter'
+import { TypeHints } from './typeHints'
 import Suiter, { SuitStatus, SuitTypes } from '../utils/suiter';
+// import { LampStatus } from '../entity/LampStatus'
+// import { SensorStatus } from '../entity/SensorStatus'
+import { SocketStatus } from '../entity/SocketStatus'
 /**
  * @class
  * @classdesc 状态描述器<br>
@@ -104,10 +107,10 @@ class StatusDescriptor {
     }
     return ''
   }
-  getLampDescriptor (status:string, deviceType:string, deviceChildType:string) {
-    const lampStatus = new LampStatus(status)
-    // if (TypeHints.isSimpleLed())
-  }
+  // getLampDescriptor (status:string, deviceType:string, deviceChildType:string) {
+  //   const lampStatus = new LampStatus(status)
+  //   // if (TypeHints.isSimpleLed())
+  // }
   /**
    * 组合状态描述 -- 010010 --> 开/关/置反
    * @private
@@ -170,198 +173,198 @@ class StatusDescriptor {
    * @param {string} status 16进制状态码
    * @param {string} deviceType 设备类型状态码
    */
-  getLedStatusDescriptor (status, deviceType, deviceSubType) {
-    let light = 0
-    let num = +Converter.toDecimal(status.slice(0, 2), 16)
-    if (TypeHints.isSimpleLed(deviceSubType)) {
-      light = num === 0 ? 0 : `${parseInt((num - 128) * 100 / 126)}%`
-    }
-    if (TypeHints.isColorLed(deviceSubType)) {
-      light = `${num}%`
-    }
-    if (TypeHints.isWayLed(deviceSubType)) {
-      light = `${num}% ${+Converter.toDecimal(status.slice(2, 4), 16)}% ${+Converter.toDecimal(status.slice(4, 6), 16)}%`
-    }
-    return light ? '开' : '关'
-  }
+  // getLedStatusDescriptor (status, deviceType, deviceSubType) {
+  //   let light = 0
+  //   let num = +Converter.toDecimal(status.slice(0, 2), 16)
+  //   if (TypeHints.isSimpleLed(deviceSubType)) {
+  //     light = num === 0 ? 0 : `${parseInt((num - 128) * 100 / 126)}%`
+  //   }
+  //   if (TypeHints.isColorLed(deviceSubType)) {
+  //     light = `${num}%`
+  //   }
+  //   if (TypeHints.isWayLed(deviceSubType)) {
+  //     light = `${num}% ${+Converter.toDecimal(status.slice(2, 4), 16)}% ${+Converter.toDecimal(status.slice(4, 6), 16)}%`
+  //   }
+  //   return light ? '开' : '关'
+  // }
   /**
    * 获取传感器状态
    * @param {string} status 16进制状态码
    * @param {string} deviceType 设备类型状态码
    * @param {string} deviceSubType 设备子类型状态码
    */
-  getSensorsStatusDescriptor (status, deviceType, deviceSubType) {
-    // ac ac
-    if (!deviceSubType) return SuitStatus[this.__getStatusKey(deviceType, status.slice(8, 10))]
+  // getSensorsStatusDescriptor (status, deviceType, deviceSubType) {
+  //   // ac ac
+  //   if (!deviceSubType) return SuitStatus[this.__getStatusKey(deviceType, status.slice(8, 10))]
 
-    // cardSenseSensor
-    if (TypeHints.isCardSenseSensors(deviceSubType)) return SuitStatus[this.__getStatusKey(deviceType, status.slice(0, 2))]
+  //   // cardSenseSensor
+  //   if (TypeHints.isCardSenseSensors(deviceSubType)) return SuitStatus[this.__getStatusKey(deviceType, status.slice(0, 2))]
 
-    // acdcman(红外+光感)
-    // if (TypeHints.isAcdcmanSensors(deviceSubType)) return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(2, 4))]
+  //   // acdcman(红外+光感)
+  //   // if (TypeHints.isAcdcmanSensors(deviceSubType)) return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(2, 4))]
 
-    // ac红外
-    // if (TypeHints.isAcSensors(deviceSubType)) return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(2, 4))]
+  //   // ac红外
+  //   // if (TypeHints.isAcSensors(deviceSubType)) return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(2, 4))]
 
-    //humidifier
-    if (TypeHints.isHumidifierSensors(deviceSubType)) {
-      const tempNum = status.slice(2, 4);
-      const temp = (tempNum === 'ff' ? '-' : (Converter.toDecimal(status.slice(2, 4), 16) - 30))+ '℃'
-      const RH =  Converter.toDecimal(status.slice(6, 8), 16) + '%RH'
-      return `${temp}-${RH}`
-    }
+  //   //humidifier
+  //   if (TypeHints.isHumidifierSensors(deviceSubType)) {
+  //     const tempNum = status.slice(2, 4);
+  //     const temp = (tempNum === 'ff' ? '-' : (Converter.toDecimal(status.slice(2, 4), 16) - 30))+ '℃'
+  //     const RH =  Converter.toDecimal(status.slice(6, 8), 16) + '%RH'
+  //     return `${temp}-${RH}`
+  //   }
 
-    // 其它类型传感器烟雾，燃气，尿床，一键呼救，水浸，门磁,ac红外,dc红外
-    return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(2, 4))] || ''
-  }
+  //   // 其它类型传感器烟雾，燃气，尿床，一键呼救，水浸，门磁,ac红外,dc红外
+  //   return SuitStatus[this.__getStatusSubKey(deviceType, deviceSubType, status.slice(2, 4))] || ''
+  // }
   /**
    * 获取门锁状态
    * @param {string} status 16进制状态码
    * @param {string} deviceType 设备类型状态码
    */
-  getDoorLockStatusDescriptor (status, deviceType) {
-    // const cmd = status.slice(2, 4)
-    // const cmdMap = {
-    //   'c3': Converter.toDecimal(status.slice(10, 12), 16),
-    //   'cd': '2'
-    // }
-    // return SuitStatus[this.__getStatusKey(deviceType, (cmdMap[cmd] || '-1'))]
-    const _this = this
-    function _openTypeStatus (byte) {
-      return SuitStatus[_this.__getStatusKey(deviceType, `open${Converter.toDecimal(byte, 16)}`)]
-    }
-    function _closeTypeStatus (byte) {
-      return SuitStatus[_this.__getStatusKey(deviceType, `close${Converter.toDecimal(byte, 16)}`)]
-    }
-    const cmd = status.slice(0, 2)
-    const cmdMap = {
-      '0xc3': _openTypeStatus(status.slice(8, 10)),
-      '0xcd': SuitStatus[this.__getStatusKey(deviceType, 'card')],
-      '0xc6': _closeTypeStatus(status.slice(2, 4))
-    }
-    return cmdMap[cmd] || SuitStatus['default']
-  }
+  // getDoorLockStatusDescriptor (status, deviceType) {
+  //   // const cmd = status.slice(2, 4)
+  //   // const cmdMap = {
+  //   //   'c3': Converter.toDecimal(status.slice(10, 12), 16),
+  //   //   'cd': '2'
+  //   // }
+  //   // return SuitStatus[this.__getStatusKey(deviceType, (cmdMap[cmd] || '-1'))]
+  //   const _this = this
+  //   function _openTypeStatus (byte) {
+  //     return SuitStatus[_this.__getStatusKey(deviceType, `open${Converter.toDecimal(byte, 16)}`)]
+  //   }
+  //   function _closeTypeStatus (byte) {
+  //     return SuitStatus[_this.__getStatusKey(deviceType, `close${Converter.toDecimal(byte, 16)}`)]
+  //   }
+  //   const cmd = status.slice(0, 2)
+  //   const cmdMap = {
+  //     '0xc3': _openTypeStatus(status.slice(8, 10)),
+  //     '0xcd': SuitStatus[this.__getStatusKey(deviceType, 'card')],
+  //     '0xc6': _closeTypeStatus(status.slice(2, 4))
+  //   }
+  //   return cmdMap[cmd] || SuitStatus['default']
+  // }
   /**
    * 获取OBOX状态
    * @param {string} status 16进制状态码
    * @param {string} deviceType 设备类型状态码
    */
-  getOboxStatusDescriptor(status, deviceType) {
+//   getOboxStatusDescriptor(status, deviceType) {
 
-  }
-  /**
-   * 获取电饭煲状态
-   * @param {string} status 16进制状态码
-   * @param {string} deviceType 设备类型状态码
-   */
-  getCookerStatusDescriptor(status, deviceType) {
+//   }
+//   /**
+//    * 获取电饭煲状态
+//    * @param {string} status 16进制状态码
+//    * @param {string} deviceType 设备类型状态码
+//    */
+//   getCookerStatusDescriptor(status, deviceType) {
 
-  }
-  /**
-   * 获取加湿器状态
-   * @param {string} status 16进制状态码
-   * @param {string} deviceType 设备类型状态码
-   */
-  getHumidifierStatusDescriptor(status, deviceType) {
+//   }
+//   /**
+//    * 获取加湿器状态
+//    * @param {string} status 16进制状态码
+//    * @param {string} deviceType 设备类型状态码
+//    */
+//   getHumidifierStatusDescriptor(status, deviceType) {
 
-  }
-  /**
-   * 获取可开关类设备状态
-   * @param {string} status 16进制状态码
-   * @param {string} deviceType 设备类型状态码
-   */
-  getSwitchgearStatusDescriptor(status, deviceType) {
-    const hexbyte = status.slice(0, 2)
-    const num = Converter.toDecimal(hexbyte, 16)
-    if (num === 4) {
-      return Converter.toDecimal(status.slice(2, 4), 16) + '%'
-    } else {
-      return SuitStatus[this.__getStatusKey(deviceType, hexbyte)]
-    }
-  }
-  /**
-   * 风扇状态
-   * @param {string} status 16进制状态码
-   * @param {string} deviceType 设备类型状态码
-   */
-  getFansStatusDescriptor(status, deviceType) {
+//   }
+//   /**
+//    * 获取可开关类设备状态
+//    * @param {string} status 16进制状态码
+//    * @param {string} deviceType 设备类型状态码
+//    */
+//   getSwitchgearStatusDescriptor(status, deviceType) {
+//     const hexbyte = status.slice(0, 2)
+//     const num = Converter.toDecimal(hexbyte, 16)
+//     if (num === 4) {
+//       return Converter.toDecimal(status.slice(2, 4), 16) + '%'
+//     } else {
+//       return SuitStatus[this.__getStatusKey(deviceType, hexbyte)]
+//     }
+//   }
+//   /**
+//    * 风扇状态
+//    * @param {string} status 16进制状态码
+//    * @param {string} deviceType 设备类型状态码
+//    */
+//   getFansStatusDescriptor(status, deviceType) {
 
-  }
-  /**
-   * 空气清洁器状态
-   * @param {string} status 16进制状态码
-   * @param {string} deviceType 设备类型状态码
-   */
-  getAirCleanerStatusDescriptor(status, deviceType) {
+//   }
+//   /**
+//    * 空气清洁器状态
+//    * @param {string} status 16进制状态码
+//    * @param {string} deviceType 设备类型状态码
+//    */
+//   getAirCleanerStatusDescriptor(status, deviceType) {
 
-  }
-  /**
-   * tv
-   * @param {string} status 16进制状态码
-   * @param {string} deviceType 设备类型状态码
-   */
-  getTvStatusDescriptor(status, deviceType) {
+//   }
+//   /**
+//    * tv
+//    * @param {string} status 16进制状态码
+//    * @param {string} deviceType 设备类型状态码
+//    */
+//   getTvStatusDescriptor(status, deviceType) {
 
-  }
-  /**
-   * 网关
-   * @param {string} status 16进制状态码
-   * @param {string} deviceType 设备类型状态码
-   */
-  getGateWayStatusDescriptor(status, deviceType) {
+//   }
+//   /**
+//    * 网关
+//    * @param {string} status 16进制状态码
+//    * @param {string} deviceType 设备类型状态码
+//    */
+//   getGateWayStatusDescriptor(status, deviceType) {
 
-  }
-  /**
-   * 抄表器
-   * @param {string} status 16进制状态码
-   * @param {string} deviceType 设备类型状态码
-   */
-  getMeterReaderStatusDecriptor(status, deviceType) {
+//   }
+//   /**
+//    * 抄表器
+//    * @param {string} status 16进制状态码
+//    * @param {string} deviceType 设备类型状态码
+//    */
+//   getMeterReaderStatusDecriptor(status, deviceType) {
 
-  }
-  /**
-   * 远程控制面板
-   * @param {string} status 16进制状态码
-   * @param {string} deviceType 设备类型状态码
-   */
-  getWireControlPanelStatusDescriptor(status, deviceType, deviceSubType) {
-    if (this.isAcWireControlPanel(deviceSubType)) {
-      return SuitStatus[this.__getStatusKey(deviceType, status.slice(0, 2))]
-    }
+//   }
+//   /**
+//    * 远程控制面板
+//    * @param {string} status 16进制状态码
+//    * @param {string} deviceType 设备类型状态码
+//    */
+//   getWireControlPanelStatusDescriptor(status, deviceType, deviceSubType) {
+//     if (this.isAcWireControlPanel(deviceSubType)) {
+//       return SuitStatus[this.__getStatusKey(deviceType, status.slice(0, 2))]
+//     }
 
-  }
-  /**
-   * 转发器
-   * @param {string} status 16进制状态码
-   * @param {string} deviceType 设备类型状态码
-   */
-  getTransponderStatusDescriptor(status, deviceType) {
+//   }
+//   /**
+//    * 转发器
+//    * @param {string} status 16进制状态码
+//    * @param {string} deviceType 设备类型状态码
+//    */
+//   getTransponderStatusDescriptor(status, deviceType) {
 
-  }
-  /**
-   * 远程控制
-   * @param {string} status 16进制状态码
-   * @param {string} deviceType 设备类型状态码
-   */
-  getRemoteControlStatusDescriptor(status, deviceType) {
+//   }
+//   /**
+//    * 远程控制
+//    * @param {string} status 16进制状态码
+//    * @param {string} deviceType 设备类型状态码
+//    */
+//   getRemoteControlStatusDescriptor(status, deviceType) {
 
-  }
-  /**
-   * 自动移动器
-   * @param {string} status 16进制状态码
-   * @param {string} deviceType 设备类型状态码
-   */
-  getAutoMoverStatusDescriptor(status, deviceType) {
+//   }
+//   /**
+//    * 自动移动器
+//    * @param {string} status 16进制状态码
+//    * @param {string} deviceType 设备类型状态码
+//    */
+//   getAutoMoverStatusDescriptor(status, deviceType) {
 
-  }
-  /**
-   * 远程控制灯
-   * @param {string} status 16进制状态码
-   * @param {string} deviceType 设备类型状态码
-   */
-  getRemoteControlLampStatusDescriptor(status, deviceType) {
+//   }
+//   /**
+//    * 远程控制灯
+//    * @param {string} status 16进制状态码
+//    * @param {string} deviceType 设备类型状态码
+//    */
+//   getRemoteControlLampStatusDescriptor(status, deviceType) {
 
-  }
+//   }
 }
 
-export default new StatusDescriptor()
+// export default new StatusDescriptor()

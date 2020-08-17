@@ -1,4 +1,5 @@
-class SocketStatus extends Status{
+import { Status } from './Status'
+export class SocketStatus extends Status{
   plugStatus: string = ''
   touchStatus: string = ''
   mixupStatus: string = ''

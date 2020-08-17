@@ -1,6 +1,6 @@
-export * from './utils/string';
+import './utils/string';
 export * from './utils/converter';
-// export * from './utils/statusDescriptor'
+export * from './utils/Descriptor'
 export * from './utils/suiter';
 export * from './utils/typeHints';
 

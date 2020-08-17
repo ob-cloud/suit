@@ -1,6 +1,6 @@
 import { BaseEquip } from './BaseEquip';
 
-class SocketEquip extends BaseEquip {
+export class SocketEquip extends BaseEquip {
   public readonly deviceType: string = '';
   public readonly deviceSubType: string = '';
   public readonly status: string = '';

@@ -1,4 +1,5 @@
-class LampStatus extends Status{
+import { Status } from './Status'
+export class LampStatus extends Status{
   normalLampStatus: string = ''
   colorLampStatus: string = ''
 

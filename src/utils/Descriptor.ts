@@ -1,7 +1,10 @@
 
-import Converter, { fillLength } from './converter'
-import TypeHints from './typeHints'
+import { Converter, fillLength } from './converter'
+import { TypeHints } from './typeHints'
 import Suiter, { SuitStatus, SuitTypes } from '../utils/suiter';
+import { LampStatus } from '../entity/LampStatus'
+import { SensorStatus } from '../entity/SensorStatus'
+import { SocketStatus } from '../entity/SocketStatus'
 /**
  * @class
  * @classdesc 状态描述器<br>
@@ -11,7 +14,7 @@ import Suiter, { SuitStatus, SuitTypes } from '../utils/suiter';
  * 如led --> getLedStatusDescriptor<br>
  * </pre>
  */
-class Descriptor {
+class _Descriptor {
   public readonly Suiter = {};
   public readonly SuitStatus = {};
   public readonly SuitTypes = {};
@@ -112,6 +115,31 @@ class Descriptor {
   }
   getLampDescriptor (status:string, deviceType:string, deviceChildType:string) {
     const lampStatus = new LampStatus(status)
-    // if (TypeHints.isSimpleLed())
+    if (!deviceChildType) return this.getMainDescriptor(deviceType, lampStatus.getNormalLampStatus())
+    const TypeHints = this.TypeHints as any
+    const Converter = this.Converter as any
+    if (TypeHints.isSimpleLed(deviceChildType)) {
+      const normalStatus = lampStatus.getNormalLampStatus()
+      const converter = new Converter(normalStatus, 16)
+      return normalStatus === '00' ? '关' : normalStatus === 'ff' ? '开' : `亮度${converter.toDecimal(normalStatus)}`
+    }
+    if (TypeHints.isColorLed(deviceChildType)) {
+      const brightStatus = lampStatus.getNormalLampStatus()
+      const colorStatus = lampStatus.getColorLampStatus()
+      const isPowerOn = brightStatus !== '00'
+      const brightValue = new Converter(brightStatus, 16).toDecimal(brightStatus)
+      const colorValue = new Converter(colorStatus, 16).toDecimal(brightStatus)
+
+      return isPowerOn ? `亮度:${brightValue}-冷色:${colorValue}` : '关'
+    }
+    return ''
+  }
+  getSensorDescriptor (status:string, deviceType:string, deviceChildType:string) {
+    const sensorStatus = new SensorStatus(status)
+    if (!deviceChildType) return this.getMainDescriptor(deviceType, sensorStatus.getSensorRootStatus())
+
+    return ''
   }
 }
+
+export const Descriptor =  new _Descriptor()

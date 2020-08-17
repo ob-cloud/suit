@@ -1,6 +1,6 @@
 import Suiter, { SuitStatus, SuitTypes } from '../utils/suiter';
-import TypeHints from '../utils/typeHints';
-import Converter from '../utils/converter';
+import {TypeHints} from '../utils/typeHints';
+import {Converter} from '../utils/converter';
 
 export class BaseEquip {
   public readonly Suiter = {};
@@ -64,3 +64,4 @@ export class BaseEquip {
     return descriptor.join(separator);
   }
 }
+

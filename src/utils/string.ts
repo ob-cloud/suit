@@ -14,5 +14,3 @@ String.prototype.format = function(..._args: string[]) {
   }
   return s.toString();
 };
-
-export default String;
