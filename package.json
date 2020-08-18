@@ -1,6 +1,6 @@
 {
   "name": "hardware-suit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "hardware-suit javascript library",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -27,7 +27,7 @@
     "version": "standard-version",
     "reset": "git clean -dfx && git reset --hard && npm i",
     "clean": "trash build test",
-    "prepare-release": "run-s test cov:check doc:html version doc:publish"
+    "prepare-release": "run-s cov:check doc:html version doc:publish"
   },
   "scripts-info": {
     "info": "Display information about the package scripts",
