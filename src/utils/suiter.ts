@@ -470,13 +470,15 @@ export const Suiter = {
  * @memberof Suiter
  * @name SuitTypes
  */
+
 export const SuitTypes = Array.from(Object.keys(Suiter)).reduce(
+  // @ts-ignore
   (item, next, index) => {
-    let firstType = {};
     if (index === 1) {
-      firstType = (Suiter as any)[item].type;
+      item = (Suiter as any)[item].type;
     }
-    return { ...firstType, ...(Suiter as any)[next].type };
+    // @ts-ignore
+    return { ...item, ...((Suiter as any)[next].type) };
   }
 );
 
@@ -487,12 +489,13 @@ export const SuitTypes = Array.from(Object.keys(Suiter)).reduce(
  * @name SuitStatus
  */
 export const SuitStatus = Array.from(Object.keys(Suiter)).reduce(
+  // @ts-ignore
   (item, next, index) => {
-    let firstStatus = {};
     if (index === 1) {
-      firstStatus = (Suiter as any)[item].status;
+      item = (Suiter as any)[item].status;
     }
-    return { ...firstStatus, ...(Suiter as any)[next].status };
+    // @ts-ignore
+    return { ...item, ...(Suiter as any)[next].status };
   }
 );
 

@@ -41,6 +41,11 @@ class _Descriptor {
     return (this.SuitTypes as any)[type];
   }
 
+  /**
+   * 获取主设备状态码
+   * @param deviceType 主设备类型
+   * @param status 状态码 - 如 01（一个字节）
+   */
   public getPrimaryStatusCode(deviceType: string, status: string): string {
     if (!deviceType || !status) {
       console.warn('primary device type or status can not be empty!');
@@ -48,6 +53,13 @@ class _Descriptor {
     }
     return `${deviceType}${status}`;
   }
+
+  /**
+   *
+   * @param deviceType 设备主类型
+   * @param deviceChildType 设备子类型
+   * @param status 状态码 - 01
+   */
   public getSecondaryStatusCode(
     deviceType: string,
     deviceChildType: string,

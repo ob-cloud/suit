@@ -25,7 +25,7 @@ export class LedLampEquip extends LampEquip {
     return !this.isBicolor();
   }
   public setBrightness(value: number): LedLampEquip {
-    if (!value || value < 0 || value > 100) {
+    if (value < 0 || value > 100) {
       console.warn('value should be 0 ~ 100');
       return this;
     }
