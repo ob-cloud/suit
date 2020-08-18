@@ -2,15 +2,15 @@
  * @Author: eamiear
  * @Date: 2019-08-12 11:25:00
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-08-17 17:04:21
+ * @Last Modified time: 2020-08-18 09:40:46
  */
 
-import { Converter, fillLength } from './converter'
-import { TypeHints } from './typeHints'
+import { Converter, fillLength } from './converter';
+import { TypeHints } from './typeHints';
 import Suiter, { SuitStatus, SuitTypes } from '../utils/suiter';
 // import { LampStatus } from '../entity/LampStatus'
 // import { SensorStatus } from '../entity/SensorStatus'
-import { SocketStatus } from '../entity/SocketStatus'
+import { SocketStatus } from '../entity/SocketStatus';
 /**
  * @class
  * @classdesc 状态描述器<br>
@@ -53,7 +53,9 @@ class StatusDescriptor {
     return `${deviceType}${deviceChildType}${status}`;
   }
   public getDescriptorByCode(code: string): string {
-    if (!code) { console.warn('key code can not be empty!'); }
+    if (!code) {
+      console.warn('key code can not be empty!');
+    }
     return (this.SuitStatus as any)[code];
   }
 
@@ -67,7 +69,7 @@ class StatusDescriptor {
     statusBitStr: string,
     separator: string = ','
   ): string {
-    let descriptor: Array<any> = [];
+    const descriptor: any[] = [];
     for (let i = statusBitStr.length; i > 0; i -= 2) {
       const statusBit = statusBitStr.slice(i - 2, i);
       descriptor.push(
@@ -78,34 +80,40 @@ class StatusDescriptor {
     }
     return descriptor.join(separator);
   }
-  getSwitchDescriptor (status:string, deviceType:string, deviceChildType?:string): string {
-    const socketStatus = new SocketStatus(status)
-    if(!deviceChildType) return this.getMainDescriptor(deviceType, socketStatus.getState())
+  public getSwitchDescriptor(
+    status: string,
+    deviceType: string,
+    deviceChildType?: string
+  ): string {
+    const socketStatus = new SocketStatus(status);
+    if (!deviceChildType) {
+      return this.getMainDescriptor(deviceType, socketStatus.getState());
+    }
 
-    const TypeHints = this.TypeHints as any
-    const bitlen = TypeHints.getSocketSwitchLen(deviceChildType)
+    const TypeHints = this.TypeHints as any;
+    const bitlen = TypeHints.getSocketSwitchLen(deviceChildType);
 
     if (TypeHints.isPlugSocketSwitch(deviceChildType)) {
-      const statusBitStr = fillLength(socketStatus.getPlugStatus(), bitlen)
-      return this.getDescriptors(deviceType, statusBitStr)
+      const statusBitStr = fillLength(socketStatus.getPlugStatus(), bitlen);
+      return this.getDescriptors(deviceType, statusBitStr);
     }
     if (TypeHints.isTouchSocketSwitch(deviceChildType)) {
-      const statusBitStr = fillLength(socketStatus.getTouchStatus(), bitlen)
-      return this.getDescriptors(deviceType, statusBitStr)
+      const statusBitStr = fillLength(socketStatus.getTouchStatus(), bitlen);
+      return this.getDescriptors(deviceType, statusBitStr);
     }
     if (TypeHints.isNormalSocketSwitch(deviceChildType)) {
-      const statusBitStr = fillLength(socketStatus.getTouchStatus(), bitlen)
-      return this.getDescriptors(deviceType, statusBitStr)
+      const statusBitStr = fillLength(socketStatus.getTouchStatus(), bitlen);
+      return this.getDescriptors(deviceType, statusBitStr);
     }
     if (TypeHints.isMixSocketSwitch(deviceChildType)) {
-      const statusBitStr = fillLength(socketStatus.getMixupStatus(), bitlen)
-      return this.getDescriptors(deviceType, statusBitStr)
+      const statusBitStr = fillLength(socketStatus.getMixupStatus(), bitlen);
+      return this.getDescriptors(deviceType, statusBitStr);
     }
     if (TypeHints.isSceneSocketSwitch(deviceChildType)) {
-      const statusBitStr = fillLength(socketStatus.getSceneStatus(), bitlen)
-      return this.getDescriptors(deviceType, statusBitStr)
+      const statusBitStr = fillLength(socketStatus.getSceneStatus(), bitlen);
+      return this.getDescriptors(deviceType, statusBitStr);
     }
-    return ''
+    return '';
   }
   // getLampDescriptor (status:string, deviceType:string, deviceChildType:string) {
   //   const lampStatus = new LampStatus(status)
@@ -249,122 +257,122 @@ class StatusDescriptor {
    * @param {string} status 16进制状态码
    * @param {string} deviceType 设备类型状态码
    */
-//   getOboxStatusDescriptor(status, deviceType) {
+  //   getOboxStatusDescriptor(status, deviceType) {
 
-//   }
-//   /**
-//    * 获取电饭煲状态
-//    * @param {string} status 16进制状态码
-//    * @param {string} deviceType 设备类型状态码
-//    */
-//   getCookerStatusDescriptor(status, deviceType) {
+  //   }
+  //   /**
+  //    * 获取电饭煲状态
+  //    * @param {string} status 16进制状态码
+  //    * @param {string} deviceType 设备类型状态码
+  //    */
+  //   getCookerStatusDescriptor(status, deviceType) {
 
-//   }
-//   /**
-//    * 获取加湿器状态
-//    * @param {string} status 16进制状态码
-//    * @param {string} deviceType 设备类型状态码
-//    */
-//   getHumidifierStatusDescriptor(status, deviceType) {
+  //   }
+  //   /**
+  //    * 获取加湿器状态
+  //    * @param {string} status 16进制状态码
+  //    * @param {string} deviceType 设备类型状态码
+  //    */
+  //   getHumidifierStatusDescriptor(status, deviceType) {
 
-//   }
-//   /**
-//    * 获取可开关类设备状态
-//    * @param {string} status 16进制状态码
-//    * @param {string} deviceType 设备类型状态码
-//    */
-//   getSwitchgearStatusDescriptor(status, deviceType) {
-//     const hexbyte = status.slice(0, 2)
-//     const num = Converter.toDecimal(hexbyte, 16)
-//     if (num === 4) {
-//       return Converter.toDecimal(status.slice(2, 4), 16) + '%'
-//     } else {
-//       return SuitStatus[this.__getStatusKey(deviceType, hexbyte)]
-//     }
-//   }
-//   /**
-//    * 风扇状态
-//    * @param {string} status 16进制状态码
-//    * @param {string} deviceType 设备类型状态码
-//    */
-//   getFansStatusDescriptor(status, deviceType) {
+  //   }
+  //   /**
+  //    * 获取可开关类设备状态
+  //    * @param {string} status 16进制状态码
+  //    * @param {string} deviceType 设备类型状态码
+  //    */
+  //   getSwitchgearStatusDescriptor(status, deviceType) {
+  //     const hexbyte = status.slice(0, 2)
+  //     const num = Converter.toDecimal(hexbyte, 16)
+  //     if (num === 4) {
+  //       return Converter.toDecimal(status.slice(2, 4), 16) + '%'
+  //     } else {
+  //       return SuitStatus[this.__getStatusKey(deviceType, hexbyte)]
+  //     }
+  //   }
+  //   /**
+  //    * 风扇状态
+  //    * @param {string} status 16进制状态码
+  //    * @param {string} deviceType 设备类型状态码
+  //    */
+  //   getFansStatusDescriptor(status, deviceType) {
 
-//   }
-//   /**
-//    * 空气清洁器状态
-//    * @param {string} status 16进制状态码
-//    * @param {string} deviceType 设备类型状态码
-//    */
-//   getAirCleanerStatusDescriptor(status, deviceType) {
+  //   }
+  //   /**
+  //    * 空气清洁器状态
+  //    * @param {string} status 16进制状态码
+  //    * @param {string} deviceType 设备类型状态码
+  //    */
+  //   getAirCleanerStatusDescriptor(status, deviceType) {
 
-//   }
-//   /**
-//    * tv
-//    * @param {string} status 16进制状态码
-//    * @param {string} deviceType 设备类型状态码
-//    */
-//   getTvStatusDescriptor(status, deviceType) {
+  //   }
+  //   /**
+  //    * tv
+  //    * @param {string} status 16进制状态码
+  //    * @param {string} deviceType 设备类型状态码
+  //    */
+  //   getTvStatusDescriptor(status, deviceType) {
 
-//   }
-//   /**
-//    * 网关
-//    * @param {string} status 16进制状态码
-//    * @param {string} deviceType 设备类型状态码
-//    */
-//   getGateWayStatusDescriptor(status, deviceType) {
+  //   }
+  //   /**
+  //    * 网关
+  //    * @param {string} status 16进制状态码
+  //    * @param {string} deviceType 设备类型状态码
+  //    */
+  //   getGateWayStatusDescriptor(status, deviceType) {
 
-//   }
-//   /**
-//    * 抄表器
-//    * @param {string} status 16进制状态码
-//    * @param {string} deviceType 设备类型状态码
-//    */
-//   getMeterReaderStatusDecriptor(status, deviceType) {
+  //   }
+  //   /**
+  //    * 抄表器
+  //    * @param {string} status 16进制状态码
+  //    * @param {string} deviceType 设备类型状态码
+  //    */
+  //   getMeterReaderStatusDecriptor(status, deviceType) {
 
-//   }
-//   /**
-//    * 远程控制面板
-//    * @param {string} status 16进制状态码
-//    * @param {string} deviceType 设备类型状态码
-//    */
-//   getWireControlPanelStatusDescriptor(status, deviceType, deviceSubType) {
-//     if (this.isAcWireControlPanel(deviceSubType)) {
-//       return SuitStatus[this.__getStatusKey(deviceType, status.slice(0, 2))]
-//     }
+  //   }
+  //   /**
+  //    * 远程控制面板
+  //    * @param {string} status 16进制状态码
+  //    * @param {string} deviceType 设备类型状态码
+  //    */
+  //   getWireControlPanelStatusDescriptor(status, deviceType, deviceSubType) {
+  //     if (this.isAcWireControlPanel(deviceSubType)) {
+  //       return SuitStatus[this.__getStatusKey(deviceType, status.slice(0, 2))]
+  //     }
 
-//   }
-//   /**
-//    * 转发器
-//    * @param {string} status 16进制状态码
-//    * @param {string} deviceType 设备类型状态码
-//    */
-//   getTransponderStatusDescriptor(status, deviceType) {
+  //   }
+  //   /**
+  //    * 转发器
+  //    * @param {string} status 16进制状态码
+  //    * @param {string} deviceType 设备类型状态码
+  //    */
+  //   getTransponderStatusDescriptor(status, deviceType) {
 
-//   }
-//   /**
-//    * 远程控制
-//    * @param {string} status 16进制状态码
-//    * @param {string} deviceType 设备类型状态码
-//    */
-//   getRemoteControlStatusDescriptor(status, deviceType) {
+  //   }
+  //   /**
+  //    * 远程控制
+  //    * @param {string} status 16进制状态码
+  //    * @param {string} deviceType 设备类型状态码
+  //    */
+  //   getRemoteControlStatusDescriptor(status, deviceType) {
 
-//   }
-//   /**
-//    * 自动移动器
-//    * @param {string} status 16进制状态码
-//    * @param {string} deviceType 设备类型状态码
-//    */
-//   getAutoMoverStatusDescriptor(status, deviceType) {
+  //   }
+  //   /**
+  //    * 自动移动器
+  //    * @param {string} status 16进制状态码
+  //    * @param {string} deviceType 设备类型状态码
+  //    */
+  //   getAutoMoverStatusDescriptor(status, deviceType) {
 
-//   }
-//   /**
-//    * 远程控制灯
-//    * @param {string} status 16进制状态码
-//    * @param {string} deviceType 设备类型状态码
-//    */
-//   getRemoteControlLampStatusDescriptor(status, deviceType) {
+  //   }
+  //   /**
+  //    * 远程控制灯
+  //    * @param {string} status 16进制状态码
+  //    * @param {string} deviceType 设备类型状态码
+  //    */
+  //   getRemoteControlLampStatusDescriptor(status, deviceType) {
 
-//   }
+  //   }
 }
 
 // export default new StatusDescriptor()

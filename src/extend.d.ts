@@ -3,4 +3,3 @@ interface String {
   toLower(): string;
   format(..._args: string[]): string;
 }
-

@@ -1,6 +1,6 @@
 import Suiter, { SuitStatus, SuitTypes } from '../utils/suiter';
-import {TypeHints} from '../utils/typeHints';
-import {Converter} from '../utils/converter';
+import { TypeHints } from '../utils/typeHints';
+import { Converter } from '../utils/converter';
 
 export class BaseEquip {
   public readonly Suiter = {};
@@ -37,7 +37,9 @@ export class BaseEquip {
   }
 
   public getDescriptorByCode(code: string): string {
-    if (!code) { console.warn('key code can not be empty!'); }
+    if (!code) {
+      console.warn('key code can not be empty!');
+    }
     return (this.SuitStatus as any)[code];
   }
 
@@ -52,7 +54,7 @@ export class BaseEquip {
     statusBitStr: string,
     separator: string = ','
   ): string {
-    let descriptor: Array<any> = [];
+    const descriptor: any[] = [];
     for (let i = statusBitStr.length; i > 0; i -= 2) {
       const statusBit = statusBitStr.slice(i - 2, i);
       descriptor.push(
@@ -64,4 +66,3 @@ export class BaseEquip {
     return descriptor.join(separator);
   }
 }
-

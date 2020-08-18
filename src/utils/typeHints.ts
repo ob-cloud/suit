@@ -1,5 +1,5 @@
 import Suit from './suiter';
-const Suiter: any = Suit
+const Suiter: any = Suit;
 class _TypeHints {
   constructor() {
     this.__normalTypeProcessor();
@@ -13,13 +13,17 @@ class _TypeHints {
    * @param mainType 主类型
    * @param subType  子类型
    */
-  public __hasNormalType(
+  private __hasNormalType(
     suitTypes: object,
     mainType: string,
     subType: string
   ): boolean {
-    if (!suitTypes) { return false; }
-    if (!subType) { return !!(suitTypes as any)[mainType]; }
+    if (!suitTypes) {
+      return false;
+    }
+    if (!subType) {
+      return !!(suitTypes as any)[mainType];
+    }
     return !!(suitTypes as any)[`${mainType}${subType}`];
   }
 
@@ -28,12 +32,14 @@ class _TypeHints {
    * @param group 分组设备类型
    * @param subType 子类型
    */
-  public __hasGroupType(group: string, subType: string) {
-    if (!group || !group.length) { return false; }
+  private __hasGroupType(group: string, subType: string) {
+    if (!group || !group.length) {
+      return false;
+    }
     return group.includes(subType);
   }
 
-  public __normalTypeProcessor() {
+  private __normalTypeProcessor():any {
     Array.from(Object.keys(Suiter)).map(item => {
       const normalTypes = Suiter[item].type; // ==> Suiter['led'].type
       const capital = item.toCapital();
@@ -46,26 +52,30 @@ class _TypeHints {
     });
   }
 
-  public __groupTypeProcessor() {
+  private __groupTypeProcessor():any {
     Array.from(Object.keys(Suiter)).map(item => {
       const group = Suiter[item].group;
       const mainType = item.toCapital();
       if (group) {
         Array.from(Object.keys(group)).map(key => {
           const camel = key.toCapital();
-          (this as any)[`is${camel}${mainType}`] = (deviceSubType: string): boolean => {
+          (this as any)[`is${camel}${mainType}`] = (
+            deviceSubType: string
+          ): boolean => {
             return this.__hasGroupType(group[camel], deviceSubType);
           };
         });
       }
     });
   }
-  public __statusLengthProcessor() {
+  private __statusLengthProcessor(): any {
     Array.from(Object.keys(Suiter)).map(item => {
       const statusLength = Suiter[item].statusLength;
       const mainType = item.toCapital();
       if (statusLength) {
-        (this as any)[`get${mainType}BitLen`] = (deviceSubType: string): number => {
+        (this as any)[`get${mainType}BitLen`] = (
+          deviceSubType: string
+        ): number => {
           return statusLength[deviceSubType] || 8;
         };
       }
@@ -73,4 +83,4 @@ class _TypeHints {
   }
 }
 
-export const TypeHints =  new _TypeHints();
+export const TypeHints = new _TypeHints();

@@ -1,7 +1,6 @@
 import { LampEquip } from './LampEquip';
 
 export class LedLampEquip extends LampEquip {
-
   private bytes = `{0}{1}{2}000000000200`;
   private brightness: string = '';
   private coldColor: string = '';
@@ -16,13 +15,13 @@ export class LedLampEquip extends LampEquip {
   /**
    * 是否双色灯
    */
-  public isBicolor() {
+  public isBicolor():boolean {
     return this.coldColor !== '00';
   }
   /**
    * 是否单色灯
    */
-  public isPlainColor() {
+  public isPlainColor():boolean {
     return !this.isBicolor();
   }
   public setBrightness(value: number): LedLampEquip {
@@ -31,7 +30,9 @@ export class LedLampEquip extends LampEquip {
       return this;
     }
     this.brightness =
-      value === 0 ? '00' : new (this.Converter as any)(+value + 154, 10).toHex();
+      value === 0
+        ? '00'
+        : new (this.Converter as any)(+value + 154, 10).toHex();
     return this;
   }
   public getBrightness(): number {
@@ -41,7 +42,9 @@ export class LedLampEquip extends LampEquip {
     return brightness ? brightness - 154 : 0;
   }
   public setColdColor(value: number): LedLampEquip {
-    if (!value) { return this; }
+    if (!value) {
+      return this;
+    }
     const coldColor = new (this.Converter as any)(
       255 - Math.round(value * 2.55),
       10
@@ -59,10 +62,10 @@ export class LedLampEquip extends LampEquip {
     this.warmColor = this.isBicolor() ? 'ff' : '00';
     return this;
   }
-  public getWarmColor() {
+  public getWarmColor():string {
     return this.warmColor;
   }
-  public getBytes() {
+  public getBytes():string {
     return this.bytes.format(this.brightness, this.coldColor, this.warmColor);
   }
   public getTurnOffBytes(): string {
@@ -71,7 +74,7 @@ export class LedLampEquip extends LampEquip {
       .setWarmColor()
       .getBytes();
   }
-  public getTurnOnBytes(bright?: number, cold?: number) {
+  public getTurnOnBytes(bright?: number, cold?: number):string {
     return this.setBrightness(bright || 100)
       .setColdColor(cold || 0)
       .setWarmColor()

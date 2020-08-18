@@ -35,24 +35,26 @@ export class Converter {
   public readonly value: string = '';
   public readonly from: number = 10;
   constructor(value: string, from: number) {
-    if (!value || !from) { return this; }
+    if (!value || !from) {
+      return this;
+    }
     this.value = value;
     this.from = from;
     return this;
   }
-  public toBinary() {
+  public toBinary():string {
     return _toBinary(this.value, this.from);
   }
-  public toOctal() {
+  public toOctal():string {
     return _toOctal(this.value, this.from);
   }
-  public toDecimal() {
+  public toDecimal():string {
     return _toDecimal(this.value, this.from);
   }
-  public toHex() {
+  public toHex():string {
     return _toHex(this.value, this.from);
   }
-  public fill(len: number) {
+  public fill(len: number):string {
     return _fillLength(this.value, len);
   }
 }

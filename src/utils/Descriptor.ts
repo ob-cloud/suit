@@ -1,10 +1,9 @@
-
-import { Converter, fillLength } from './converter'
-import { TypeHints } from './typeHints'
+import { Converter, fillLength } from './converter';
+import { TypeHints } from './typeHints';
 import Suiter, { SuitStatus, SuitTypes } from '../utils/suiter';
-import { LampStatus } from '../entity/LampStatus'
-import { SensorStatus } from '../entity/SensorStatus'
-import { SocketStatus } from '../entity/SocketStatus'
+import { LampStatus } from '../entity/LampStatus';
+import { SensorStatus } from '../entity/SensorStatus';
+import { SocketStatus } from '../entity/SocketStatus';
 /**
  * @class
  * @classdesc 状态描述器<br>
@@ -28,15 +27,17 @@ class _Descriptor {
     this.Converter = Converter;
   }
 
-  getEquipTypeCode(deviceType:string, deviceChildType?:string):string{
+  public getEquipTypeCode(deviceType: string, deviceChildType?: string): string {
     if (!deviceType) {
       console.warn('device type can not be empty!');
       return '';
     }
-    return deviceChildType ? `${deviceType}${deviceChildType}` : `${deviceType}`
+    return deviceChildType
+      ? `${deviceType}${deviceChildType}`
+      : `${deviceType}`;
   }
-  getEquipTypeDescriptor(deviceType:string, deviceChildType:string): string {
-    const type = this.getEquipTypeCode(deviceType, deviceChildType)
+  public getEquipTypeDescriptor(deviceType: string, deviceChildType: string): string {
+    const type = this.getEquipTypeCode(deviceType, deviceChildType);
     return (this.SuitTypes as any)[type];
   }
 
@@ -59,7 +60,9 @@ class _Descriptor {
     return `${deviceType}${deviceChildType}${status}`;
   }
   public getDescriptorByCode(code: string): string {
-    if (!code) { console.warn('key code can not be empty!'); }
+    if (!code) {
+      console.warn('key code can not be empty!');
+    }
     return (this.SuitStatus as any)[code];
   }
 
@@ -73,7 +76,7 @@ class _Descriptor {
     statusBitStr: string,
     separator: string = ','
   ): string {
-    let descriptor: Array<any> = [];
+    const descriptor: any[] = [];
     for (let i = statusBitStr.length; i > 0; i -= 2) {
       const statusBit = statusBitStr.slice(i - 2, i);
       descriptor.push(
@@ -84,62 +87,92 @@ class _Descriptor {
     }
     return descriptor.join(separator);
   }
-  getSwitchDescriptor (status:string, deviceType:string, deviceChildType?:string): string {
-    const socketStatus = new SocketStatus(status)
-    if(!deviceChildType) return this.getMainDescriptor(deviceType, socketStatus.getState())
+  public getSwitchDescriptor(
+    status: string,
+    deviceType: string,
+    deviceChildType?: string
+  ): string {
+    const socketStatus = new SocketStatus(status);
+    if (!deviceChildType) {
+      return this.getMainDescriptor(deviceType, socketStatus.getState());
+    }
 
-    const TypeHints = this.TypeHints as any
-    const bitlen = TypeHints.getSocketSwitchLen(deviceChildType)
+    const TypeHints = this.TypeHints as any;
+    const bitlen = TypeHints.getSocketSwitchLen(deviceChildType);
 
     if (TypeHints.isPlugSocketSwitch(deviceChildType)) {
-      const statusBitStr = fillLength(socketStatus.getPlugStatus(), bitlen)
-      return this.getDescriptors(deviceType, statusBitStr)
+      const statusBitStr = fillLength(socketStatus.getPlugStatus(), bitlen);
+      return this.getDescriptors(deviceType, statusBitStr);
     }
     if (TypeHints.isTouchSocketSwitch(deviceChildType)) {
-      const statusBitStr = fillLength(socketStatus.getTouchStatus(), bitlen)
-      return this.getDescriptors(deviceType, statusBitStr)
+      const statusBitStr = fillLength(socketStatus.getTouchStatus(), bitlen);
+      return this.getDescriptors(deviceType, statusBitStr);
     }
     if (TypeHints.isNormalSocketSwitch(deviceChildType)) {
-      const statusBitStr = fillLength(socketStatus.getTouchStatus(), bitlen)
-      return this.getDescriptors(deviceType, statusBitStr)
+      const statusBitStr = fillLength(socketStatus.getTouchStatus(), bitlen);
+      return this.getDescriptors(deviceType, statusBitStr);
     }
     if (TypeHints.isMixSocketSwitch(deviceChildType)) {
-      const statusBitStr = fillLength(socketStatus.getMixupStatus(), bitlen)
-      return this.getDescriptors(deviceType, statusBitStr)
+      const statusBitStr = fillLength(socketStatus.getMixupStatus(), bitlen);
+      return this.getDescriptors(deviceType, statusBitStr);
     }
     if (TypeHints.isSceneSocketSwitch(deviceChildType)) {
-      const statusBitStr = fillLength(socketStatus.getSceneStatus(), bitlen)
-      return this.getDescriptors(deviceType, statusBitStr)
+      const statusBitStr = fillLength(socketStatus.getSceneStatus(), bitlen);
+      return this.getDescriptors(deviceType, statusBitStr);
     }
-    return ''
+    return '';
   }
-  getLampDescriptor (status:string, deviceType:string, deviceChildType:string) {
-    const lampStatus = new LampStatus(status)
-    if (!deviceChildType) return this.getMainDescriptor(deviceType, lampStatus.getNormalLampStatus())
-    const TypeHints = this.TypeHints as any
-    const Converter = this.Converter as any
+  public getLampDescriptor(
+    status: string,
+    deviceType: string,
+    deviceChildType: string
+  ) {
+    const lampStatus = new LampStatus(status);
+    if (!deviceChildType) {
+      return this.getMainDescriptor(
+        deviceType,
+        lampStatus.getNormalLampStatus()
+      );
+    }
+    const TypeHints = this.TypeHints as any;
+    const Converter = this.Converter as any;
     if (TypeHints.isSimpleLed(deviceChildType)) {
-      const normalStatus = lampStatus.getNormalLampStatus()
-      const converter = new Converter(normalStatus, 16)
-      return normalStatus === '00' ? '关' : normalStatus === 'ff' ? '开' : `亮度${converter.toDecimal(normalStatus)}`
+      const normalStatus = lampStatus.getNormalLampStatus();
+      const converter = new Converter(normalStatus, 16);
+      return normalStatus === '00'
+        ? '关'
+        : normalStatus === 'ff'
+        ? '开'
+        : `亮度${converter.toDecimal(normalStatus)}`;
     }
     if (TypeHints.isColorLed(deviceChildType)) {
-      const brightStatus = lampStatus.getNormalLampStatus()
-      const colorStatus = lampStatus.getColorLampStatus()
-      const isPowerOn = brightStatus !== '00'
-      const brightValue = new Converter(brightStatus, 16).toDecimal(brightStatus)
-      const colorValue = new Converter(colorStatus, 16).toDecimal(brightStatus)
+      const brightStatus = lampStatus.getNormalLampStatus();
+      const colorStatus = lampStatus.getColorLampStatus();
+      const isPowerOn = brightStatus !== '00';
+      const brightValue = new Converter(brightStatus, 16).toDecimal(
+        brightStatus
+      );
+      const colorValue = new Converter(colorStatus, 16).toDecimal(brightStatus);
 
-      return isPowerOn ? `亮度:${brightValue}-冷色:${colorValue}` : '关'
+      return isPowerOn ? `亮度:${brightValue}-冷色:${colorValue}` : '关';
     }
-    return ''
+    return '';
   }
-  getSensorDescriptor (status:string, deviceType:string, deviceChildType:string) {
-    const sensorStatus = new SensorStatus(status)
-    if (!deviceChildType) return this.getMainDescriptor(deviceType, sensorStatus.getSensorRootStatus())
+  public getSensorDescriptor(
+    status: string,
+    deviceType: string,
+    deviceChildType: string
+  ) {
+    const sensorStatus = new SensorStatus(status);
+    if (!deviceChildType) {
+      return this.getMainDescriptor(
+        deviceType,
+        sensorStatus.getSensorRootStatus()
+      );
+    }
 
-    return ''
+    return '';
   }
 }
 
-export const Descriptor =  new _Descriptor()
+export const Descriptor = new _Descriptor();
