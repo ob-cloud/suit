@@ -162,7 +162,7 @@ class _Descriptor {
     status: string,
     deviceType: string,
     deviceChildType: string
-  ) {
+  ): string {
     const sensorStatus = new SensorStatus(status);
     if (!deviceChildType) {
       return this.getMainDescriptor(

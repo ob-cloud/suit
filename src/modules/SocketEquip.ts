@@ -10,7 +10,7 @@ export class SocketEquip extends BaseEquip {
     this.deviceSubType = deviceSubType;
     this.status = status;
   }
-  public getDescriptor() {
+  public getDescriptor(): string {
     if (!this.deviceSubType) {
       return this.getMainDescriptor(this.deviceType, this.status);
     }

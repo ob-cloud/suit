@@ -32,7 +32,7 @@ class _TypeHints {
    * @param group 分组设备类型
    * @param subType 子类型
    */
-  private __hasGroupType(group: string, subType: string) {
+  private __hasGroupType(group: string, subType: string):boolean {
     if (!group || !group.length) {
       return false;
     }

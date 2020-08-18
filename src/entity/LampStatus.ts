@@ -9,10 +9,10 @@ export class LampStatus extends Status {
     this.colorLampStatus = status.slice(2, 4);
   }
 
-  public getNormalLampStatus() {
+  public getNormalLampStatus(): string {
     return this.normalLampStatus;
   }
-  public getColorLampStatus() {
+  public getColorLampStatus(): string {
     return this.colorLampStatus;
   }
 }
