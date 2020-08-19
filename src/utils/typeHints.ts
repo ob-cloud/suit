@@ -1,6 +1,8 @@
+import './string'
 import Suit from './suiter';
 const Suiter: any = Suit;
 class _TypeHints {
+  [x: string]: any;
   constructor() {
     this.__normalTypeProcessor();
     this.__groupTypeProcessor();
@@ -62,7 +64,7 @@ class _TypeHints {
           (this as any)[`is${camel}${mainType}`] = (
             deviceSubType: string
           ): boolean => {
-            return this.__hasGroupType(group[camel], deviceSubType);
+            return this.__hasGroupType(group[key], deviceSubType);
           };
         });
       }

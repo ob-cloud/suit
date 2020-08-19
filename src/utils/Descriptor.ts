@@ -4,14 +4,9 @@ import Suiter, { SuitStatus, SuitTypes } from '../utils/suiter';
 import { LampStatus } from '../entity/LampStatus';
 import { SensorStatus } from '../entity/SensorStatus';
 import { SocketStatus } from '../entity/SocketStatus';
+
 /**
- * @class
- * @classdesc 状态描述器<br>
- *
- * <pre>
- * 命名规则： get[设备类型名称]StatusDescriptor； 设备类型名称与SuiterMap配置表的key字段相同，<br>
- * 如led --> getLedStatusDescriptor<br>
- * </pre>
+ * 状态描述器
  */
 class _Descriptor {
   public readonly Suiter = {};
@@ -27,6 +22,11 @@ class _Descriptor {
     this.Converter = Converter;
   }
 
+  /**
+   * 获取设备类型码
+   * @param deviceType 设备主类型
+   * @param deviceChildType 设备子类型
+   */
   public getEquipTypeCode(deviceType: string, deviceChildType?: string): string {
     if (!deviceType) {
       console.warn('device type can not be empty!');
@@ -36,6 +36,12 @@ class _Descriptor {
       ? `${deviceType}${deviceChildType}`
       : `${deviceType}`;
   }
+
+  /**
+   * 获取设备类型描述
+   * @param deviceType 设备主类型
+   * @param deviceChildType 设备子类型
+   */
   public getEquipTypeDescriptor(deviceType: string, deviceChildType: string): string {
     const type = this.getEquipTypeCode(deviceType, deviceChildType);
     return (this.SuitTypes as any)[type];
@@ -71,6 +77,11 @@ class _Descriptor {
     }
     return `${deviceType}${deviceChildType}${status}`;
   }
+
+  /**
+   * 根据状态码获取设备描述
+   * @param code 状态码
+   */
   public getDescriptorByCode(code: string): string {
     if (!code) {
       console.warn('key code can not be empty!');
@@ -78,6 +89,11 @@ class _Descriptor {
     return (this.SuitStatus as any)[code];
   }
 
+  /**
+   * 获取设备主类型状态描述
+   * @param deviceType 设备主类型
+   * @param code 状态码
+   */
   public getMainDescriptor(deviceType: string, code: string): string {
     return this.getDescriptorByCode(
       this.getPrimaryStatusCode(deviceType, code)
@@ -99,6 +115,13 @@ class _Descriptor {
     }
     return descriptor.join(separator);
   }
+
+  /**
+   * 获取开关状态描述
+   * @param status 状态码 16位字符串
+   * @param deviceType 设备主类型
+   * @param deviceChildType 设备子类型
+   */
   public getSwitchDescriptor(
     status: string,
     deviceType: string,
@@ -134,6 +157,13 @@ class _Descriptor {
     }
     return '';
   }
+
+  /**
+   * 获取灯状态描述
+   * @param status 状态
+   * @param deviceType 设备主类型
+   * @param deviceChildType 设备子类型
+   */
   public getLampDescriptor(
     status: string,
     deviceType: string,
