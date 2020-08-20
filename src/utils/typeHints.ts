@@ -1,6 +1,10 @@
 import './string'
 import Suit from './suiter';
 const Suiter: any = Suit;
+
+/**
+ * 类型检测器
+ */
 class _TypeHints {
   [x: string]: any;
   constructor() {

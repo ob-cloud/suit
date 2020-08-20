@@ -168,18 +168,18 @@ class _Descriptor {
     status: string,
     deviceType: string,
     deviceChildType: string
-  ) {
+  ): string {
     const lampStatus = new LampStatus(status);
     if (!deviceChildType) {
       return this.getMainDescriptor(
         deviceType,
-        lampStatus.getNormalLampStatus()
+        lampStatus.getBrightnessStatus()
       );
     }
     const TypeHints = this.TypeHints as any;
     const Converter = this.Converter as any;
     if (TypeHints.isSimpleLed(deviceChildType)) {
-      const normalStatus = lampStatus.getNormalLampStatus();
+      const normalStatus = lampStatus.getBrightnessStatus();
       const converter = new Converter(normalStatus, 16);
       return normalStatus === '00'
         ? '关'
@@ -188,13 +188,11 @@ class _Descriptor {
         : `亮度${converter.toDecimal(normalStatus)}`;
     }
     if (TypeHints.isColorLed(deviceChildType)) {
-      const brightStatus = lampStatus.getNormalLampStatus();
-      const colorStatus = lampStatus.getColorLampStatus();
+      const brightStatus = lampStatus.getBrightnessStatus();
+      const colorStatus = lampStatus.getColdColorStatus();
       const isPowerOn = brightStatus !== '00';
-      const brightValue = new Converter(brightStatus, 16).toDecimal(
-        brightStatus
-      );
-      const colorValue = new Converter(colorStatus, 16).toDecimal(brightStatus);
+      const brightValue = new Converter(brightStatus, 16).toDecimal();
+      const colorValue = new Converter(colorStatus, 16).toDecimal();
 
       return isPowerOn ? `亮度:${brightValue}-冷色:${colorValue}` : '关';
     }
@@ -217,4 +215,5 @@ class _Descriptor {
   }
 }
 
+// 状态描述器
 export const Descriptor = new _Descriptor();

@@ -1,5 +1,6 @@
 /**
- * @description 套件配置表模块<br>
+ * 套件配置表模块
+ *
  * <pre>
  *  object<string, string> type:  设备类型匹配表.
  *    设备分为主设备类型及子设备类型，主类型的key为主类型码，
@@ -11,8 +12,6 @@
  *
  *  object<string, array> group: 设备类型分组，同组类型状态截码位相同<br/>
  * </pre>
- * @namespace
- * @name Suiter
  */
 export const Suiter = {
   led: {
@@ -318,6 +317,7 @@ export const Suiter = {
       wave: ['13'],
       radarSence: ['14'],
       cardSense: ['15'],
+      pluginPower: ['15'],
       envSense: ['16'],
       induction: ['17'],
       dc: '18',
@@ -466,11 +466,7 @@ export const Suiter = {
 
 /**
  * 套件类型
- * @const
- * @memberof Suiter
- * @name SuitTypes
  */
-
 export const SuitTypes = Array.from(Object.keys(Suiter)).reduce(
   // @ts-ignore
   (item, next, index) => {
@@ -484,9 +480,6 @@ export const SuitTypes = Array.from(Object.keys(Suiter)).reduce(
 
 /**
  * 套件状态，整合所有设备状态
- * @const
- * @memberof Suiter
- * @name SuitStatus
  */
 export const SuitStatus = Array.from(Object.keys(Suiter)).reduce(
   // @ts-ignore

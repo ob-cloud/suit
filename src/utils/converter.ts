@@ -31,9 +31,16 @@ const _fillLength = (value: string | number, len: number): string => {
   return (new Array(len + 1).fill('0').join('') + value).slice(-len);
 };
 
+/**
+ * 转换器
+ */
 export class Converter {
   public readonly value: string = '';
   public readonly from: number = 10;
+  /**
+   * @param value 待转换的数值字符串
+   * @param from 数值进制类型（二进制、八进制、十进制、十六进制）
+   */
   constructor(value: string, from: number) {
     if (!value || !from) {
       return this;
@@ -42,18 +49,34 @@ export class Converter {
     this.from = from;
     return this;
   }
+  /**
+   * 转为二进制
+   */
   public toBinary():string {
     return _toBinary(this.value, this.from);
   }
+  /**
+   * 转为八进制
+   */
   public toOctal():string {
     return _toOctal(this.value, this.from);
   }
+  /**
+   * 转为十进制
+   */
   public toDecimal():string {
     return _toDecimal(this.value, this.from);
   }
+  /**
+   * 转为十六进制
+   */
   public toHex():string {
     return _toHex(this.value, this.from);
   }
+  /**
+   * 获取指定长度字符串
+   * @param len 字符串长度
+   */
   public fill(len: number):string {
     return _fillLength(this.value, len);
   }

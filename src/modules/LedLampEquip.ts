@@ -1,22 +1,27 @@
-import { LampEquip } from './LampEquip';
+/*
+ * @Author: eamiear
+ * @Date: 2020-08-20 16:08:49
+ * @Last Modified by:   eamiear
+ * @Last Modified time: 2020-08-20 16:08:49
+ */
+
+ import { LampEquip } from './LampEquip';
+import { LampStatus } from '../entity/LampStatus'
 
 export class LedLampEquip extends LampEquip {
   private bytes = `{0}{1}{2}000000000200`;
-  private brightness: string = '';
-  private coldColor: string = '';
-  private warmColor: string = '';
+  lampStatus: LampStatus
 
   constructor(status: string, primaryType?: string, secondaryType?: string) {
     super(status, primaryType, secondaryType);
-    this.brightness = this.status.slice(0, 2);
-    this.coldColor = this.status.slice(2, 4);
-    this.warmColor = this.isBicolor() ? 'ff' : '00';
+    this.lampStatus = new LampStatus(status)
+
   }
   /**
    * 是否双色灯
    */
   public isBicolor():boolean {
-    return this.coldColor !== '00';
+    return this.lampStatus.getColdColorStatus() !== '00';
   }
   /**
    * 是否单色灯
@@ -24,56 +29,86 @@ export class LedLampEquip extends LampEquip {
   public isPlainColor():boolean {
     return !this.isBicolor();
   }
+  /**
+   * 设置亮度值
+   * @param value 亮度值（0~100）
+   */
   public setBrightness(value: number): LedLampEquip {
     if (value < 0 || value > 100) {
       console.warn('value should be 0 ~ 100');
       return this;
     }
-    this.brightness =
-      value === 0
-        ? '00'
-        : new (this.Converter as any)(+value + 154, 10).toHex();
+    const converter = new (this.Converter as any)(+value + 154, 10)
+    let status = value === 0 ? '00' : converter.toHex()
+    this.lampStatus.setBrightnessStatus(status)
     return this;
   }
+  /**
+   * 获取亮度值
+   */
   public getBrightness(): number {
-    const brightness = this.brightness
-      ? new (this.Converter as any)(this.brightness, 16).toDecimal()
-      : 0;
-    return brightness ? brightness - 154 : 0;
+    const bright = this.lampStatus.getBrightnessStatus() || 0
+    const converter = new (this.Converter as any)(bright, 16)
+    return bright ? converter.toDecimal() - 154 : 0
   }
+  /**
+   * 设置冷色温值
+   * @param value 冷色值
+   */
   public setColdColor(value: number): LedLampEquip {
     if (!value) {
       return this;
     }
-    const coldColor = new (this.Converter as any)(
-      255 - Math.round(value * 2.55),
-      10
-    ).toHex();
-    this.coldColor = coldColor.length > 10 ? coldColor : `0${coldColor}`;
+    const colorValue = 255 - Math.round(value * 2.55)
+    const converter = new (this.Converter as any)(colorValue, 10)
+    this.lampStatus.setColdColorStatus(converter.toHex())
     return this;
   }
+  /**
+   * 获取冷色温
+   */
   public getColdColor(): number {
-    const coldColor = this.coldColor
-      ? new (this.Converter as any)(this.coldColor, 16).toDecimal()
-      : 0;
-    return 100 - Math.round(coldColor / 2.55);
+    const colorValue = this.lampStatus.getColdColorStatus() || 0
+    const converter = new (this.Converter as any)(colorValue, 16)
+    return 100 - Math.round(converter.toDecimal() / 2.55)
   }
+  /**
+   * 设置暖色值
+   */
   public setWarmColor(): LedLampEquip {
-    this.warmColor = this.isBicolor() ? 'ff' : '00';
+    this.lampStatus.setWarmColorStatus(this.isBicolor() ? 'ff' : '00')
     return this;
   }
+  /**
+   * 获取暖色温
+   */
   public getWarmColor():string {
-    return this.warmColor;
+    return this.lampStatus.getWarmColorStatus();
   }
+  /**
+   * 获取设备字节状态字符串
+   */
   public getBytes():string {
-    return this.bytes.format(this.brightness, this.coldColor, this.warmColor);
+    const bright = this.lampStatus.getBrightnessStatus()
+    const coldColor = this.lampStatus.getColdColorStatus()
+    const warmColor = this.lampStatus.getWarmColorStatus()
+    return this.bytes.format(bright, coldColor, warmColor);
   }
+
+  /**
+   * 获取关灯字节状态字符串
+   */
   public getTurnOffBytes(): string {
     return this.setBrightness(0)
       .setColdColor(0)
       .setWarmColor()
       .getBytes();
   }
+  /**
+   * 获取关灯字节状态字符串
+   * @param bright 亮度
+   * @param cold 冷色值
+   */
   public getTurnOnBytes(bright?: number, cold?: number):string {
     return this.setBrightness(bright || 100)
       .setColdColor(cold || 0)
