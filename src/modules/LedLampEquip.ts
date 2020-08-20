@@ -1,21 +1,20 @@
 /*
  * @Author: eamiear
  * @Date: 2020-08-20 16:08:49
- * @Last Modified by:   eamiear
- * @Last Modified time: 2020-08-20 16:08:49
+ * @Last Modified by: eamiear
+ * @Last Modified time: 2020-08-20 17:46:56
  */
 
  import { LampEquip } from './LampEquip';
 import { LampStatus } from '../entity/LampStatus'
 
 export class LedLampEquip extends LampEquip {
-  private bytes = `{0}{1}{2}000000000200`;
+  private bytes = `{0}{1}{2}0000000200`;
   lampStatus: LampStatus
 
   constructor(status: string, primaryType?: string, secondaryType?: string) {
     super(status, primaryType, secondaryType);
     this.lampStatus = new LampStatus(status)
-
   }
   /**
    * 是否双色灯

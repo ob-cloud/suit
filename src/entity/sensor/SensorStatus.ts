@@ -1,4 +1,4 @@
-import { Status } from './Status';
+import { Status } from '../Status';
 export class SensorStatus extends Status {
   // 常规状态
   public normalStatus: string = '';

@@ -1,3 +1,9 @@
+/*
+ * @Author: eamiear
+ * @Date: 2020-08-20 17:38:47
+ * @Last Modified by: eamiear
+ * @Last Modified time: 2020-08-20 17:41:58
+ */
 import Suiter, { SuitStatus, SuitTypes } from '../utils/suiter';
 import { TypeHints } from '../utils/typeHints';
 import { Converter } from '../utils/converter';
@@ -8,12 +14,20 @@ export class BaseEquip {
   public readonly SuitTypes = {};
   public readonly TypeHints = {};
   public readonly Converter = {};
-  constructor() {
+
+  public readonly primaryType: string | undefined = '';
+  public readonly secondaryType: string | undefined = '';
+  public readonly status: string = '';
+  constructor(status: string, primaryType?: string, secondaryType?: string) {
     this.Suiter = Suiter;
     this.SuitStatus = SuitStatus;
     this.SuitTypes = SuitTypes;
     this.TypeHints = TypeHints;
     this.Converter = Converter;
+
+    this.primaryType = primaryType;
+    this.secondaryType = secondaryType;
+    this.status = status;
   }
 
   public getPrimaryStatusCode(mainDevType: string, status: string): string {

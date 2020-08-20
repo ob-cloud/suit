@@ -2,7 +2,7 @@ import { Converter, fillLength } from './converter';
 import { TypeHints } from './typeHints';
 import Suiter, { SuitStatus, SuitTypes } from '../utils/suiter';
 import { LampStatus } from '../entity/LampStatus';
-import { SensorStatus } from '../entity/SensorStatus';
+import { SensorStatus } from '../entity/sensor/SensorStatus';
 import { SocketStatus } from '../entity/SocketStatus';
 
 /**
@@ -207,7 +207,7 @@ class _Descriptor {
     if (!deviceChildType) {
       return this.getMainDescriptor(
         deviceType,
-        sensorStatus.getSensorRootStatus()
+        sensorStatus.getSensorNormalStatus()
       );
     }
 
