@@ -22,6 +22,10 @@ class _Descriptor {
     this.Converter = Converter;
   }
 
+  private _adaptHex(hex: string): string {
+    return hex.length > 1 ? hex : `0${hex}`;
+  }
+
   /**
    * 获取设备类型码
    * @param deviceType 设备主类型
@@ -36,8 +40,8 @@ class _Descriptor {
       return '';
     }
     return deviceChildType
-      ? `${deviceType}${deviceChildType}`
-      : `${deviceType}`;
+      ? `${this._adaptHex(deviceType)}${this._adaptHex(deviceChildType)}`
+      : `${this._adaptHex(deviceType)}`;
   }
 
   /**
@@ -63,7 +67,7 @@ class _Descriptor {
       console.warn('primary device type or status can not be empty!');
       return '';
     }
-    return `${deviceType}${status}`;
+    return `${this._adaptHex(deviceType)}${this._adaptHex(status)}`;
   }
 
   /**
@@ -81,7 +85,7 @@ class _Descriptor {
       console.warn('device type or status can not be empty!');
       return '';
     }
-    return `${deviceType}${deviceChildType}${status}`;
+    return `${this._adaptHex(deviceType)}${this._adaptHex(deviceChildType)}${this._adaptHex(status)}`;
   }
 
   /**
@@ -92,7 +96,7 @@ class _Descriptor {
     if (!code) {
       console.warn('key code can not be empty!');
     }
-    return (this.SuitStatus as any)[code];
+    return (this.SuitStatus as any)[this._adaptHex(code)];
   }
 
   /**

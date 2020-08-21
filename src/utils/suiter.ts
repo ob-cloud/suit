@@ -205,16 +205,16 @@ export const Suiter = {
   },
   /**
    * 智能空气净化器
-   * @namespace Suiter.airCleaner
+   * @namespace Suiter.airCondition
    */
-  airCleaner: {
+  airCondition: {
     type: {
-      '07': '智能空气净化器'
+      '07': '空调'
     }
   },
   tv: {
     type: {
-      '08': '兼容型智能电视'
+      '08': '电视'
     }
   },
   usbRf: {
