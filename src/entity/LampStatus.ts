@@ -6,23 +6,23 @@ export class LampStatus extends Status {
   public readonly colorLampStatus: string = '';
 
   // 亮度状态
-  brightnessStatus: string = '';
+  public brightnessStatus: string = '';
   // 冷光
-  coldColorStatus: string = '';
+  public coldColorStatus: string = '';
   // 暖光
-  warmColorStatus: string = '';
+  public warmColorStatus: string = '';
   // 时延
-  timeDelayStatus: string = ''
+  public timeDelayStatus: string = '';
 
   constructor(status: string) {
     super(status);
     this.normalLampStatus = status.slice(0, 2);
     this.colorLampStatus = status.slice(2, 4);
 
-    this.brightnessStatus = status.slice(0, 2)
-    this.coldColorStatus = status.slice(2, 4)
-    this.warmColorStatus = status.slice(4, 6)
-    this.timeDelayStatus = status.slice(12, 14)
+    this.brightnessStatus = status.slice(0, 2);
+    this.coldColorStatus = status.slice(2, 4);
+    this.warmColorStatus = status.slice(4, 6);
+    this.timeDelayStatus = status.slice(12, 14);
   }
 
   public getNormalLampStatus(): string {
@@ -32,32 +32,32 @@ export class LampStatus extends Status {
     return this.colorLampStatus;
   }
 
-  setBrightnessStatus (bright: string): LampStatus {
-    this.brightnessStatus = this.adaptHex(bright)
-    return this
+  public setBrightnessStatus(bright: string): LampStatus {
+    this.brightnessStatus = this.adaptHex(bright);
+    return this;
   }
-  getBrightnessStatus (): string {
-    return this.brightnessStatus
+  public getBrightnessStatus(): string {
+    return this.brightnessStatus;
   }
-  setColdColorStatus (color: string): LampStatus {
-    this.coldColorStatus = this.adaptHex(color)
-    return this
+  public setColdColorStatus(color: string): LampStatus {
+    this.coldColorStatus = this.adaptHex(color);
+    return this;
   }
-  getColdColorStatus (): string{
-    return this.coldColorStatus
+  public getColdColorStatus(): string {
+    return this.coldColorStatus;
   }
-  setWarmColorStatus (warm: string): LampStatus {
-    this.warmColorStatus = this.adaptHex(warm)
-    return this
+  public setWarmColorStatus(warm: string): LampStatus {
+    this.warmColorStatus = this.adaptHex(warm);
+    return this;
   }
-  getWarmColorStatus (): string {
-    return this.warmColorStatus
+  public getWarmColorStatus(): string {
+    return this.warmColorStatus;
   }
-  setTimeDelayStatus (timeDelay: string): LampStatus {
-    this.timeDelayStatus = this.adaptHex(timeDelay)
-    return this
+  public setTimeDelayStatus(timeDelay: string): LampStatus {
+    this.timeDelayStatus = this.adaptHex(timeDelay);
+    return this;
   }
-  getTimeDelayStatus (): string {
-    return this.timeDelayStatus
+  public getTimeDelayStatus(): string {
+    return this.timeDelayStatus;
   }
 }

@@ -26,7 +26,9 @@ export class SocketStatus extends Status {
     this.state = status.slice(6, 8);
   }
   public setState(state: string) {
-    if (state.length < 2) { console.warn('two bytes needed!'); }
+    if (state.length < 2) {
+      console.warn('two bytes needed!');
+    }
     this.state = state;
   }
   public getState() {

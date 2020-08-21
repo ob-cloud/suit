@@ -27,7 +27,10 @@ class _Descriptor {
    * @param deviceType 设备主类型
    * @param deviceChildType 设备子类型
    */
-  public getEquipTypeCode(deviceType: string, deviceChildType?: string): string {
+  public getEquipTypeCode(
+    deviceType: string,
+    deviceChildType?: string
+  ): string {
     if (!deviceType) {
       console.warn('device type can not be empty!');
       return '';
@@ -42,7 +45,10 @@ class _Descriptor {
    * @param deviceType 设备主类型
    * @param deviceChildType 设备子类型
    */
-  public getEquipTypeDescriptor(deviceType: string, deviceChildType: string): string {
+  public getEquipTypeDescriptor(
+    deviceType: string,
+    deviceChildType: string
+  ): string {
     const type = this.getEquipTypeCode(deviceType, deviceChildType);
     return (this.SuitTypes as any)[type];
   }

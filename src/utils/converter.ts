@@ -52,32 +52,32 @@ export class Converter {
   /**
    * 转为二进制
    */
-  public toBinary():string {
+  public toBinary(): string {
     return _toBinary(this.value, this.from);
   }
   /**
    * 转为八进制
    */
-  public toOctal():string {
+  public toOctal(): string {
     return _toOctal(this.value, this.from);
   }
   /**
    * 转为十进制
    */
-  public toDecimal():string {
+  public toDecimal(): string {
     return _toDecimal(this.value, this.from);
   }
   /**
    * 转为十六进制
    */
-  public toHex():string {
+  public toHex(): string {
     return _toHex(this.value, this.from);
   }
   /**
    * 获取指定长度字符串
    * @param len 字符串长度
    */
-  public fill(len: number):string {
+  public fill(len: number): string {
     return _fillLength(this.value, len);
   }
 }

@@ -1,4 +1,4 @@
-import './string'
+import './string';
 import Suit from './suiter';
 const Suiter: any = Suit;
 
@@ -6,7 +6,7 @@ const Suiter: any = Suit;
  * 类型检测器
  */
 class _TypeHints {
-  [x: string]: any;
+  readonly [x: string]: any;
   constructor() {
     this.__normalTypeProcessor();
     this.__groupTypeProcessor();
@@ -38,14 +38,14 @@ class _TypeHints {
    * @param group 分组设备类型
    * @param subType 子类型
    */
-  private __hasGroupType(group: string, subType: string):boolean {
+  private __hasGroupType(group: string, subType: string): boolean {
     if (!group || !group.length) {
       return false;
     }
     return group.includes(subType);
   }
 
-  private __normalTypeProcessor():any {
+  private __normalTypeProcessor(): any {
     Array.from(Object.keys(Suiter)).map(item => {
       const normalTypes = Suiter[item].type; // ==> Suiter['led'].type
       const capital = item.toCapital();
@@ -58,7 +58,7 @@ class _TypeHints {
     });
   }
 
-  private __groupTypeProcessor():any {
+  private __groupTypeProcessor(): any {
     Array.from(Object.keys(Suiter)).map(item => {
       const group = Suiter[item].group;
       const mainType = item.toCapital();

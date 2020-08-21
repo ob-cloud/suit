@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-20 17:38:47
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-08-20 17:41:58
+ * @Last Modified time: 2020-08-21 14:27:22
  */
 import Suiter, { SuitStatus, SuitTypes } from '../utils/suiter';
 import { TypeHints } from '../utils/typeHints';

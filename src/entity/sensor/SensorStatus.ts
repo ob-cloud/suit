@@ -3,9 +3,9 @@ export class SensorStatus extends Status {
   // 常规状态
   public normalStatus: string = '';
   // 常规传感器状态
-  public temperatureStatus: string = '';
-  public humidityStatus: string = '';
-  pluginPowerStatus: string = ''
+  public readonly temperatureStatus: string = '';
+  public readonly humidityStatus: string = '';
+  public readonly pluginPowerStatus: string = '';
 
   constructor(status: string) {
     super(status);
@@ -15,9 +15,9 @@ export class SensorStatus extends Status {
     this.humidityStatus = status.slice(6, 8);
   }
 
-  setSensorNormalStatus (normal: string): SensorStatus {
-    this.normalStatus = this.adaptHex(normal)
-    return this
+  public setSensorNormalStatus(normal: string): SensorStatus {
+    this.normalStatus = this.adaptHex(normal);
+    return this;
   }
   public getSensorNormalStatus(): string {
     return this.normalStatus;

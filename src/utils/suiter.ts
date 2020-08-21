@@ -474,7 +474,7 @@ export const SuitTypes = Array.from(Object.keys(Suiter)).reduce(
       item = (Suiter as any)[item].type;
     }
     // @ts-ignore
-    return { ...item, ...((Suiter as any)[next].type) };
+    return { ...item, ...(Suiter as any)[next].type };
   }
 );
 

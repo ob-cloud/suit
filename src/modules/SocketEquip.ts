@@ -5,7 +5,7 @@ export class SocketEquip extends BaseEquip {
   public readonly deviceSubType: string = '';
   public readonly status: string = '';
   constructor(deviceType: string, deviceSubType: string, status: string) {
-    super();
+    super(status, deviceType, deviceSubType);
     this.deviceType = deviceType;
     this.deviceSubType = deviceSubType;
     this.status = status;

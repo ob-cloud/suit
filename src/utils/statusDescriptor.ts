@@ -2,14 +2,13 @@
  * @Author: eamiear
  * @Date: 2019-08-12 11:25:00
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-08-20 16:43:45
+ * @Last Modified time: 2020-08-21 14:29:11
  */
 
 // ===================================
 
 //           已废弃
-//=====================================
-
+// =====================================
 
 import { Converter, fillLength } from './converter';
 import { TypeHints } from './typeHints';

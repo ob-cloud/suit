@@ -5,27 +5,27 @@
  * @Last Modified time: 2020-08-20 17:46:56
  */
 
- import { LampEquip } from './LampEquip';
-import { LampStatus } from '../entity/LampStatus'
+import { LampEquip } from './LampEquip';
+import { LampStatus } from '../entity/LampStatus';
 
 export class LedLampEquip extends LampEquip {
-  private bytes = `{0}{1}{2}0000000200`;
-  lampStatus: LampStatus
+  public readonly lampStatus: LampStatus;
+  private readonly bytes = `{0}{1}{2}0000000200`;
 
   constructor(status: string, primaryType?: string, secondaryType?: string) {
     super(status, primaryType, secondaryType);
-    this.lampStatus = new LampStatus(status)
+    this.lampStatus = new LampStatus(status);
   }
   /**
    * 是否双色灯
    */
-  public isBicolor():boolean {
+  public isBicolor(): boolean {
     return this.lampStatus.getColdColorStatus() !== '00';
   }
   /**
    * 是否单色灯
    */
-  public isPlainColor():boolean {
+  public isPlainColor(): boolean {
     return !this.isBicolor();
   }
   /**
@@ -37,18 +37,18 @@ export class LedLampEquip extends LampEquip {
       console.warn('value should be 0 ~ 100');
       return this;
     }
-    const converter = new (this.Converter as any)(+value + 154, 10)
-    let status = value === 0 ? '00' : converter.toHex()
-    this.lampStatus.setBrightnessStatus(status)
+    const converter = new (this.Converter as any)(+value + 154, 10);
+    const status = value === 0 ? '00' : converter.toHex();
+    this.lampStatus.setBrightnessStatus(status);
     return this;
   }
   /**
    * 获取亮度值
    */
   public getBrightness(): number {
-    const bright = this.lampStatus.getBrightnessStatus() || 0
-    const converter = new (this.Converter as any)(bright, 16)
-    return bright ? converter.toDecimal() - 154 : 0
+    const bright = this.lampStatus.getBrightnessStatus() || 0;
+    const converter = new (this.Converter as any)(bright, 16);
+    return bright ? converter.toDecimal() - 154 : 0;
   }
   /**
    * 设置冷色温值
@@ -58,39 +58,39 @@ export class LedLampEquip extends LampEquip {
     if (!value) {
       return this;
     }
-    const colorValue = 255 - Math.round(value * 2.55)
-    const converter = new (this.Converter as any)(colorValue, 10)
-    this.lampStatus.setColdColorStatus(converter.toHex())
+    const colorValue = 255 - Math.round(value * 2.55);
+    const converter = new (this.Converter as any)(colorValue, 10);
+    this.lampStatus.setColdColorStatus(converter.toHex());
     return this;
   }
   /**
    * 获取冷色温
    */
   public getColdColor(): number {
-    const colorValue = this.lampStatus.getColdColorStatus() || 0
-    const converter = new (this.Converter as any)(colorValue, 16)
-    return 100 - Math.round(converter.toDecimal() / 2.55)
+    const colorValue = this.lampStatus.getColdColorStatus() || 0;
+    const converter = new (this.Converter as any)(colorValue, 16);
+    return 100 - Math.round(converter.toDecimal() / 2.55);
   }
   /**
    * 设置暖色值
    */
   public setWarmColor(): LedLampEquip {
-    this.lampStatus.setWarmColorStatus(this.isBicolor() ? 'ff' : '00')
+    this.lampStatus.setWarmColorStatus(this.isBicolor() ? 'ff' : '00');
     return this;
   }
   /**
    * 获取暖色温
    */
-  public getWarmColor():string {
+  public getWarmColor(): string {
     return this.lampStatus.getWarmColorStatus();
   }
   /**
    * 获取设备字节状态字符串
    */
-  public getBytes():string {
-    const bright = this.lampStatus.getBrightnessStatus()
-    const coldColor = this.lampStatus.getColdColorStatus()
-    const warmColor = this.lampStatus.getWarmColorStatus()
+  public getBytes(): string {
+    const bright = this.lampStatus.getBrightnessStatus();
+    const coldColor = this.lampStatus.getColdColorStatus();
+    const warmColor = this.lampStatus.getWarmColorStatus();
     return this.bytes.format(bright, coldColor, warmColor);
   }
 
@@ -108,7 +108,7 @@ export class LedLampEquip extends LampEquip {
    * @param bright 亮度
    * @param cold 冷色值
    */
-  public getTurnOnBytes(bright?: number, cold?: number):string {
+  public getTurnOnBytes(bright?: number, cold?: number): string {
     return this.setBrightness(bright || 100)
       .setColdColor(cold || 0)
       .setWarmColor()
