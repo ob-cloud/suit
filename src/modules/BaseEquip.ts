@@ -2,18 +2,18 @@
  * @Author: eamiear
  * @Date: 2020-08-20 17:38:47
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-08-21 14:27:22
+ * @Last Modified time: 2020-08-24 10:14:07
  */
 import Suiter, { SuitStatus, SuitTypes } from '../utils/suiter';
 import { TypeHints } from '../utils/typeHints';
 import { Converter } from '../utils/converter';
-
+const _Converter = Converter
 export class BaseEquip {
   public readonly Suiter = {};
   public readonly SuitStatus = {};
   public readonly SuitTypes = {};
   public readonly TypeHints = {};
-  public readonly Converter = {};
+  public readonly Converter = _Converter;
 
   public readonly primaryType: string | undefined = '';
   public readonly secondaryType: string | undefined = '';
@@ -23,7 +23,7 @@ export class BaseEquip {
     this.SuitStatus = SuitStatus;
     this.SuitTypes = SuitTypes;
     this.TypeHints = TypeHints;
-    this.Converter = Converter;
+    this.Converter = _Converter;
 
     this.primaryType = primaryType;
     this.secondaryType = secondaryType;
