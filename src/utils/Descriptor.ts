@@ -41,8 +41,8 @@ class _Descriptor {
       return '';
     }
     return deviceChildType
-      ? `${this._adaptHex(deviceType)}${this._adaptHex(deviceChildType)}`
-      : `${this._adaptHex(deviceType)}`;
+      ? `${deviceType.toHexNumber().toEvenHex()}${deviceChildType.toHexNumber().toEvenHex()}`
+      : `${deviceType.toHexNumber().toEvenHex()}`;
   }
 
   /**
@@ -77,7 +77,7 @@ class _Descriptor {
       console.warn('primary device type or status can not be empty!');
       return '';
     }
-    return `${this._adaptHex(deviceType)}${this._adaptHex(status)}`;
+    return `${deviceType.toHexNumber().toEvenHex()}${status.toEvenHex()}`;
   }
 
   /**
@@ -95,7 +95,7 @@ class _Descriptor {
       console.warn('device type or status can not be empty!');
       return '';
     }
-    return `${this._adaptHex(deviceType)}${this._adaptHex(deviceChildType)}${this._adaptHex(status)}`;
+    return `${deviceType.toHexNumber().toEvenHex()}${deviceChildType.toHexNumber().toEvenHex()}${status.toEvenHex()}`;
   }
 
   /**
@@ -106,7 +106,7 @@ class _Descriptor {
     if (!code) {
       console.warn('key code can not be empty!');
     }
-    return (this.SuitStatus as any)[this._adaptHex(code)];
+    return (this.SuitStatus as any)[code.toEvenHex()];
   }
 
   /**
