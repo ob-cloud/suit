@@ -45,6 +45,10 @@ class _TypeHints {
     return group.includes(subType);
   }
 
+  /**
+   * 设备类型判断处理器
+   * led  ===> isLed(deviceType, deviceSubType)
+   */
   private __normalTypeProcessor(): any {
     Array.from(Object.keys(Suiter)).map(item => {
       const normalTypes = Suiter[item].type; // ==> Suiter['led'].type
@@ -58,6 +62,10 @@ class _TypeHints {
     });
   }
 
+  /**
+   * 分组设备类型判断处理器
+   * led: {group: {simple}} --> isSimpleLed(deviceSubType)
+   */
   private __groupTypeProcessor(): any {
     Array.from(Object.keys(Suiter)).map(item => {
       const group = Suiter[item].group;

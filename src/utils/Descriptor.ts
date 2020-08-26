@@ -9,11 +9,12 @@ import { SocketStatus } from '../entity/SocketStatus';
  * 状态描述器
  */
 class _Descriptor {
+  readonly [x: string]: any;
   public readonly Suiter = {};
   public readonly SuitStatus = {};
   public readonly SuitTypes = {};
-  public readonly TypeHints = {};
-  public readonly Converter = {};
+  public readonly TypeHints: typeof TypeHints;
+  public readonly Converter: typeof Converter;
   constructor() {
     this.Suiter = Suiter;
     this.SuitStatus = SuitStatus;
@@ -55,6 +56,15 @@ class _Descriptor {
   ): string {
     const type = this.getEquipTypeCode(deviceType, deviceChildType);
     return (this.SuitTypes as any)[type];
+  }
+
+  /**
+   * @see {getEquipTypeDescriptor}
+   * @param deviceType
+   * @param deviceChildType
+   */
+  public getTypeDescriptor (deviceType: string, deviceChildType: string): string {
+    return this. getEquipTypeDescriptor(deviceType, deviceChildType)
   }
 
   /**
@@ -132,7 +142,7 @@ class _Descriptor {
    * @param deviceType 设备主类型
    * @param deviceChildType 设备子类型
    */
-  public getSwitchDescriptor(
+  public getSocketSwitchDescriptor(
     status: string,
     deviceType: string,
     deviceChildType?: string
@@ -174,7 +184,7 @@ class _Descriptor {
    * @param deviceType 设备主类型
    * @param deviceChildType 设备子类型
    */
-  public getLampDescriptor(
+  public getLedDescriptor(
     status: string,
     deviceType: string,
     deviceChildType: string
@@ -208,7 +218,7 @@ class _Descriptor {
     }
     return '';
   }
-  public getSensorDescriptor(
+  public getSensorsDescriptor(
     status: string,
     deviceType: string,
     deviceChildType: string
@@ -220,8 +230,25 @@ class _Descriptor {
         sensorStatus.getSensorNormalStatus()
       );
     }
-
     return '';
+  }
+
+  /**
+   * 获取设备状态描述
+   * @param status 状态 16位字符串
+   * @param deviceType 设备类型
+   * @param deviceChildType 设备子类型
+   */
+  public getStatusDescriptor (status: string, deviceType: string, deviceChildType: string): string {
+    const deviceTypeKey = Array.from(Object.keys(this.Suiter)).find(suitKey => {
+      const suitKeyCapital = suitKey.toCapital()
+      return this.TypeHints[`is${suitKeyCapital}`].call(this.TypeHints, deviceType, deviceChildType) || ''
+    })
+    const statusMethodName = `get${deviceTypeKey?.toCapital()}Descriptor`
+    if (this[statusMethodName]) {
+      return this[statusMethodName].call(this, status, deviceType, deviceChildType)
+    }
+    return ''
   }
 }
 

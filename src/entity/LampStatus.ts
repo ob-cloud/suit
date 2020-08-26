@@ -14,6 +14,8 @@ export class LampStatus extends Status {
   // 时延
   public timeDelayStatus: string = '';
 
+  public exceptionStatus: string = ''
+
   constructor(status: string) {
     super(status);
     this.normalLampStatus = status.slice(0, 2);
@@ -23,6 +25,7 @@ export class LampStatus extends Status {
     this.coldColorStatus = status.slice(2, 4);
     this.warmColorStatus = status.slice(4, 6);
     this.timeDelayStatus = status.slice(12, 14);
+    this.exceptionStatus = status.slice(14)
   }
 
   public getNormalLampStatus(): string {

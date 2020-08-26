@@ -18,7 +18,7 @@ test('Descriptor.getEquipTypeDescriptor', t => {
 test('Descriptor.getLampDescriptor', t => {
   const status = '4300000000000200';
   t.true(
-    Descriptor.getLampDescriptor(status, deviceType, deviceChildType) ===
+    Descriptor.getLedDescriptor(status, deviceType, deviceChildType) ===
       '亮度67'
   );
 });
