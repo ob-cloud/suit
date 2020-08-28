@@ -63,4 +63,7 @@ export class LampStatus extends Status {
   public getTimeDelayStatus(): string {
     return this.timeDelayStatus;
   }
+  public getExceptionStatus(): string {
+    return this.exceptionStatus
+  }
 }

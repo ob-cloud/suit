@@ -1,3 +1,4 @@
+/* eslint-disable */
 import './utils/string';
 export * from './utils/converter';
 export * from './utils/Descriptor';

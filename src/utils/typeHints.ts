@@ -28,9 +28,9 @@ class _TypeHints {
       return false;
     }
     if (!subType) {
-      return !!(suitTypes as any)[mainType];
+      return !!(suitTypes as any)[mainType.toHexNumber().toEvenHex()];
     }
-    return !!(suitTypes as any)[`${mainType}${subType}`];
+    return !!(suitTypes as any)[`${mainType.toHexNumber().toEvenHex()}${subType.toHexNumber().toEvenHex()}`];
   }
 
   /**
@@ -39,10 +39,10 @@ class _TypeHints {
    * @param subType 子类型
    */
   private __hasGroupType(group: string, subType: string): boolean {
-    if (!group || !group.length) {
+    if (!group || !group.length || !subType) {
       return false;
     }
-    return group.includes(subType);
+    return group.includes(subType.toHexNumber().toEvenHex());
   }
 
   /**

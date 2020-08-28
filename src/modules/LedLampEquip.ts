@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-20 16:08:49
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-08-20 17:46:56
+ * @Last Modified time: 2020-08-28 17:07:56
  */
 
 import { LampEquip } from './LampEquip';
@@ -20,13 +20,17 @@ export class LedLampEquip extends LampEquip {
    * 是否双色灯
    */
   public isBicolor(): boolean {
-    return this.lampStatus.getColdColorStatus() !== '00';
+    // return this.lampStatus.getColdColorStatus() !== '00';
+    return this.TypeHints.isBicolorLed(this.secondaryType)
   }
   /**
    * 是否单色灯
    */
   public isPlainColor(): boolean {
     return !this.isBicolor();
+  }
+  public isPowerOn(): boolean {
+    return this.getBrightness() > 0
   }
   /**
    * 设置亮度值
@@ -37,7 +41,7 @@ export class LedLampEquip extends LampEquip {
       console.warn('value should be 0 ~ 100');
       return this;
     }
-    const converter = new (this.Converter as any)(+value + 154, 10);
+    const converter = new (this.Converter as any)(value + 154, 10);
     const status = value === 0 ? '00' : converter.toHex();
     this.lampStatus.setBrightnessStatus(status);
     return this;
@@ -82,6 +86,7 @@ export class LedLampEquip extends LampEquip {
    * 获取暖色温
    */
   public getWarmColor(): string {
+    this.setWarmColor()
     return this.lampStatus.getWarmColorStatus();
   }
   /**
@@ -113,5 +118,15 @@ export class LedLampEquip extends LampEquip {
       .setColdColor(cold || 0)
       .setWarmColor()
       .getBytes();
+  }
+
+  /**
+   * 获取灯异常状态
+   */
+  public getLampExceptionStatus(): string {
+    const exception = this.lampStatus.getExceptionStatus()
+    const bits = exception.split('')
+    if (!bits || !bits.length) return '无异常'
+    return bits[0] === '1' ? '开路' : bits[1] === '1' ? '短路' : '无异常'
   }
 }

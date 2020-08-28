@@ -153,7 +153,7 @@ class _Descriptor {
     }
 
     const TypeHints = this.TypeHints as any;
-    const bitlen = TypeHints.getSocketSwitchLen(deviceChildType);
+    const bitlen = TypeHints.getSocketSwitchBitLen(deviceChildType);
 
     if (TypeHints.isPlugSocketSwitch(deviceChildType)) {
       const statusBitStr = fillLength(socketStatus.getPlugStatus(), bitlen);

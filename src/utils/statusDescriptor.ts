@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2019-08-12 11:25:00
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-08-21 14:29:11
+ * @Last Modified time: 2020-08-26 14:28:49
  */
 
 // ===================================
@@ -96,7 +96,7 @@ class StatusDescriptor {
     }
 
     const TypeHints = this.TypeHints as any;
-    const bitlen = TypeHints.getSocketSwitchLen(deviceChildType);
+    const bitlen = TypeHints.getSocketSwitchBitLen(deviceChildType);
 
     if (TypeHints.isPlugSocketSwitch(deviceChildType)) {
       const statusBitStr = fillLength(socketStatus.getPlugStatus(), bitlen);
