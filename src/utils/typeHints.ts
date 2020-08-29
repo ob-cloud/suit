@@ -10,6 +10,7 @@ class _TypeHints {
   constructor() {
     this.__normalTypeProcessor();
     this.__groupTypeProcessor();
+    this.__typeIndexPocessor()
     this.__statusLengthProcessor();
   }
 
@@ -43,6 +44,15 @@ class _TypeHints {
       return false;
     }
     return group.includes(subType.toHexNumber().toEvenHex());
+  }
+  /**
+   * 获取设备类型
+   * @param typeIndex 类型索引对象
+   * @param deviceType 设备类型
+   * @param deviceChildType 设备子类型
+   */
+  private __getTypeIndex(typeIndex: object, deviceType: string, deviceChildType: string): string {
+    return (typeIndex as any)[`${deviceType}${deviceChildType}`]
   }
 
   /**
@@ -79,6 +89,20 @@ class _TypeHints {
             return this.__hasGroupType(group[key], deviceSubType);
           };
         });
+      }
+    });
+  }
+  private __typeIndexPocessor(): any {
+    Array.from(Object.keys(Suiter)).map(item => {
+      const typeIndex = Suiter[item].typeIndex; // {'0401': '1'}
+      const mainType = item.toCapital();
+      if (typeIndex) {
+        (this as any)[`get${mainType}TypeIndex`] = (
+          deviceType: string,
+          deviceChildType: string
+        ): string => {
+          return this.__getTypeIndex(typeIndex, deviceType, deviceChildType);
+        };
       }
     });
   }
