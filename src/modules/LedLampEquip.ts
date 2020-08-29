@@ -8,6 +8,9 @@
 import { LampEquip } from './LampEquip';
 import { LampStatus } from '../entity/LampStatus';
 
+/**
+ * LED 灯（单色灯、双色灯）
+ */
 export class LedLampEquip extends LampEquip {
   public readonly lampStatus: LampStatus;
   private readonly bytes = `{0}{1}{2}0000000200`;
