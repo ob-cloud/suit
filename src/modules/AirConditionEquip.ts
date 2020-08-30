@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-21 16:59:16
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-08-30 11:59:09
+ * @Last Modified time: 2020-08-30 12:15:37
  */
 
 import { BaseEquip } from './BaseEquip';
@@ -50,6 +50,8 @@ const VerticalWingMap: any = {
 export class AirConditionEquip extends BaseEquip {
   airModel: AirConditionModel;
   airEntity!: AirConditionModel;
+  // 模式_风速_温度_上下摆风_左右摆风_p0
+  private readonly bytes = `{0}_{1}_{2}_{3}_{4}_p0`;
   constructor (status: string = '', deviceType?: string, deviceChildType?: string, ac?: any) {
     super(status, deviceType, deviceChildType)
     this.airModel = new AirConditionModel(status)
@@ -91,6 +93,9 @@ export class AirConditionEquip extends BaseEquip {
     const modeKey = Object.keys(ModeMap).find(key => ModeMap[key] === mode)
     return modeKey || ''
   }
+  getModeValue ():string {
+    return this.airModel.getMode()
+  }
   /**
    *
    * @param speed 0~3
@@ -103,6 +108,9 @@ export class AirConditionEquip extends BaseEquip {
     const speed = this.airModel.getSpeed()
     const speedKey = Object.keys(SpeedMap).find(key => SpeedMap[key] === speed)
     return speedKey || ''
+  }
+  getSpeedValue (): string {
+    return this.airModel.getSpeed()
   }
   /**
    *
@@ -195,5 +203,8 @@ export class AirConditionEquip extends BaseEquip {
   }
   getPowerBytes () {
     return this.getPower()
+  }
+  getBytes () {
+    const
   }
 }
