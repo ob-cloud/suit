@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-20 17:38:37
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-08-20 17:57:31
+ * @Last Modified time: 2020-08-29 22:53:59
  */
 
 import { BaseEquip } from './BaseEquip';
@@ -22,25 +22,31 @@ export class HumidityEquip extends BaseEquip {
   }
 
   public setTemperature(tmp: number): HumidityEquip {
-    const converter = new (this.Converter as any)(tmp, 10);
+    const converter = new this.Converter(`${tmp}`, 10);
     this.humidityStatus.setTemperatureStatus(converter.toHex());
     return this;
   }
-  public getTemperature(): string {
+  /**
+   * 获取温度
+   */
+  public getTemperature(): number {
     const tmp = this.humidityStatus.getTemperatureStatus();
-    const converter = new (this.Converter as any)(tmp, 16);
-    return converter.toDecimal();
+    const converter = new this.Converter(tmp, 16);
+    return +converter.toDecimal() - 30
   }
 
   public setHumidity(hum: number): HumidityEquip {
-    const converter = new (this.Converter as any)(hum, 10);
+    const converter = new this.Converter(`${hum}`, 10);
     this.humidityStatus.setHumidityStatus(converter.toHex());
     return this;
   }
-  public getHumidity(): string {
+  /**
+   * 获取湿度
+   */
+  public getHumidity(): number {
     const hum = this.humidityStatus.getHumidityStatus();
-    const converter = new (this.Converter as any)(hum, 16);
-    return converter.toDecimal();
+    const converter = new this.Converter(hum, 16);
+    return +converter.toDecimal();
   }
   // TODO
   public getBytes() {

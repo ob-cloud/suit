@@ -62,12 +62,6 @@ export class Converter {
     return _toOctal(this.value, this.from);
   }
   /**
-   * 转为八进制数值
-   */
-  public toOctalNumber (): number {
-    return parseInt(this.value, this.from)
-  }
-  /**
    * 转为十进制
    */
   public toDecimal(): string {
@@ -84,12 +78,6 @@ export class Converter {
    */
   public toHex(): string {
     return _toHex(this.value, this.from);
-  }
-  /**
-   * 转为十六进制数值
-   */
-  public toHexNumber (): number {
-    return parseInt(this.value, this.from)
   }
   /**
    * 获取指定长度字符串

@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-20 16:08:49
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-08-28 17:07:56
+ * @Last Modified time: 2020-08-29 21:41:52
  */
 
 import { LampEquip } from './LampEquip';
@@ -44,7 +44,7 @@ export class LedLampEquip extends LampEquip {
       console.warn('value should be 0 ~ 100');
       return this;
     }
-    const converter = new (this.Converter as any)(value + 154, 10);
+    const converter = new this.Converter(`${value + 154}`, 10);
     const status = value === 0 ? '00' : converter.toHex();
     this.lampStatus.setBrightnessStatus(status);
     return this;
@@ -54,8 +54,8 @@ export class LedLampEquip extends LampEquip {
    */
   public getBrightness(): number {
     const bright = this.lampStatus.getBrightnessStatus() || 0;
-    const converter = new (this.Converter as any)(bright, 16);
-    return bright ? converter.toDecimal() - 154 : 0;
+    const converter = new this.Converter(`${bright}`, 16);
+    return bright ? +converter.toDecimal() - 154 : 0;
   }
   /**
    * 设置冷色温值
@@ -66,7 +66,7 @@ export class LedLampEquip extends LampEquip {
       return this;
     }
     const colorValue = 255 - Math.round(value * 2.55);
-    const converter = new (this.Converter as any)(colorValue, 10);
+    const converter = new this.Converter(`${colorValue}`, 10);
     this.lampStatus.setColdColorStatus(converter.toHex());
     return this;
   }
@@ -75,8 +75,8 @@ export class LedLampEquip extends LampEquip {
    */
   public getColdColor(): number {
     const colorValue = this.lampStatus.getColdColorStatus() || 0;
-    const converter = new (this.Converter as any)(colorValue, 16);
-    return 100 - Math.round(converter.toDecimal() / 2.55);
+    const converter = new this.Converter(`${colorValue}`, 16);
+    return 100 - Math.round(+converter.toDecimal() / 2.55);
   }
   /**
    * 设置暖色值

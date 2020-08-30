@@ -16,7 +16,7 @@ export class HumiditySensorStatus extends SensorStatus {
    * @param tmp 温度 十六进制
    */
   public setTemperatureStatus(tmp: string): HumiditySensorStatus {
-    this.temperatureStatus = this.adaptHex(tmp);
+    this.temperatureStatus = tmp.toEvenHex();
     return this;
   }
   public getTemperatureStatus(): string {
@@ -24,7 +24,7 @@ export class HumiditySensorStatus extends SensorStatus {
   }
 
   public setHumidityStatus(hum: string): HumiditySensorStatus {
-    this.humidityStatus = this.adaptHex(hum);
+    this.humidityStatus = hum.toEvenHex();
     return this;
   }
   public getHumidityStatus(): string {

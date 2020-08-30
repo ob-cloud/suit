@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-21 17:04:00
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-08-24 10:18:27
+ * @Last Modified time: 2020-08-30 10:08:10
  */
 
 import { Status } from "./Status"
@@ -29,9 +29,16 @@ export class AirConditionModel extends Status {
   speed: string = ''
   horizontalWing: string = ''
   verticalWing: string = ''
+  power: string = ''
 
-  constructor (ac?: AC) {
-    super('')
+  constructor (status: string, ac?: AC) {
+    super(status)
+    this.mode = status.slice(0, 2)
+    this.speed = status.slice(2, 4)
+    this.temperature = status.slice(4, 6)
+    this.verticalWing = status.slice(6, 8)
+    this.horizontalWing = status.slice(8, 10)
+
     if (ac) {
       this.keys = ac.keys
       this.brandId = ac.brandId
@@ -60,55 +67,45 @@ export class AirConditionModel extends Status {
     return this.rmodel
   }
   setTemperature (tmp: string): AirConditionModel {
-    this.temperature = this.adaptHex(tmp)
+    this.temperature = tmp.toEvenHex()
     return this
   }
   getTemperature (): string {
     return this.temperature
   }
   setMode (mode: string): AirConditionModel {
-    this.mode = this.adaptHex(mode)
+    this.mode = mode.toEvenHex()
     return this
   }
   getMode (): string {
     return this.mode
   }
   setSpeed (speed: string): AirConditionModel {
-    this.speed = this.adaptHex(speed)
+    this.speed = speed.toEvenHex()
     return this
   }
   getSpeed (): string {
     return this.speed
   }
   setHorizontalWing (wing: string): AirConditionModel {
-    this.horizontalWing = this.adaptHex(wing)
+    this.horizontalWing = wing.toEvenHex()
     return this
   }
   getHorizontalWing (): string {
     return this.horizontalWing
   }
   setVerticalWing (wing: string): AirConditionModel{
-    this.verticalWing = this.adaptHex(wing)
+    this.verticalWing = wing.toEvenHex()
     return this
   }
   getVerticalWing (): string {
     return this.verticalWing
   }
-
-  hasHorizontalSwing (): boolean {
-    if (!this.keys || this.keys.length) return false
-    const index = this.keys.findIndex(item => {
-      const key = item.key
-      return key.includes('_') && (key.includes('l0') || key.includes('l1') && !key.includes('*'))
-    })
-    return index !== -1
+  setPower (power: string): AirConditionModel {
+    this.power = power
+    return this
   }
-  hasVerticalSwing () {
-    if (!this.keys || this.keys.length) return false
-    const index = this.keys.findIndex(item => {
-      const key = item.key
-      return key.includes('_') && (key.includes('u0') || key.includes('u1')) && !key.includes('*')
-    })
-    return index !== -1
+  getPower (): string {
+    return this.power
   }
 }

@@ -36,28 +36,28 @@ export class LampStatus extends Status {
   }
 
   public setBrightnessStatus(bright: string): LampStatus {
-    this.brightnessStatus = this.adaptHex(bright);
+    this.brightnessStatus = bright.toEvenHex();
     return this;
   }
   public getBrightnessStatus(): string {
     return this.brightnessStatus;
   }
   public setColdColorStatus(color: string): LampStatus {
-    this.coldColorStatus = this.adaptHex(color);
+    this.coldColorStatus = color.toEvenHex();
     return this;
   }
   public getColdColorStatus(): string {
     return this.coldColorStatus;
   }
   public setWarmColorStatus(warm: string): LampStatus {
-    this.warmColorStatus = this.adaptHex(warm);
+    this.warmColorStatus = warm.toEvenHex();
     return this;
   }
   public getWarmColorStatus(): string {
     return this.warmColorStatus;
   }
   public setTimeDelayStatus(timeDelay: string): LampStatus {
-    this.timeDelayStatus = this.adaptHex(timeDelay);
+    this.timeDelayStatus = timeDelay.toEvenHex();
     return this;
   }
   public getTimeDelayStatus(): string {

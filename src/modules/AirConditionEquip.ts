@@ -2,48 +2,72 @@
  * @Author: eamiear
  * @Date: 2020-08-21 16:59:16
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-08-24 10:51:52
+ * @Last Modified time: 2020-08-30 11:59:09
  */
 
 import { BaseEquip } from './BaseEquip';
 import { AirConditionModel } from '../entity/AirConditionModel';
 
+// 模式
 const ModeMap: any = {
-  'm1': 'a',
-  'm2': 'r',
-  'm3': 'd',
-  'm4': 'w',
-  'm5': 'h'
+  '1': 'a',
+  '2': 'r',
+  '3': 'd',
+  '4': 'w',
+  '5': 'h'
 }
+const ModeDescriptorMap: any = {
+  '1': '自动',
+  '2': '制冷',
+  '3': '抽湿',
+  '4': '送风',
+  '5': '制热'
+}
+// 风速
 const SpeedMap: any = {
-  's0': 's0',
-  's1': 's1',
-  's2': 's2',
-  's3': 's3'
+  '0': 's0',
+  '1': 's1',
+  '2': 's2',
+  '3': 's3'
 }
+const SpeedDescriptorMap: any = {
+  '0': '自动',
+  '1': '弱',
+  '2': '中',
+  '3': '强'
+}
+// 左右摆风
 const HorizontalWingMap: any = {
-  'h0': 'u0',
-  'h1': 'u1'
+  '0': 'u0',
+  '1': 'u1'
 }
+// 上下摆风
 const VerticalWingMap: any = {
-  'v0': 'l0',
-  'v1': 'l1'
+  '0': 'l0',
+  '1': 'l1'
 }
 
 export class AirConditionEquip extends BaseEquip {
   airModel: AirConditionModel;
   airEntity!: AirConditionModel;
-  constructor (status: string, deviceType?: string, deviceChildType?: string, ac?: any) {
+  constructor (status: string = '', deviceType?: string, deviceChildType?: string, ac?: any) {
     super(status, deviceType, deviceChildType)
-    this.airModel = new AirConditionModel()
-    if (ac) this.airEntity = new AirConditionModel(ac)
+    this.airModel = new AirConditionModel(status)
+    if (ac) this.airEntity = new AirConditionModel(status, ac)
+  }
+  /**
+   * 是否红外
+   */
+  isInfrared () {
+    return !this.status
   }
   getEntity (ac: any) {
     this.airEntity = new AirConditionModel(ac)
     return this.airEntity
   }
   setTemperature (temp: number): AirConditionEquip {
-    const tempHex = new this.Converter(`${temp}`, 10).toHex()
+    const temperature = temp < 16 ? temp + 1 : temp > 30 ? temp - 1 : temp
+    const tempHex = new this.Converter(`${temperature}`, 10).toHex()
     this.airModel.setTemperature(tempHex)
     return this
   }
@@ -52,8 +76,14 @@ export class AirConditionEquip extends BaseEquip {
     const tmepDecimal = new this.Converter(temp, 16).toDecimal()
     return +tmepDecimal
   }
-  setMode (mode: string): AirConditionEquip {
-    this.airModel.setMode(ModeMap[mode])
+  /**
+   *
+   * @param mode 1~5
+   */
+  setMode (mode: number): AirConditionEquip {
+    this.airModel.setMode(ModeMap[mode > 4 ? 0 : mode])
+    if ([2, 3].includes(mode)) this.setSpeed(1)
+    this.setTemperature(26)
     return this
   }
   getMode (): string {
@@ -61,8 +91,12 @@ export class AirConditionEquip extends BaseEquip {
     const modeKey = Object.keys(ModeMap).find(key => ModeMap[key] === mode)
     return modeKey || ''
   }
-  setSpeed (speed: string): AirConditionEquip {
-    this.airModel.setSpeed(SpeedMap[speed])
+  /**
+   *
+   * @param speed 0~3
+   */
+  setSpeed (speed: number): AirConditionEquip {
+    this.airModel.setSpeed(SpeedMap[speed > 3 ? 0 : speed])
     return this
   }
   getSpeed (): string {
@@ -70,16 +104,31 @@ export class AirConditionEquip extends BaseEquip {
     const speedKey = Object.keys(SpeedMap).find(key => SpeedMap[key] === speed)
     return speedKey || ''
   }
-  setHorizontalWing (wing: string): AirConditionEquip {
+  /**
+   *
+   * @param wing 0~1
+   */
+  setHorizontalWing (wing: number): AirConditionEquip {
     this.airModel.setHorizontalWing(HorizontalWingMap[wing])
     return this
   }
+  /**
+   * 获取左右摆风
+   */
   getHorizontalWing (): string {
     const wing = this.airModel.getHorizontalWing()
     const wingKey = Object.keys(HorizontalWingMap).find(key => HorizontalWingMap[key] === wing)
     return wingKey || ''
+
   }
-  setVerticalWing (wing: string) : AirConditionEquip {
+  getHorizontalWingValue (): string {
+    return this.airModel.getHorizontalWing()
+  }
+  /**
+   *
+   * @param wing 0~1
+   */
+  setVerticalWing (wing: number): AirConditionEquip {
     this.airModel.setVerticalWing(VerticalWingMap[wing])
     return this
   }
@@ -87,6 +136,36 @@ export class AirConditionEquip extends BaseEquip {
     const wing = this.airModel.getVerticalWing()
     const wingKey = Object.keys(VerticalWingMap).find(key => VerticalWingMap[key] === wing)
     return wingKey || ''
+  }
+  getVerticalWingVlaue (): string {
+    return this.airModel.getVerticalWing()
+  }
+  /**
+   * 开
+   * @param temp 温度
+   * @param speed 风速
+   * @param mode 模式
+   */
+  setPowerOn (temp: number = 26, speed:number = 0, mode:number = 1): AirConditionEquip {
+    this.airModel.setPower('on')
+    this.setTemperature(temp).setSpeed(speed).setMode(mode)
+    return this
+  }
+  setPowerOff (): AirConditionEquip {
+    this.airModel.setPower('off')
+    return this
+  }
+  getPower (): string {
+    return this.airModel.getPower()
+  }
+  isPowerOn (): boolean {
+    return this.getPower() === 'on'
+  }
+  isTemperatureValid (): boolean {
+    return this.isPowerOn() && ['1', '4'].includes(this.getMode())
+  }
+  isFanSpeedValid (): boolean {
+    return this.isPowerOn() && ['0', '1', '4'].includes(this.getMode())
   }
   /**
    * 是否有左右摆风
@@ -113,5 +192,8 @@ export class AirConditionEquip extends BaseEquip {
       return key.includes('_') && (key.includes('u0') || key.includes('u1')) && !key.includes('*')
     })
     return index !== -1
+  }
+  getPowerBytes () {
+    return this.getPower()
   }
 }
