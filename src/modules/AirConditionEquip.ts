@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-21 16:59:16
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-08-30 12:15:37
+ * @Last Modified time: 2020-08-31 09:38:50
  */
 
 import { BaseEquip } from './BaseEquip';
@@ -205,6 +205,5 @@ export class AirConditionEquip extends BaseEquip {
     return this.getPower()
   }
   getBytes () {
-    const
   }
 }

@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-29 20:16:40
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-08-29 21:15:29
+ * @Last Modified time: 2020-08-31 09:57:44
  */
 import { BaseEquip } from './BaseEquip';
 
@@ -11,5 +11,6 @@ export class SwitchEquip extends BaseEquip {
     super(status, deviceType, deviceChildType)
   }
   getBytes (status: Array<string>) {
+    console.log(status)
   }
 }

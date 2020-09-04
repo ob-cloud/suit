@@ -42,9 +42,17 @@ String.prototype.format = function(..._args: readonly string[]) {
   if (arguments.length === 0) {
     return this.toString();
   }
+  const param = arguments[0]
   let s = this;
-  for (let i = 0; i < arguments.length; i++) {
-    s = s.replace(new RegExp('\\{' + i + '\\}', 'g'), arguments[i]);
+  if (typeof param === 'object') {
+    for (let key in param) {
+      s = s.replace(new RegExp('\\{' + key + '\\}', 'g'), param[key])
+    }
+    return s.toString()
+  } else {
+    for (let i = 0; i < arguments.length; i++) {
+      s = s.replace(new RegExp('\\{' + i + '\\}', 'g'), arguments[i]);
+    }
+    return s.toString();
   }
-  return s.toString();
 };
