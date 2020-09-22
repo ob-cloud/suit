@@ -175,6 +175,9 @@ class _Descriptor {
       const statusBitStr = fillLength(socketStatus.getSceneStatus(), bitlen);
       return this.getDescriptors(deviceType, statusBitStr);
     }
+    if (TypeHints.isXkeySocketSwitch(deviceChildType)) {
+      return socketStatus.getTouchStatus() === '00' ? '关' : '开'
+    }
     return '';
   }
 
@@ -187,7 +190,8 @@ class _Descriptor {
   public getLedDescriptor(
     status: string,
     deviceType: string,
-    deviceChildType: string
+    deviceChildType: string,
+    short: boolean = true
   ): string {
     const lampStatus = new LampStatus(status);
     if (!deviceChildType) {
@@ -205,7 +209,7 @@ class _Descriptor {
         ? '关'
         : normalStatus === 'ff'
         ? '开'
-        : `亮度${converter.toDecimal(normalStatus)}`;
+        : short ? '开' : `亮度${converter.toDecimal(normalStatus)}`;
     }
     if (TypeHints.isColorLed(deviceChildType)) {
       const brightStatus = lampStatus.getBrightnessStatus();
