@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-20 16:08:49
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-08-29 21:41:52
+ * @Last Modified time: 2020-09-08 16:00:32
  */
 
 import { LampEquip } from './LampEquip';
@@ -62,11 +62,12 @@ export class LedLampEquip extends LampEquip {
    * @param value 冷色值
    */
   public setColdColor(value: number): LedLampEquip {
-    if (!value) {
+    if (value < 0 || value > 255) {
+      console.warn('value should be 0 ~ 255');
       return this;
     }
-    const colorValue = 255 - Math.round(value * 2.55);
-    const converter = new this.Converter(`${colorValue}`, 10);
+    // const colorValue = 255 - Math.round(value * 2.55);
+    const converter = new this.Converter(`${value}`, 10);
     this.lampStatus.setColdColorStatus(converter.toHex());
     return this;
   }
@@ -76,7 +77,8 @@ export class LedLampEquip extends LampEquip {
   public getColdColor(): number {
     const colorValue = this.lampStatus.getColdColorStatus() || 0;
     const converter = new this.Converter(`${colorValue}`, 16);
-    return 100 - Math.round(+converter.toDecimal() / 2.55);
+    // return 100 - Math.round(+converter.toDecimal() / 2.55);
+    return +converter.toDecimal()
   }
   /**
    * 设置暖色值
@@ -127,9 +129,17 @@ export class LedLampEquip extends LampEquip {
    * 获取灯异常状态
    */
   public getLampExceptionStatus(): string {
-    const exception = this.lampStatus.getExceptionStatus()
-    const bits = exception.split('')
-    if (!bits || !bits.length) return '无异常'
-    return bits[0] === '1' ? '开路' : bits[1] === '1' ? '短路' : '无异常'
+    // 01,02,03 十六机制
+    // 00000001 00000010 00000011
+    const bytes = this.lampStatus.getExceptionStatus()
+    // const bits = exception.split('')
+    if (!bytes || !bytes.length) return '无异常'
+    // return bits[0] === '1' ? '开路' : bits[1] === '1' ? '短路' : '无异常'
+    const bytesMap: any = {
+      '01': '开路',
+      '02': '短路',
+      '03': '异常'
+    }
+    return bytesMap[bytes] || '无异常'
   }
 }
