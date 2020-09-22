@@ -19,12 +19,12 @@ const _toOctal = (value: string, from: number): string => {
 
 const _toDecimal = (value: string, from: number): string => {
   const radix = _fn(value, from, 10);
-  return +radix < 10 ? `0${radix}` : radix;
+  return radix.length < 2 ? `0${radix}` : radix;
 };
 
 const _toHex = (value: string, from: number): string => {
   const radix = _fn(value, from, 16);
-  return +radix < 16 ? `0${radix}` : radix;
+  return radix.length < 2 ? `0${radix}` : radix;
 };
 
 const _fillLength = (value: string | number, len: number): string => {
