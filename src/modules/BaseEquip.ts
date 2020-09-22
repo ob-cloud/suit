@@ -30,6 +30,10 @@ export class BaseEquip {
     this.status = status;
   }
 
+  public getStatus () {
+    return this.status
+  }
+
   public getPrimaryStatusCode(mainDevType: string, status: string): string {
     if (!mainDevType || !status) {
       console.warn('primary device type or status can not be empty!');
