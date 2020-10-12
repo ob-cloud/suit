@@ -18,7 +18,7 @@ import { CurtainStatus } from '../entity/CurtainStatus';
  *
  * const curtainEquip = new CurtainEquip(status, deviceType, deviceChildType)
  *
- * const statusBytes = this.ledLampEquip.setBrightness(50).setColdColor(30).getBytes()
+ * const statusBytes = curtainEquip.open().getBytes()
  * console.log(statusBytes)
  */
 
