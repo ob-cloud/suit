@@ -14,6 +14,7 @@ import { CurtainStatus } from '../entity/CurtainStatus';
 /**
  * 窗帘套件
  *
+ * 使用示例：
  * ```js
  * const curtainEquip = new CurtainEquip(status, deviceType, deviceChildType)
  *

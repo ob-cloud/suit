@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-21 16:59:16
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-08-31 09:38:50
+ * @Last Modified time: 2020-10-12 17:50:37
  */
 
 import { BaseEquip } from './BaseEquip';
@@ -53,7 +53,7 @@ const VerticalWingMap: any = {
 export class AirConditionEquip extends BaseEquip {
   airModel: AirConditionModel;
   airEntity!: AirConditionModel;
-  // 模式_风速_温度_上下摆风_左右摆风_p0
+  /** 模式_风速_温度_上下摆风_左右摆风_p0 */
   private readonly bytes = `{0}_{1}_{2}_{3}_{4}_p0`;
 
   /**

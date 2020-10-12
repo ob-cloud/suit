@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-20 17:38:37
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-08-29 22:53:59
+ * @Last Modified time: 2020-10-12 17:50:03
  */
 
 import { BaseEquip } from './BaseEquip';
@@ -11,12 +11,12 @@ import { HumiditySensorStatus } from '../entity/sensor/HumiditySensorStatus';
 /**
  * 温湿度传感器
  *
- * @example
- *
+ * 使用示例：
+ *```js
  * import { HumidityEquip } from 'hardware-suit'
  * const humidity = new HumidityEquip(state)
  * console.log(`${humidity.getTemperature()}℃/${humidity.getHumidity()}%`)
- *
+ *```
  */
 export class HumidityEquip extends BaseEquip {
   public readonly humidityStatus: HumiditySensorStatus;

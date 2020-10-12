@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-20 16:08:49
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-10-12 17:45:34
+ * @Last Modified time: 2020-10-12 17:49:19
  */
 
 import { LampEquip } from './LampEquip';
@@ -11,13 +11,14 @@ import { LampStatus } from '../entity/LampStatus';
 /**
  * LED 灯（单色灯、双色灯）
  *
- * @example
- *
+ * **使用示例**
+ *```js
  * const ledLampEquip = new LedLampEquip(status, deviceType, deviceChildType)
  * this.power = ledLampEquip.isPowerOn()
  *
  * const statusBytes = this.ledLampEquip.setBrightness(50).setColdColor(30).getBytes()
  * console.log(statusBytes)
+ * ```
  */
 export class LedLampEquip extends LampEquip {
   public readonly lampStatus: LampStatus;
