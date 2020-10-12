@@ -246,9 +246,9 @@ class _Descriptor {
   public getStatusDescriptor (status: string, deviceType: string, deviceChildType: string): string {
     const deviceTypeKey = Array.from(Object.keys(this.Suiter)).find(suitKey => {
       const suitKeyCapital = suitKey.toCapital()
-      return this.TypeHints[`is${suitKeyCapital}`].call(this.TypeHints, deviceType, deviceChildType) || ''
-    })
-    const statusMethodName = `get${deviceTypeKey?.toCapital()}Descriptor`
+      return this.TypeHints[`is${suitKeyCapital}`].call(this.TypeHints, deviceType, deviceChildType) || '';
+    }) || ''
+    const statusMethodName = `get${deviceTypeKey.toCapital()}Descriptor`
     if (this[statusMethodName]) {
       return this[statusMethodName].call(this, status, deviceType, deviceChildType)
     }
