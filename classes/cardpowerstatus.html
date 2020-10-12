@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>SwitchStatus | hardware-suit</title>
+	<title>CardPowerStatus | hardware-suit</title>
 	<meta name="description" content="Documentation for hardware-suit">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="switchstatus.html">SwitchStatus</a>
+					<a href="cardpowerstatus.html">CardPowerStatus</a>
 				</li>
 			</ul>
-			<h1>Class SwitchStatus</h1>
+			<h1>Class CardPowerStatus</h1>
 		</div>
 	</div>
 </header>
@@ -69,7 +69,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>TODO 开关</p>
+						<p>窗帘</p>
 					</div>
 				</div>
 			</section>
@@ -80,7 +80,7 @@
 						<a href="status.html" class="tsd-signature-type">Status</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">SwitchStatus</span>
+								<span class="target">CardPowerStatus</span>
 							</li>
 						</ul>
 					</li>
@@ -93,21 +93,25 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="switchstatus.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="cardpowerstatus.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="switchstatus.html#state" class="tsd-kind-icon">state</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="switchstatus.html#status" class="tsd-kind-icon">status</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="cardpowerstatus.html#confstate" class="tsd-kind-icon">conf<wbr>State</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="cardpowerstatus.html#state" class="tsd-kind-icon">state</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="cardpowerstatus.html#status" class="tsd-kind-icon">status</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="switchstatus.html#adapthex" class="tsd-kind-icon">adapt<wbr>Hex</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="switchstatus.html#getstate" class="tsd-kind-icon">get<wbr>State</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="cardpowerstatus.html#adapthex" class="tsd-kind-icon">adapt<wbr>Hex</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="cardpowerstatus.html#getconfstatus" class="tsd-kind-icon">get<wbr>Conf<wbr>Status</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="cardpowerstatus.html#getstatus" class="tsd-kind-icon">get<wbr>Status</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="cardpowerstatus.html#setconfstatus" class="tsd-kind-icon">set<wbr>Conf<wbr>Status</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="cardpowerstatus.html#setstatus" class="tsd-kind-icon">set<wbr>Status</a></li>
 							</ul>
 						</section>
 					</div>
@@ -119,14 +123,14 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Switch<wbr>Status<span class="tsd-signature-symbol">(</span>status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="switchstatus.html" class="tsd-signature-type">SwitchStatus</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Card<wbr>Power<wbr>Status<span class="tsd-signature-symbol">(</span>status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="cardpowerstatus.html" class="tsd-signature-type">CardPowerStatus</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="status.html">Status</a>.<a href="status.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/56a7d5e/src/entity/SwitchStatus.ts#L13">entity/SwitchStatus.ts:13</a></li>
+									<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/56a7d5e/src/entity/CardPowerStatus.ts#L16">entity/CardPowerStatus.ts:16</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -135,7 +139,7 @@
 									<h5>status: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="switchstatus.html" class="tsd-signature-type">SwitchStatus</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="cardpowerstatus.html" class="tsd-signature-type">CardPowerStatus</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -143,14 +147,34 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="confstate" class="tsd-anchor"></a>
+					<h3>conf<wbr>State</h3>
+					<div class="tsd-signature tsd-kind-icon">conf<wbr>State<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/56a7d5e/src/entity/CardPowerStatus.ts#L16">entity/CardPowerStatus.ts:16</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>设置状态</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="state" class="tsd-anchor"></a>
 					<h3>state</h3>
 					<div class="tsd-signature tsd-kind-icon">state<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/56a7d5e/src/entity/SwitchStatus.ts#L13">entity/SwitchStatus.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/56a7d5e/src/entity/CardPowerStatus.ts#L14">entity/CardPowerStatus.ts:14</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>当前状态</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="status" class="tsd-anchor"></a>
@@ -191,19 +215,103 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getstate" class="tsd-anchor"></a>
-					<h3>get<wbr>State</h3>
+					<a name="getconfstatus" class="tsd-anchor"></a>
+					<h3>get<wbr>Conf<wbr>Status</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>State<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Conf<wbr>Status<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/56a7d5e/src/entity/SwitchStatus.ts#L18">entity/SwitchStatus.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/56a7d5e/src/entity/CardPowerStatus.ts#L44">entity/CardPowerStatus.ts:44</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getstatus" class="tsd-anchor"></a>
+					<h3>get<wbr>Status</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Status<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/56a7d5e/src/entity/CardPowerStatus.ts#L25">entity/CardPowerStatus.ts:25</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>获取当前状态</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setconfstatus" class="tsd-anchor"></a>
+					<h3>set<wbr>Conf<wbr>Status</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Conf<wbr>Status<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="cardpowerstatus.html" class="tsd-signature-type">CardPowerStatus</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/56a7d5e/src/entity/CardPowerStatus.ts#L40">entity/CardPowerStatus.ts:40</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>设置状态</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>state: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>设置状态值</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="cardpowerstatus.html" class="tsd-signature-type">CardPowerStatus</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setstatus" class="tsd-anchor"></a>
+					<h3>set<wbr>Status</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Status<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="cardpowerstatus.html" class="tsd-signature-type">CardPowerStatus</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/56a7d5e/src/entity/CardPowerStatus.ts#L32">entity/CardPowerStatus.ts:32</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>设置当前状态</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>state: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>当前状态值</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="cardpowerstatus.html" class="tsd-signature-type">CardPowerStatus</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -222,22 +330,34 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
-						<a href="switchstatus.html" class="tsd-kind-icon">Switch<wbr>Status</a>
+						<a href="cardpowerstatus.html" class="tsd-kind-icon">Card<wbr>Power<wbr>Status</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-								<a href="switchstatus.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="cardpowerstatus.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="switchstatus.html#state" class="tsd-kind-icon">state</a>
+								<a href="cardpowerstatus.html#confstate" class="tsd-kind-icon">conf<wbr>State</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="cardpowerstatus.html#state" class="tsd-kind-icon">state</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="switchstatus.html#status" class="tsd-kind-icon">status</a>
+								<a href="cardpowerstatus.html#status" class="tsd-kind-icon">status</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="switchstatus.html#adapthex" class="tsd-kind-icon">adapt<wbr>Hex</a>
+								<a href="cardpowerstatus.html#adapthex" class="tsd-kind-icon">adapt<wbr>Hex</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="switchstatus.html#getstate" class="tsd-kind-icon">get<wbr>State</a>
+								<a href="cardpowerstatus.html#getconfstatus" class="tsd-kind-icon">get<wbr>Conf<wbr>Status</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="cardpowerstatus.html#getstatus" class="tsd-kind-icon">get<wbr>Status</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="cardpowerstatus.html#setconfstatus" class="tsd-kind-icon">set<wbr>Conf<wbr>Status</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="cardpowerstatus.html#setstatus" class="tsd-kind-icon">set<wbr>Status</a>
 							</li>
 						</ul>
 					</li>
