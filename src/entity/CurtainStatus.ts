@@ -1,3 +1,9 @@
+/*
+ * @Author: eamiear
+ * @Date: 2020-10-12 17:25:18
+ * @Last Modified by: eamiear
+ * @Last Modified time: 2020-10-12 17:28:56
+ */
 import { Status } from './Status';
 /**
  * 窗帘
@@ -8,10 +14,10 @@ export class CurtainStatus extends Status {
     super(status)
     this.state = status.slice(0, 2)
   }
-  getStatus () {
+  getStatus (): string {
     return this.state.toEvenHex()
   }
-  setStatus (state: string) {
+  setStatus (state: string): CurtainStatus {
     this.state = state.toEvenHex()
     return this
   }

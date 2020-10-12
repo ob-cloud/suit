@@ -15,18 +15,18 @@ export class BaseEquip {
   public readonly TypeHints: typeof TypeHints;
   public readonly Converter: typeof Converter;
 
-  public readonly primaryType: string | undefined = '';
-  public readonly secondaryType: string | undefined = '';
+  public readonly deviceType: string | undefined = '';
+  public readonly deviceChildType: string | undefined = '';
   public readonly status: string = '';
-  constructor(status: string, primaryType?: string, secondaryType?: string) {
+  constructor(status: string, deviceType?: string, deviceChildType?: string) {
     this.Suiter = Suiter;
     this.SuitStatus = SuitStatus;
     this.SuitTypes = SuitTypes;
     this.TypeHints = TypeHints;
     this.Converter = Converter;
 
-    this.primaryType = primaryType;
-    this.secondaryType = secondaryType;
+    this.deviceType = deviceType;
+    this.deviceChildType = deviceChildType;
     this.status = status;
   }
 

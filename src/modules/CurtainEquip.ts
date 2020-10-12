@@ -14,12 +14,13 @@ import { CurtainStatus } from '../entity/CurtainStatus';
 /**
  * 窗帘套件
  *
- * @example
- *
+ * ```js
  * const curtainEquip = new CurtainEquip(status, deviceType, deviceChildType)
  *
  * const statusBytes = curtainEquip.open().getBytes()
  * console.log(statusBytes)
+ *
+ * ```
  */
 
 export class CurtainEquip extends BaseEquip {
