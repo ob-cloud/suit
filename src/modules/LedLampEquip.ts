@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-20 16:08:49
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-09-08 16:00:32
+ * @Last Modified time: 2020-10-12 17:45:34
  */
 
 import { LampEquip } from './LampEquip';
@@ -38,7 +38,7 @@ export class LedLampEquip extends LampEquip {
    */
   public isBicolor(): boolean {
     // return this.lampStatus.getColdColorStatus() !== '00';
-    return this.TypeHints.isBicolorLed(this.secondaryType)
+    return this.TypeHints.isBicolorLed(this.deviceChildType)
   }
   /**
    * 是否单色灯
