@@ -10,13 +10,27 @@ import { LampStatus } from '../entity/LampStatus';
 
 /**
  * LED 灯（单色灯、双色灯）
+ *
+ * @example
+ *
+ * const ledLampEquip = new LedLampEquip(status, deviceType, deviceChildType)
+ * this.power = ledLampEquip.isPowerOn()
+ *
+ * const statusBytes = this.ledLampEquip.setBrightness(50).setColdColor(30).getBytes()
+ * console.log(statusBytes)
  */
 export class LedLampEquip extends LampEquip {
   public readonly lampStatus: LampStatus;
   private readonly bytes = `{0}{1}{2}0000000200`;
 
-  constructor(status: string, primaryType?: string, secondaryType?: string) {
-    super(status, primaryType, secondaryType);
+  /**
+   * LED 灯（单色灯、双色灯）
+   * @param status        状态值，16进制
+   * @param deviceType    设备类型
+   * @param deviceChildType 设备子类型
+   */
+  constructor(status: string, deviceType?: string, deviceChildType?: string) {
+    super(status, deviceType, deviceChildType);
     this.lampStatus = new LampStatus(status);
   }
   /**
@@ -32,6 +46,9 @@ export class LedLampEquip extends LampEquip {
   public isPlainColor(): boolean {
     return !this.isBicolor();
   }
+  /**
+   * 电源是否启动
+   */
   public isPowerOn(): boolean {
     return this.getBrightness() > 0
   }

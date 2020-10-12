@@ -16,6 +16,9 @@ const ModeMap: any = {
   '4': 'w',
   '5': 'h'
 }
+/**
+ * 模式描述表
+ */
 const ModeDescriptorMap: any = {
   '1': '自动',
   '2': '制冷',
@@ -52,8 +55,19 @@ export class AirConditionEquip extends BaseEquip {
   airEntity!: AirConditionModel;
   // 模式_风速_温度_上下摆风_左右摆风_p0
   private readonly bytes = `{0}_{1}_{2}_{3}_{4}_p0`;
+
+  /**
+   * 空调套件操作
+   * @param status          16进制状态字符串
+   * @param deviceType      设备类型
+   * @param deviceChildType 设备子类型
+   * @param ac              空调对象信息
+   */
   constructor (status: string = '', deviceType?: string, deviceChildType?: string, ac?: any) {
     super(status, deviceType, deviceChildType)
+    /**
+     * 空调实体对象
+     */
     this.airModel = new AirConditionModel(status)
     if (ac) this.airEntity = new AirConditionModel(status, ac)
   }
@@ -63,24 +77,35 @@ export class AirConditionEquip extends BaseEquip {
   isInfrared () {
     return !this.status
   }
+  /**
+   * 获取空调实体对象信息
+   * @param ac 空调对象详情
+   */
   getEntity (ac: any) {
     this.airEntity = new AirConditionModel(ac)
     return this.airEntity
   }
+  /**
+   * 设置空调温度值
+   * @param temp 十进制温度值
+   */
   setTemperature (temp: number): AirConditionEquip {
     const temperature = temp < 16 ? temp + 1 : temp > 30 ? temp - 1 : temp
     const tempHex = new this.Converter(`${temperature}`, 10).toHex()
     this.airModel.setTemperature(tempHex)
     return this
   }
+  /**
+   * 获取空调温度值
+   */
   getTemperature (): number {
     const temp = this.airModel.getTemperature()
     const tmepDecimal = new this.Converter(temp, 16).toDecimal()
     return +tmepDecimal
   }
   /**
-   *
-   * @param mode 1~5
+   * 设置空调模式
+   * @param mode 模式值（1 自动，2 制冷， 3 抽湿， 4 送风， 5 制热）
    */
   setMode (mode: number): AirConditionEquip {
     this.airModel.setMode(ModeMap[mode > 4 ? 0 : mode])
@@ -88,32 +113,44 @@ export class AirConditionEquip extends BaseEquip {
     this.setTemperature(26)
     return this
   }
+  /**
+   * 获取空调模式键值
+   */
   getMode (): string {
     const mode = this.airModel.getMode()
     const modeKey = Object.keys(ModeMap).find(key => ModeMap[key] === mode)
     return modeKey || ''
   }
+  /**
+   * 获取空调模式值
+   */
   getModeValue ():string {
     return this.airModel.getMode()
   }
   /**
-   *
-   * @param speed 0~3
+   * 设置风速
+   * @param speed （0 自动， 1 弱， 2 中， 3 强）
    */
   setSpeed (speed: number): AirConditionEquip {
     this.airModel.setSpeed(SpeedMap[speed > 3 ? 0 : speed])
     return this
   }
+  /**
+   * 获取风速键值
+   */
   getSpeed (): string {
     const speed = this.airModel.getSpeed()
     const speedKey = Object.keys(SpeedMap).find(key => SpeedMap[key] === speed)
     return speedKey || ''
   }
+  /**
+   * 获取风速值
+   */
   getSpeedValue (): string {
     return this.airModel.getSpeed()
   }
   /**
-   *
+   * 设置左右摆风
    * @param wing 0~1
    */
   setHorizontalWing (wing: number): AirConditionEquip {
@@ -133,7 +170,7 @@ export class AirConditionEquip extends BaseEquip {
     return this.airModel.getHorizontalWing()
   }
   /**
-   *
+   * 设置上下摆风
    * @param wing 0~1
    */
   setVerticalWing (wing: number): AirConditionEquip {
@@ -149,7 +186,7 @@ export class AirConditionEquip extends BaseEquip {
     return this.airModel.getVerticalWing()
   }
   /**
-   * 开
+   * 启动电源
    * @param temp 温度
    * @param speed 风速
    * @param mode 模式
@@ -159,19 +196,34 @@ export class AirConditionEquip extends BaseEquip {
     this.setTemperature(temp).setSpeed(speed).setMode(mode)
     return this
   }
+  /**
+   * 关闭电源
+   */
   setPowerOff (): AirConditionEquip {
     this.airModel.setPower('off')
     return this
   }
+  /**
+   * 获取电源值
+   */
   getPower (): string {
     return this.airModel.getPower()
   }
+  /**
+   * 电源是否开启
+   */
   isPowerOn (): boolean {
     return this.getPower() === 'on'
   }
+  /**
+   * 温度是否可设置
+   */
   isTemperatureValid (): boolean {
     return this.isPowerOn() && ['1', '4'].includes(this.getMode())
   }
+  /**
+   * 风速是否可设置
+   */
   isFanSpeedValid (): boolean {
     return this.isPowerOn() && ['0', '1', '4'].includes(this.getMode())
   }
@@ -201,6 +253,9 @@ export class AirConditionEquip extends BaseEquip {
     })
     return index !== -1
   }
+  /**
+   * 获取电源字节字符串
+   */
   getPowerBytes () {
     return this.getPower()
   }
