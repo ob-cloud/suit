@@ -5,7 +5,7 @@ const Suiter: any = Suit;
 /**
  * 类型检测器
  */
-class _TypeHints {
+export class _TypeHints {
   readonly [x: string]: any;
   constructor() {
     this.__normalTypeProcessor();
@@ -127,4 +127,7 @@ class _TypeHints {
   }
 }
 
+/**
+ * {@link _TypeHints}
+ */
 export const TypeHints = new _TypeHints();

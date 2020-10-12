@@ -8,7 +8,7 @@ import { SocketStatus } from '../entity/SocketStatus';
 /**
  * 状态描述器
  */
-class _Descriptor {
+export class _Descriptor {
   readonly [x: string]: any;
   public readonly Suiter = {};
   public readonly SuitStatus = {};
@@ -257,7 +257,7 @@ class _Descriptor {
 }
 
 /**
- * @see {_Descriptor}
+ * {@link _Descriptor}
  * 状态描述器
  */
 export const Descriptor = new _Descriptor();
