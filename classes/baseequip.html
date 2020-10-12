@@ -76,7 +76,19 @@
 								<a href="lampequip.html" class="tsd-signature-type">LampEquip</a>
 							</li>
 							<li>
+								<a href="airconditionequip.html" class="tsd-signature-type">AirConditionEquip</a>
+							</li>
+							<li>
+								<a href="humidityequip.html" class="tsd-signature-type">HumidityEquip</a>
+							</li>
+							<li>
+								<a href="switchequip.html" class="tsd-signature-type">SwitchEquip</a>
+							</li>
+							<li>
 								<a href="socketequip.html" class="tsd-signature-type">SocketEquip</a>
+							</li>
+							<li>
+								<a href="curtainequip.html" class="tsd-signature-type">CurtainEquip</a>
 							</li>
 						</ul>
 					</li>
@@ -100,6 +112,9 @@
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="baseequip.html#suittypes" class="tsd-kind-icon">Suit<wbr>Types</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="baseequip.html#suiter" class="tsd-kind-icon">Suiter</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="baseequip.html#typehints" class="tsd-kind-icon">Type<wbr>Hints</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="baseequip.html#primarytype" class="tsd-kind-icon">primary<wbr>Type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="baseequip.html#secondarytype" class="tsd-kind-icon">secondary<wbr>Type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="baseequip.html#status" class="tsd-kind-icon">status</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -110,6 +125,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="baseequip.html#getmaindescriptor" class="tsd-kind-icon">get<wbr>Main<wbr>Descriptor</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="baseequip.html#getprimarystatuscode" class="tsd-kind-icon">get<wbr>Primary<wbr>Status<wbr>Code</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="baseequip.html#getsecondarystatuscode" class="tsd-kind-icon">get<wbr>Secondary<wbr>Status<wbr>Code</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="baseequip.html#getstatus" class="tsd-kind-icon">get<wbr>Status</a></li>
 							</ul>
 						</section>
 					</div>
@@ -121,15 +137,27 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Base<wbr>Equip<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="baseequip.html" class="tsd-signature-type">BaseEquip</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Base<wbr>Equip<span class="tsd-signature-symbol">(</span>status<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, primaryType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, secondaryType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="baseequip.html" class="tsd-signature-type">BaseEquip</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/e9d46b1/src/modules/BaseEquip.ts#L10">modules/BaseEquip.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/b333abc/src/modules/BaseEquip.ts#L20">modules/BaseEquip.ts:20</a></li>
 								</ul>
 							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>status: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> primaryType: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> secondaryType: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="baseequip.html" class="tsd-signature-type">BaseEquip</a></h4>
 						</li>
 					</ul>
@@ -140,17 +168,12 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="converter" class="tsd-anchor"></a>
 					<h3>Converter</h3>
-					<div class="tsd-signature tsd-kind-icon">Converter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<div class="tsd-signature tsd-kind-icon">Converter<span class="tsd-signature-symbol">:</span> <a href="converter.html" class="tsd-signature-type">Converter</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/e9d46b1/src/modules/BaseEquip.ts#L10">modules/BaseEquip.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/b333abc/src/modules/BaseEquip.ts#L16">modules/BaseEquip.ts:16</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-						</ul>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="suitstatus" class="tsd-anchor"></a>
@@ -158,7 +181,7 @@
 					<div class="tsd-signature tsd-kind-icon">Suit<wbr>Status<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/e9d46b1/src/modules/BaseEquip.ts#L7">modules/BaseEquip.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/b333abc/src/modules/BaseEquip.ts#L13">modules/BaseEquip.ts:13</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -173,7 +196,7 @@
 					<div class="tsd-signature tsd-kind-icon">Suit<wbr>Types<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/e9d46b1/src/modules/BaseEquip.ts#L8">modules/BaseEquip.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/b333abc/src/modules/BaseEquip.ts#L14">modules/BaseEquip.ts:14</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -188,7 +211,7 @@
 					<div class="tsd-signature tsd-kind-icon">Suiter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/e9d46b1/src/modules/BaseEquip.ts#L6">modules/BaseEquip.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/b333abc/src/modules/BaseEquip.ts#L12">modules/BaseEquip.ts:12</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -200,17 +223,42 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="typehints" class="tsd-anchor"></a>
 					<h3>Type<wbr>Hints</h3>
-					<div class="tsd-signature tsd-kind-icon">Type<wbr>Hints<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<div class="tsd-signature tsd-kind-icon">Type<wbr>Hints<span class="tsd-signature-symbol">:</span> <a href="_typehints.html" class="tsd-signature-type">_TypeHints</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/e9d46b1/src/modules/BaseEquip.ts#L9">modules/BaseEquip.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/b333abc/src/modules/BaseEquip.ts#L15">modules/BaseEquip.ts:15</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="primarytype" class="tsd-anchor"></a>
+					<h3>primary<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">primary<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> =&nbsp;&quot;&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/b333abc/src/modules/BaseEquip.ts#L18">modules/BaseEquip.ts:18</a></li>
 						</ul>
-					</div>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="secondarytype" class="tsd-anchor"></a>
+					<h3>secondary<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">secondary<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> =&nbsp;&quot;&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/b333abc/src/modules/BaseEquip.ts#L19">modules/BaseEquip.ts:19</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="status" class="tsd-anchor"></a>
+					<h3>status</h3>
+					<div class="tsd-signature tsd-kind-icon">status<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/b333abc/src/modules/BaseEquip.ts#L20">modules/BaseEquip.ts:20</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -225,7 +273,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/e9d46b1/src/modules/BaseEquip.ts#L39">modules/BaseEquip.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/b333abc/src/modules/BaseEquip.ts#L57">modules/BaseEquip.ts:57</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -248,7 +296,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/e9d46b1/src/modules/BaseEquip.ts#L52">modules/BaseEquip.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/b333abc/src/modules/BaseEquip.ts#L70">modules/BaseEquip.ts:70</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -277,7 +325,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/e9d46b1/src/modules/BaseEquip.ts#L46">modules/BaseEquip.ts:46</a></li>
+									<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/b333abc/src/modules/BaseEquip.ts#L64">modules/BaseEquip.ts:64</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -303,7 +351,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/e9d46b1/src/modules/BaseEquip.ts#L19">modules/BaseEquip.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/b333abc/src/modules/BaseEquip.ts#L37">modules/BaseEquip.ts:37</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -329,7 +377,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/e9d46b1/src/modules/BaseEquip.ts#L27">modules/BaseEquip.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/b333abc/src/modules/BaseEquip.ts#L45">modules/BaseEquip.ts:45</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -344,6 +392,23 @@
 									<h5>status: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getstatus" class="tsd-anchor"></a>
+					<h3>get<wbr>Status</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Status<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ob-cloud/hardware-suit/blob/b333abc/src/modules/BaseEquip.ts#L33">modules/BaseEquip.ts:33</a></li>
+								</ul>
+							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
@@ -383,6 +448,15 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="baseequip.html#typehints" class="tsd-kind-icon">Type<wbr>Hints</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="baseequip.html#primarytype" class="tsd-kind-icon">primary<wbr>Type</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="baseequip.html#secondarytype" class="tsd-kind-icon">secondary<wbr>Type</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="baseequip.html#status" class="tsd-kind-icon">status</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="baseequip.html#getdescriptorbycode" class="tsd-kind-icon">get<wbr>Descriptor<wbr>ByCode</a>
 							</li>
@@ -398,91 +472,13 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="baseequip.html#getsecondarystatuscode" class="tsd-kind-icon">get<wbr>Secondary<wbr>Status<wbr>Code</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="baseequip.html#getstatus" class="tsd-kind-icon">get<wbr>Status</a>
+							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class">
-						<a href="controllampequip.html" class="tsd-kind-icon">Control<wbr>Lamp<wbr>Equip</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="converter.html" class="tsd-kind-icon">Converter</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="lampequip.html" class="tsd-kind-icon">Lamp<wbr>Equip</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="lampstatus.html" class="tsd-kind-icon">Lamp<wbr>Status</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="ledlampequip.html" class="tsd-kind-icon">Led<wbr>Lamp<wbr>Equip</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="sensorstatus.html" class="tsd-kind-icon">Sensor<wbr>Status</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="socketequip.html" class="tsd-kind-icon">Socket<wbr>Equip</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="socketstatus.html" class="tsd-kind-icon">Socket<wbr>Status</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="status.html" class="tsd-kind-icon">Status</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-not-exported">
-						<a href="statusdescriptor.html" class="tsd-kind-icon">Status<wbr>Descriptor</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-not-exported">
-						<a href="_descriptor.html" class="tsd-kind-icon">_<wbr>Descriptor</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-not-exported">
-						<a href="_typehints.html" class="tsd-kind-icon">_<wbr>Type<wbr>Hints</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#descriptor" class="tsd-kind-icon">Descriptor</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#suitstatus" class="tsd-kind-icon">Suit<wbr>Status</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#suittypes" class="tsd-kind-icon">Suit<wbr>Types</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#typehints" class="tsd-kind-icon">Type<wbr>Hints</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#filllength" class="tsd-kind-icon">fill<wbr>Length</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#tobinary" class="tsd-kind-icon">to<wbr>Binary</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#todecimal" class="tsd-kind-icon">to<wbr>Decimal</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#tohex" class="tsd-kind-icon">to<wbr>Hex</a>
-					</li>
-					<li class=" tsd-kind-variable">
-						<a href="../globals.html#tooctal" class="tsd-kind-icon">to<wbr>Octal</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="../globals.html#_filllength" class="tsd-kind-icon">_fill<wbr>Length</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="../globals.html#_tobinary" class="tsd-kind-icon">_to<wbr>Binary</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="../globals.html#_todecimal" class="tsd-kind-icon">_to<wbr>Decimal</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="../globals.html#_tohex" class="tsd-kind-icon">_to<wbr>Hex</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="../globals.html#_tooctal" class="tsd-kind-icon">_to<wbr>Octal</a>
-					</li>
-					<li class=" tsd-kind-object-literal">
-						<a href="../globals.html#suiter" class="tsd-kind-icon">Suiter</a>
-					</li>
 				</ul>
 			</nav>
 		</div>

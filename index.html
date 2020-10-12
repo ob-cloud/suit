@@ -76,13 +76,13 @@
 <span class="hljs-keyword">const</span> deviceChildType = <span class="hljs-string">'01'</span>
 <span class="hljs-keyword">const</span> lampEquip = <span class="hljs-keyword">new</span> LedLampEquip(status, deviceType, deviceChildType)
 
-<span class="hljs-keyword">const</span> lampDescriptor = Descriptor.getEquipTypeDescriptor(deviceType, deviceChildType)
+<span class="hljs-keyword">const</span> lampDescriptor = Descriptor.getTypeDescriptor(deviceType, deviceChildType)
 
 <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Turn Off Bytes: '</span>, lampEquip.getTurnOffBytes())
 <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Turn On Bytes: '</span>, lampEquip.getTurnOnBytes(bright))
 <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Lamp Type Descriptor: '</span>, lampDescriptor)</code></pre>
-				<pre><code class="language-js">Turn Off Bytes:  <span class="hljs-number">000000000000000200</span>
-Turn On Bytes:  f20000000000000200
+				<pre><code class="language-js">Turn Off Bytes:  <span class="hljs-number">0000000000000200</span>
+Turn On Bytes:  f200000000000200
 Lamp Type Descriptor:  单色光</code></pre>
 			</div>
 		</div>
@@ -96,6 +96,15 @@ Lamp Type Descriptor:  单色光</code></pre>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-enum tsd-is-not-exported">
+						<a href="enums/operation.html" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/airconditionequip.html" class="tsd-kind-icon">Air<wbr>Condition<wbr>Equip</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/airconditionmodel.html" class="tsd-kind-icon">Air<wbr>Condition<wbr>Model</a>
+					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/baseequip.html" class="tsd-kind-icon">Base<wbr>Equip</a>
 					</li>
@@ -104,6 +113,18 @@ Lamp Type Descriptor:  单色光</code></pre>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/converter.html" class="tsd-kind-icon">Converter</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/curtainequip.html" class="tsd-kind-icon">Curtain<wbr>Equip</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/curtainstatus.html" class="tsd-kind-icon">Curtain<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/humidityequip.html" class="tsd-kind-icon">Humidity<wbr>Equip</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/humiditysensorstatus.html" class="tsd-kind-icon">Humidity<wbr>Sensor<wbr>Status</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/lampequip.html" class="tsd-kind-icon">Lamp<wbr>Equip</a>
@@ -126,14 +147,20 @@ Lamp Type Descriptor:  单色光</code></pre>
 					<li class=" tsd-kind-class">
 						<a href="classes/status.html" class="tsd-kind-icon">Status</a>
 					</li>
-					<li class=" tsd-kind-class tsd-is-not-exported">
-						<a href="classes/statusdescriptor.html" class="tsd-kind-icon">Status<wbr>Descriptor</a>
+					<li class=" tsd-kind-class">
+						<a href="classes/switchequip.html" class="tsd-kind-icon">Switch<wbr>Equip</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/switchstatus.html" class="tsd-kind-icon">Switch<wbr>Status</a>
 					</li>
 					<li class=" tsd-kind-class tsd-is-not-exported">
 						<a href="classes/_descriptor.html" class="tsd-kind-icon">_<wbr>Descriptor</a>
 					</li>
 					<li class=" tsd-kind-class tsd-is-not-exported">
 						<a href="classes/_typehints.html" class="tsd-kind-icon">_<wbr>Type<wbr>Hints</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-not-exported">
+						<a href="interfaces/ac.html" class="tsd-kind-icon">AC</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#descriptor" class="tsd-kind-icon">Descriptor</a>
@@ -177,8 +204,26 @@ Lamp Type Descriptor:  单色光</code></pre>
 					<li class=" tsd-kind-function tsd-is-not-exported">
 						<a href="globals.html#_tooctal" class="tsd-kind-icon">_to<wbr>Octal</a>
 					</li>
+					<li class=" tsd-kind-object-literal tsd-is-not-exported">
+						<a href="globals.html#horizontalwingmap" class="tsd-kind-icon">Horizontal<wbr>Wing<wbr>Map</a>
+					</li>
+					<li class=" tsd-kind-object-literal tsd-is-not-exported">
+						<a href="globals.html#modedescriptormap" class="tsd-kind-icon">Mode<wbr>Descriptor<wbr>Map</a>
+					</li>
+					<li class=" tsd-kind-object-literal tsd-is-not-exported">
+						<a href="globals.html#modemap" class="tsd-kind-icon">Mode<wbr>Map</a>
+					</li>
+					<li class=" tsd-kind-object-literal tsd-is-not-exported">
+						<a href="globals.html#speeddescriptormap" class="tsd-kind-icon">Speed<wbr>Descriptor<wbr>Map</a>
+					</li>
+					<li class=" tsd-kind-object-literal tsd-is-not-exported">
+						<a href="globals.html#speedmap" class="tsd-kind-icon">Speed<wbr>Map</a>
+					</li>
 					<li class=" tsd-kind-object-literal">
 						<a href="globals.html#suiter" class="tsd-kind-icon">Suiter</a>
+					</li>
+					<li class=" tsd-kind-object-literal tsd-is-not-exported">
+						<a href="globals.html#verticalwingmap" class="tsd-kind-icon">Vertical<wbr>Wing<wbr>Map</a>
 					</li>
 				</ul>
 			</nav>
