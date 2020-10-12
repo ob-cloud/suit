@@ -256,5 +256,8 @@ class _Descriptor {
   }
 }
 
-// 状态描述器
+/**
+ * @see {_Descriptor}
+ * 状态描述器
+ */
 export const Descriptor = new _Descriptor();

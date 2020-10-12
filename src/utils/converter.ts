@@ -38,6 +38,7 @@ export class Converter {
   public readonly value: string = '';
   public readonly from: number = 10;
   /**
+   * 进制转换器
    * @param value 待转换的数值字符串
    * @param from 数值进制类型（二进制、八进制、十进制、十六进制）
    */
@@ -80,11 +81,13 @@ export class Converter {
     return _toHex(this.value, this.from);
   }
   /**
+   *
    * 获取指定长度字符串
    * @param len 字符串长度
+   * @param value 指定值（默认 this.value）
    */
-  public fill(len: number): string {
-    return _fillLength(this.value, len);
+  public fill(len: number, value: string = ''): string {
+    return _fillLength(value || this.value, len);
   }
 }
 

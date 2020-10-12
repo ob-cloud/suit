@@ -92,6 +92,12 @@ class _TypeHints {
       }
     });
   }
+  /**
+   * 设备类型索引类型，用于界面按键数显示
+   * 获取当天设备按键组合值: 一键开关 -> 1
+   *
+   * 1路开关(0421): getSocketSwitchTypeIndex(04, 21) => 1
+   */
   private __typeIndexPocessor(): any {
     Array.from(Object.keys(Suiter)).map(item => {
       const typeIndex = Suiter[item].typeIndex; // {'0401': '1'}
