@@ -484,6 +484,11 @@ export const Suiter = {
       '81': '红外转发器'
     }
   },
+  infrared: {
+    type: {
+      '81': '红外转发器'
+    }
+  },
   obox: {
     type: {
       '10': 'obox',
