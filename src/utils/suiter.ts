@@ -335,7 +335,11 @@ export const Suiter = {
       '112100': '闭合',
       '112101': '打开',
       '112102': '闭合',
-      '112103': '打开'
+      '112103': '打开',
+      // 插卡取电NFC
+      '112900': '插卡',
+      '112901': '拔卡',
+      '112910': '断电',
     },
     group: {
       root: ['11'],
@@ -353,7 +357,7 @@ export const Suiter = {
       wave: ['13'],
       radarSence: ['14'],
       cardSense: ['15'],
-      pluginPower: ['15'],
+      pluginPower: ['29'],
       envSense: ['16'],
       induction: ['17'],
       dc: '18',

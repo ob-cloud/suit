@@ -98,10 +98,13 @@ export class AirConditionEquip extends BaseEquip {
   /**
    * 获取空调温度值
    */
-  getTemperature (): number {
+  getTemperature (): string {
     const temp = this.airModel.getTemperature()
     const tmepDecimal = new this.Converter(temp, 16).toDecimal()
-    return +tmepDecimal
+    return tmepDecimal
+  }
+  getTemperatureText (): string {
+    return this.isPowerOn() ? `${this.getTemperature()}` : '--'
   }
   /**
    * 设置空调模式
@@ -127,6 +130,10 @@ export class AirConditionEquip extends BaseEquip {
   getModeValue ():string {
     return this.airModel.getMode()
   }
+  getModeText (): string {
+    const mode = ModeDescriptorMap[this.getMode()] || ModeDescriptorMap[2]
+    return this.isPowerOn() ? `${mode}` : '--'
+  }
   /**
    * 设置风速
    * @param speed （0 自动， 1 弱， 2 中， 3 强）
@@ -148,6 +155,10 @@ export class AirConditionEquip extends BaseEquip {
    */
   getSpeedValue (): string {
     return this.airModel.getSpeed()
+  }
+  getSpeedText (): string {
+    const speed = SpeedDescriptorMap[this.getMode()] || SpeedDescriptorMap[0]
+    return this.isPowerOn() ? `${speed}` : '--'
   }
   /**
    * 设置左右摆风
@@ -203,11 +214,17 @@ export class AirConditionEquip extends BaseEquip {
     this.airModel.setPower('off')
     return this
   }
+  setPower (power: boolean): AirConditionEquip {
+    return power ? this.setPowerOn() : this.setPowerOff()
+  }
   /**
    * 获取电源值
    */
   getPower (): string {
     return this.airModel.getPower()
+  }
+  getPowerStatus (): boolean {
+    return this.isPowerOn()
   }
   /**
    * 电源是否开启
@@ -260,5 +277,11 @@ export class AirConditionEquip extends BaseEquip {
     return this.getPower()
   }
   getBytes () {
+    const mode = this.getModeValue()
+    const speed = this.getSpeedValue()
+    const temperature = this.getTemperature()
+    const vwing = this.getVerticalWingVlaue()
+    const hwing = this.getHorizontalWingValue()
+    return this.bytes.format(mode, speed, temperature, vwing, hwing);
   }
 }
