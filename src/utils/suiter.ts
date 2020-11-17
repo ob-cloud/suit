@@ -357,7 +357,7 @@ export const Suiter = {
       wave: ['13'],
       radarSence: ['14'],
       cardSense: ['15'],
-      pluginPower: ['29'],
+      pluginPower: ['15', '29'],
       envSense: ['16'],
       induction: ['17'],
       dc: '18',

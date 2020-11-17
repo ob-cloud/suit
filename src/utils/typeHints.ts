@@ -79,13 +79,16 @@ export class _TypeHints {
   private __groupTypeProcessor(): any {
     Array.from(Object.keys(Suiter)).map(item => {
       const group = Suiter[item].group;
+      const typeValue = Object.keys(Suiter[item].type)[0]
       const mainType = item.toCapital();
       if (group) {
         Array.from(Object.keys(group)).map(key => {
           const camel = key.toCapital();
           (this as any)[`is${camel}${mainType}`] = (
-            deviceSubType: string
+            deviceSubType: string,
+            deviceType?: string
           ): boolean => {
+            if (deviceType && deviceType !== typeValue) return false
             return this.__hasGroupType(group[key], deviceSubType);
           };
         });

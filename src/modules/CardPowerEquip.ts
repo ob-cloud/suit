@@ -7,6 +7,18 @@
 import { CardPowerStatus } from "../entity/CardPowerStatus";
 import { BaseEquip } from "./BaseEquip";
 
+enum CardStatus {
+  IN = '00',
+  OUT = '01',
+  OFF = '10',
+}
+
+const CardStatusMap: any = {
+  [CardStatus.IN]: '取电中',
+  [CardStatus.OUT]: '拔卡',
+  [CardStatus.OFF]: '断电'
+}
+
 /**
  * 插卡取电
  */
@@ -29,5 +41,9 @@ export class CardPowerEquip extends BaseEquip {
    */
   public getbytes(): string {
     return ''
+  }
+
+  getStatusDescriptor(): string {
+    return CardStatusMap[this.cardPowerStatus.state]
   }
 }
