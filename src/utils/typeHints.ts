@@ -1,3 +1,4 @@
+import { Converter } from './converter';
 import './string';
 import Suit from './suiter';
 const Suiter: any = Suit;
@@ -79,7 +80,7 @@ export class _TypeHints {
   private __groupTypeProcessor(): any {
     Array.from(Object.keys(Suiter)).map(item => {
       const group = Suiter[item].group;
-      const typeValue = Object.keys(Suiter[item].type)[0]
+      const typeValue = new Converter(Object.keys(Suiter[item].type)[0] || '0', 10).toHex()
       const mainType = item.toCapital();
       if (group) {
         Array.from(Object.keys(group)).map(key => {

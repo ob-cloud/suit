@@ -2,13 +2,14 @@
   "name": "hardware-suit",
   "version": "1.1.9",
   "description": "hardware-suit javascript library",
-  "main": "build/main/index.js",
+  "main": "dist/hardware-suit.js",
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
   "scripts": {
     "describe": "npm-scripts-info",
-    "build": "run-s clean && run-p build:*",
+    "build": "run-p build:*",
     "build:main": "tsc -p tsconfig.json",
+    "build:pack": "npm run build:main && webpack --progress --colors --bail",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:tslint": "tslint --fix --project .",
@@ -69,7 +70,11 @@
     "tslint-config-prettier": "^1.18.0",
     "tslint-immutable": "^6.0.1",
     "typedoc": "^0.19.2",
-    "typescript": "^3.5.3"
+    "typescript": "^3.5.3",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^4.16.5",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.5"
   },
   "ava": {
     "failFast": true,

@@ -8,9 +8,9 @@ import { CardPowerStatus } from "../entity/CardPowerStatus";
 import { BaseEquip } from "./BaseEquip";
 
 enum CardStatus {
-  IN = '00',
-  OUT = '01',
-  OFF = '10',
+  IN = '0',
+  OUT = '1',
+  OFF = '2',
 }
 
 const CardStatusMap: any = {
@@ -44,6 +44,7 @@ export class CardPowerEquip extends BaseEquip {
   }
 
   getStatusDescriptor(): string {
-    return CardStatusMap[this.cardPowerStatus.state]
+    const status = new this.Converter(this.cardPowerStatus.state, 16).toDecimalNumber()
+    return CardStatusMap[status]
   }
 }

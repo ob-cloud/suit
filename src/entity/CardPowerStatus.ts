@@ -16,8 +16,8 @@ export class CardPowerStatus extends Status {
   public confState: string = '';
   constructor (status: string) {
     super(status)
-    this.confState = status.slice(0, 2)
-    this.state = status.slice(2, 4)
+    this.confState = this.status.slice(0, 2)
+    this.state = this.status.slice(2, 4)
   }
   /**
    * 获取当前状态

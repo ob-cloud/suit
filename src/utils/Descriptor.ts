@@ -4,6 +4,7 @@ import Suiter, { SuitStatus, SuitTypes } from '../utils/suiter';
 import { LampStatus } from '../entity/LampStatus';
 import { SensorStatus } from '../entity/sensor/SensorStatus';
 import { SocketStatus } from '../entity/SocketStatus';
+import { CardPowerEquip } from '../modules/CardPowerEquip';
 
 /**
  * 状态描述器
@@ -227,12 +228,17 @@ export class _Descriptor {
     deviceType: string,
     deviceChildType: string
   ): string {
-    const sensorStatus = new SensorStatus(status);
     if (!deviceChildType) {
+      const sensorStatus = new SensorStatus(status);
       return this.getMainDescriptor(
         deviceType,
         sensorStatus.getSensorNormalStatus()
       );
+    }
+    const TypeHints = this.TypeHints as any;
+    if (TypeHints.isPluginPowerSensors(deviceChildType, deviceType)) {
+      const cardPowerEquip = new CardPowerEquip(status, deviceType, deviceChildType)
+      return cardPowerEquip.getStatusDescriptor()
     }
     return '';
   }
