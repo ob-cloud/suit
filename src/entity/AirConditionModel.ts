@@ -67,35 +67,35 @@ export class AirConditionModel extends Status {
     return this.rmodel
   }
   setTemperature (tmp: string): AirConditionModel {
-    this.temperature = tmp.toEvenHex()
+    this.temperature = tmp
     return this
   }
   getTemperature (): string {
     return this.temperature
   }
   setMode (mode: string): AirConditionModel {
-    this.mode = mode.toEvenHex()
+    this.mode = mode
     return this
   }
   getMode (): string {
     return this.mode
   }
   setSpeed (speed: string): AirConditionModel {
-    this.speed = speed.toEvenHex()
+    this.speed = speed
     return this
   }
   getSpeed (): string {
     return this.speed
   }
   setHorizontalWing (wing: string): AirConditionModel {
-    this.horizontalWing = wing.toEvenHex()
+    this.horizontalWing = wing
     return this
   }
   getHorizontalWing (): string {
     return this.horizontalWing
   }
   setVerticalWing (wing: string): AirConditionModel{
-    this.verticalWing = wing.toEvenHex()
+    this.verticalWing = wing
     return this
   }
   getVerticalWing (): string {

@@ -10,44 +10,44 @@ import { AirConditionModel } from '../entity/AirConditionModel';
 
 // 模式
 const ModeMap: any = {
-  '1': 'a',
-  '2': 'r',
-  '3': 'd',
-  '4': 'w',
-  '5': 'h'
+  1: 'a',
+  2: 'r',
+  3: 'd',
+  4: 'w',
+  5: 'h'
 }
 /**
  * 模式描述表
  */
 const ModeDescriptorMap: any = {
-  '1': '自动',
-  '2': '制冷',
-  '3': '抽湿',
-  '4': '送风',
-  '5': '制热'
+  1: '自动',
+  2: '制冷',
+  3: '抽湿',
+  4: '送风',
+  5: '制热'
 }
 // 风速
 const SpeedMap: any = {
-  '0': 's0',
-  '1': 's1',
-  '2': 's2',
-  '3': 's3'
+  0: 's0',
+  1: 's1',
+  2: 's2',
+  3: 's3'
 }
 const SpeedDescriptorMap: any = {
-  '0': '自动',
-  '1': '弱',
-  '2': '中',
-  '3': '强'
+  0: '自动',
+  1: '弱',
+  2: '中',
+  3: '强'
 }
 // 左右摆风
 const HorizontalWingMap: any = {
-  '0': 'u0',
-  '1': 'u1'
+  0: 'u0',
+  1: 'u1'
 }
 // 上下摆风
 const VerticalWingMap: any = {
-  '0': 'l0',
-  '1': 'l1'
+  0: 'l0',
+  1: 'l1'
 }
 
 export class AirConditionEquip extends BaseEquip {
@@ -111,13 +111,13 @@ export class AirConditionEquip extends BaseEquip {
    * @param mode 模式值（1 自动，2 制冷， 3 抽湿， 4 送风， 5 制热）
    */
   setMode (mode: number): AirConditionEquip {
-    this.airModel.setMode(ModeMap[mode > 4 ? 0 : mode])
+    this.airModel.setMode(ModeMap[mode > 4 ? 1 : mode])
     if ([2, 3].includes(mode)) this.setSpeed(1)
     this.setTemperature(26)
     return this
   }
   /**
-   * 获取空调模式键值
+   * 获取空调模式键值: 0,1,2,3,4,5
    */
   getMode (): string {
     const mode = this.airModel.getMode()
@@ -125,11 +125,14 @@ export class AirConditionEquip extends BaseEquip {
     return modeKey || ''
   }
   /**
-   * 获取空调模式值
+   * 获取空调模式值: a,r,d,w,h
    */
   getModeValue ():string {
     return this.airModel.getMode()
   }
+  /**
+   * 获取模式描述: 自动、制冷...
+   */
   getModeText (): string {
     const mode = ModeDescriptorMap[this.getMode()] || ModeDescriptorMap[2]
     return this.isPowerOn() ? `${mode}` : '--'
@@ -143,7 +146,7 @@ export class AirConditionEquip extends BaseEquip {
     return this
   }
   /**
-   * 获取风速键值
+   * 获取风速键值: 0, 1,2,3
    */
   getSpeed (): string {
     const speed = this.airModel.getSpeed()
@@ -151,13 +154,13 @@ export class AirConditionEquip extends BaseEquip {
     return speedKey || ''
   }
   /**
-   * 获取风速值
+   * 获取风速值: s0,s1,s2,s3
    */
   getSpeedValue (): string {
     return this.airModel.getSpeed()
   }
   getSpeedText (): string {
-    const speed = SpeedDescriptorMap[this.getMode()] || SpeedDescriptorMap[0]
+    const speed = SpeedDescriptorMap[this.getSpeed()] || SpeedDescriptorMap[0]
     return this.isPowerOn() ? `${speed}` : '--'
   }
   /**
