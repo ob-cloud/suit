@@ -41,13 +41,19 @@ const SpeedDescriptorMap: any = {
 }
 // 左右摆风
 const HorizontalWingMap: any = {
-  0: 'u0',
-  1: 'u1'
+  0: 'l0',
+  1: 'l1'
 }
 // 上下摆风
 const VerticalWingMap: any = {
-  0: 'l0',
-  1: 'l1'
+  0: 'u0',
+  1: 'u1'
+}
+const WingDescriptorMap: any = {
+  'l0': '',
+  'l1': '左右',
+  'u0': '',
+  'u1': '上下'
 }
 
 export class AirConditionEquip extends BaseEquip {
@@ -167,8 +173,9 @@ export class AirConditionEquip extends BaseEquip {
    * 设置左右摆风
    * @param wing 0~1
    */
-  setHorizontalWing (wing: number): AirConditionEquip {
-    this.airModel.setHorizontalWing(HorizontalWingMap[wing])
+  setHorizontalWing (wing: number = 0): AirConditionEquip {
+    this.airModel.setHorizontalWing(HorizontalWingMap[wing > 1 ? 0 : wing])
+    if (wing === 1) this.setVerticalWing(0)
     return this
   }
   /**
@@ -187,8 +194,9 @@ export class AirConditionEquip extends BaseEquip {
    * 设置上下摆风
    * @param wing 0~1
    */
-  setVerticalWing (wing: number): AirConditionEquip {
-    this.airModel.setVerticalWing(VerticalWingMap[wing])
+  setVerticalWing (wing: number = 0): AirConditionEquip {
+    this.airModel.setVerticalWing(VerticalWingMap[wing > 1 ? 0 : wing])
+    if (wing === 1) this.setHorizontalWing(0)
     return this
   }
   getVerticalWing (): string {
@@ -198,6 +206,10 @@ export class AirConditionEquip extends BaseEquip {
   }
   getVerticalWingVlaue (): string {
     return this.airModel.getVerticalWing()
+  }
+  getWingText (): string {
+    const w = WingDescriptorMap[this.getHorizontalWingValue()] || WingDescriptorMap[this.getVerticalWingVlaue()] || '--'
+    return this.isPowerOn() ? `${w}` : '--'
   }
   /**
    * 启动电源
@@ -247,14 +259,18 @@ export class AirConditionEquip extends BaseEquip {
   isFanSpeedValid (): boolean {
     return this.isPowerOn() && ['0', '1', '4'].includes(this.getMode())
   }
+  isWingValid (): boolean {
+    return this.isPowerOn() && ['0', '1', '4'].includes(this.getMode())
+  }
   /**
    * 是否有左右摆风
    * @param keys 空调按键列表
    */
-  hasHorizontalSwing (keys: any[]): boolean {
-    if (!this.airEntity && (!keys || !keys.length)) return false
+  hasHorizontalSwing (keys: any[] = []): boolean {
+    // if (!this.airEntity && (!keys || !keys.length)) return false
     const wingKeys = this.airEntity ? this.airEntity.getKeys() : keys
-    const index = wingKeys.findIndex(item => {
+    if (!wingKeys || !wingKeys.length) return false
+    const index = Array.from(wingKeys).findIndex(item => {
       const key = item.key
       return key.includes('_') && (key.includes('l0') || key.includes('l1') && !key.includes('*'))
     })
@@ -264,10 +280,11 @@ export class AirConditionEquip extends BaseEquip {
    * 是否有上下摆风
    * @param keys 空调按键列表
    */
-  hasVerticalSwing (keys: any[]): boolean {
-    if (!this.airEntity && (!keys || !keys.length)) return false
+  hasVerticalSwing (keys: any[] = []): boolean {
+    // if (!this.airEntity && (!keys || !keys.length)) return false
     const wingKeys = this.airEntity ? this.airEntity.getKeys() : keys
-    const index = wingKeys.findIndex(item => {
+    if (!wingKeys || !wingKeys.length) return false
+    const index = Array.from(wingKeys).findIndex(item => {
       const key = item.key
       return key.includes('_') && (key.includes('u0') || key.includes('u1')) && !key.includes('*')
     })
