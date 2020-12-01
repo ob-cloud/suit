@@ -28,7 +28,8 @@
     "version": "standard-version",
     "reset": "git clean -dfx && git reset --hard && npm i",
     "clean": "trash build test",
-    "prepare-release": "run-s cov:check doc:html version doc:publish"
+    "prepare-release": "run-s cov:check doc:html version doc:publish",
+    "release": "npm run build:pack && git add . && git commit -m \"build bundle\" && git push && npm version patch && npm publish"
   },
   "scripts-info": {
     "info": "Display information about the package scripts",
