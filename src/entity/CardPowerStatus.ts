@@ -14,10 +14,13 @@ export class CardPowerStatus extends Status {
   public state: string = '';
   /** 设置状态 */
   public confState: string = '';
+  /** 使能状态 */
+  public actionState: string = '';
   constructor (status: string) {
     super(status)
     this.confState = this.status.slice(0, 2)
     this.state = this.status.slice(2, 4)
+    this.actionState = this.status.slice(4, 6)
   }
   /**
    * 获取当前状态
@@ -43,5 +46,12 @@ export class CardPowerStatus extends Status {
   }
   getConfStatus (): string {
     return this.confState.toEvenHex()
+  }
+  setActionState (state: string): CardPowerStatus {
+    this.actionState = state.toEvenHex()
+    return this
+  }
+  getActionState (): string {
+    return this.actionState.toEvenHex()
   }
 }
