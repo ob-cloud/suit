@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-21 16:59:16
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-12-15 17:18:05
+ * @Last Modified time: 2020-12-15 17:57:19
  */
 
 import { BaseEquip } from './BaseEquip';
@@ -89,7 +89,10 @@ export class AirConditionEquip extends BaseEquip {
     const keyValue = this.airModel.getKeyValue()
     if (!keyValue ) return
     if (['on', 'off'].includes(keyValue)) {
-      this.airModel.setPower(keyValue)
+      // this.airModel.setPower(keyValue)
+      this.setPower(keyValue === 'on')
+      // keyValue === 'on' ? this.setPowerOn() : this.setPowerOff()
+      // this.setTemperature(+this.getTemperature(new this.Converter(`${AirConditionEquip.defaultTemp}`, 10).toHex()))
     } else {
       const keys = keyValue.split('_')
       if (keys.filter(i => i).length) this.airModel.setPower('on')
