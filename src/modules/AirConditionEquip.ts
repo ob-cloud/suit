@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-21 16:59:16
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-10-12 17:50:37
+ * @Last Modified time: 2020-12-15 17:18:05
  */
 
 import { BaseEquip } from './BaseEquip';
@@ -41,12 +41,12 @@ const SpeedDescriptorMap: any = {
 }
 // 左右摆风
 const HorizontalWingMap: any = {
-  0: 'l0',
+  0: 'l0', // 关闭
   1: 'l1'
 }
 // 上下摆风
 const VerticalWingMap: any = {
-  0: 'u0',
+  0: 'u0', // 关闭
   1: 'u1'
 }
 const WingDescriptorMap: any = {
@@ -74,8 +74,31 @@ export class AirConditionEquip extends BaseEquip {
     /**
      * 空调实体对象
      */
-    this.airModel = new AirConditionModel(status)
+    this.airModel = new AirConditionModel(status, ac)
     if (ac) this.airEntity = new AirConditionModel(status, ac)
+
+    if (this.hasHorizontalSwing()) this.setHorizontalWing(0)
+    if (this.hasVerticalSwing()) this.setVerticalWing(0)
+
+    this.init()
+  }
+  static get defaultTemp () {
+    return 26
+  }
+  init () {
+    const keyValue = this.airModel.getKeyValue()
+    if (!keyValue ) return
+    if (['on', 'off'].includes(keyValue)) {
+      this.airModel.setPower(keyValue)
+    } else {
+      const keys = keyValue.split('_')
+      if (keys.filter(i => i).length) this.airModel.setPower('on')
+      keys[0] && this.setMode(+this.getMode(keys[0]))
+      keys[1] && this.setSpeed(+this.getSpeed(keys[1]))
+      this.setTemperature(+this.getTemperature(new this.Converter(keys[2] ? keys[2] : `${AirConditionEquip.defaultTemp}`, 10).toHex()))
+      keys[3] && this.setVerticalWing(+this.getVerticalWing(keys[3]))
+      keys[4] && this.setHorizontalWing(+this.getHorizontalWing(keys[4]))
+    }
   }
   /**
    * 是否红外
@@ -96,7 +119,11 @@ export class AirConditionEquip extends BaseEquip {
    * @param temp 十进制温度值
    */
   setTemperature (temp: number): AirConditionEquip {
-    const temperature = temp < 16 ? temp + 1 : temp > 30 ? temp - 1 : temp
+    // if (temp === 0) {
+    //   this.airModel.setTemperature(`${temp}`);
+    //   return this
+    // }
+    const temperature = temp < 18 ? temp + 1 : temp > 30 ? temp - 1 : temp
     const tempHex = new this.Converter(`${temperature}`, 10).toHex()
     this.airModel.setTemperature(tempHex)
     return this
@@ -104,13 +131,15 @@ export class AirConditionEquip extends BaseEquip {
   /**
    * 获取空调温度值
    */
-  getTemperature (): string {
-    const temp = this.airModel.getTemperature()
+  getTemperature (v?: string): string {
+    const temp = v || this.airModel.getTemperature()
     const tmepDecimal = new this.Converter(temp, 16).toDecimal()
     return tmepDecimal
   }
   getTemperatureText (): string {
-    return this.isPowerOn() ? `${this.getTemperature()}` : '--'
+    const temp = this.getTemperature()
+    // const tempTxt = temp === '00' ? '--' : temp
+    return this.isPowerOn() ? `${temp}` : '--'
   }
   /**
    * 设置空调模式
@@ -118,15 +147,21 @@ export class AirConditionEquip extends BaseEquip {
    */
   setMode (mode: number): AirConditionEquip {
     this.airModel.setMode(ModeMap[mode > 4 ? 1 : mode])
-    if ([2, 3].includes(mode)) this.setSpeed(1)
-    this.setTemperature(26)
+    // if ([2, 3].includes(mode)) this.setSpeed(0) // 自动
+    // 制冷、抽湿， 自动风， 否则 弱风
+    this.setSpeed([2, 3].includes(mode) ? 0 : 1)
+    // 自动、抽湿 无温度，否则默认温度
+    // this.setTemperature([1, 3].includes(mode) ? 0 : AirConditionEquip.defaultTemp)
+    if (![1, 3].includes(mode)) {
+      this.setTemperature(AirConditionEquip.defaultTemp)
+    }
     return this
   }
   /**
    * 获取空调模式键值: 0,1,2,3,4,5
    */
-  getMode (): string {
-    const mode = this.airModel.getMode()
+  getMode (v?: string): string {
+    const mode = v || this.airModel.getMode()
     const modeKey = Object.keys(ModeMap).find(key => ModeMap[key] === mode)
     return modeKey || ''
   }
@@ -154,8 +189,8 @@ export class AirConditionEquip extends BaseEquip {
   /**
    * 获取风速键值: 0, 1,2,3
    */
-  getSpeed (): string {
-    const speed = this.airModel.getSpeed()
+  getSpeed (v?: string): string {
+    const speed = v || this.airModel.getSpeed()
     const speedKey = Object.keys(SpeedMap).find(key => SpeedMap[key] === speed)
     return speedKey || ''
   }
@@ -181,8 +216,8 @@ export class AirConditionEquip extends BaseEquip {
   /**
    * 获取左右摆风
    */
-  getHorizontalWing (): string {
-    const wing = this.airModel.getHorizontalWing()
+  getHorizontalWing (v?: string): string {
+    const wing = v || this.airModel.getHorizontalWing()
     const wingKey = Object.keys(HorizontalWingMap).find(key => HorizontalWingMap[key] === wing)
     return wingKey || ''
 
@@ -199,8 +234,8 @@ export class AirConditionEquip extends BaseEquip {
     if (wing === 1) this.setHorizontalWing(0)
     return this
   }
-  getVerticalWing (): string {
-    const wing = this.airModel.getVerticalWing()
+  getVerticalWing (v?: string): string {
+    const wing = v || this.airModel.getVerticalWing()
     const wingKey = Object.keys(VerticalWingMap).find(key => VerticalWingMap[key] === wing)
     return wingKey || ''
   }
@@ -272,7 +307,7 @@ export class AirConditionEquip extends BaseEquip {
     if (!wingKeys || !wingKeys.length) return false
     const index = Array.from(wingKeys).findIndex(item => {
       const key = item.key
-      return key.includes('_') && (key.includes('l0') || key.includes('l1') && !key.includes('*'))
+      return key.includes('_') && ((key.includes('l0') || key.includes('l1')) && !key.includes('*'))
     })
     return index !== -1
   }
@@ -286,7 +321,7 @@ export class AirConditionEquip extends BaseEquip {
     if (!wingKeys || !wingKeys.length) return false
     const index = Array.from(wingKeys).findIndex(item => {
       const key = item.key
-      return key.includes('_') && (key.includes('u0') || key.includes('u1')) && !key.includes('*')
+      return key.includes('_') && ((key.includes('u0') || key.includes('u1')) && !key.includes('*'))
     })
     return index !== -1
   }
@@ -299,6 +334,7 @@ export class AirConditionEquip extends BaseEquip {
   getBytes () {
     const mode = this.getModeValue()
     const speed = this.getSpeedValue()
+    // const temperature = this.getTemperature() === '00' ? '' : this.getTemperature()
     const temperature = this.getTemperature()
     const vwing = this.getVerticalWingVlaue()
     const hwing = this.getHorizontalWingValue()

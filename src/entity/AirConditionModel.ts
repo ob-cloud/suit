@@ -2,27 +2,30 @@
  * @Author: eamiear
  * @Date: 2020-08-21 17:04:00
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-08-30 10:08:10
+ * @Last Modified time: 2020-12-15 17:12:36
  */
 
 import { Status } from "./Status"
 
  interface AC {
   keys: any[];
-  brandId: string;
+  serialId: string;
   deviceType: number;
-  index: number;
+  indexOsm: number;
   name: string;
-  rmodel: string
+  rmodel: string,
+  keyValue: string
  }
 
+//  import { Converter } from '../utils/converter';
 export class AirConditionModel extends Status {
   keys: any[] = []
-  brandId: string = ''
+  serialId: string = ''
   deviceType!: number
   index!: number
   name: string = ''
   rmodel: string = ''
+  keyValue: string = ''
 
   temperature: string = ''
   mode: string = ''
@@ -41,18 +44,38 @@ export class AirConditionModel extends Status {
 
     if (ac) {
       this.keys = ac.keys
-      this.brandId = ac.brandId
+      this.serialId = ac.serialId
       this.deviceType = ac.deviceType
-      this.index = ac.index
+      this.index = ac.indexOsm
       this.name = ac.name
       this.rmodel = ac.rmodel
+      this.keyValue = ac.keyValue
+
+      // this.init()
+    }
+  }
+  init () {
+    if (!this.keyValue ) return
+    if (['on', 'off'].includes(this.keyValue)) {
+      this.setPower(this.keyValue)
+    } else {
+      const keys = this.keyValue.split('_')
+      if (keys.filter(i => i).length) this.setPower('on')
+      keys[0] && this.setMode(keys[0])
+      keys[1] && this.setSpeed(keys[1])
+      this.setTemperature(keys[2] || '1a')
+      keys[3] && this.setVerticalWing(keys[3])
+      keys[4] && this.setHorizontalWing(keys[4])
     }
   }
   getKeys () {
     return this.keys
   }
-  getBrandId () {
-    return this.brandId
+  getKeyValue () {
+    return this.keyValue
+  }
+  getSerialId () {
+    return this.serialId
   }
   getDeviceType () {
     return this.deviceType
