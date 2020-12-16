@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-21 16:59:16
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-12-15 17:57:19
+ * @Last Modified time: 2020-12-16 17:57:31
  */
 
 import { BaseEquip } from './BaseEquip';
@@ -152,7 +152,7 @@ export class AirConditionEquip extends BaseEquip {
     this.airModel.setMode(ModeMap[mode > 4 ? 1 : mode])
     // if ([2, 3].includes(mode)) this.setSpeed(0) // 自动
     // 制冷、抽湿， 自动风， 否则 弱风
-    this.setSpeed([2, 3].includes(mode) ? 0 : 1)
+    this.setSpeed([1, 2, 3].includes(mode) ? 0 : 1)
     // 自动、抽湿 无温度，否则默认温度
     // this.setTemperature([1, 3].includes(mode) ? 0 : AirConditionEquip.defaultTemp)
     if (![1, 3].includes(mode)) {
