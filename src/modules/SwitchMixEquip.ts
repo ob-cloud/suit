@@ -4,7 +4,7 @@
  * @Last Modified by: eamiear
  * @Last Modified time: 2020-12-17 18:31:09
  */
-import { SwitchSceneStatus } from '../entity/SwitchSceneStatus';
+import { SwitchMixStatus } from '../entity/SwitchMixStatus';
 import { BaseEquip } from './BaseEquip';
 
 enum SwitchKeyStatus {
@@ -28,14 +28,20 @@ const SwitchKeyStatusMap: any = {
   [SwitchKeyStatus.OFF]: '关'
 }
 
-export class SwitchMixupEquip extends BaseEquip {
-  switchStatus: SwitchSceneStatus;
+export class SwitchMixEquip extends BaseEquip {
+  switchStatus: SwitchMixStatus;
   typeStr: any;
   private readonly bytes = `{0}{1}000000000000`;
+  /**
+   * 面板开关(普通开关、情景开关、混合开关[普通+情景])
+   * @param status 状态
+   * @param deviceType 主类型
+   * @param deviceChildType 子类型
+   */
   constructor(status: string, deviceType?: string, deviceChildType?: string) {
     super(status, deviceType, deviceChildType)
     this.typeStr = this.TypeHints.getSocketSwitchTypeIndex(deviceType, deviceChildType)
-    this.switchStatus = new SwitchSceneStatus(status, this.orderCount)
+    this.switchStatus = new SwitchMixStatus(status, this.orderCount)
   }
   /**
    * 类型索引 1|3
@@ -64,20 +70,20 @@ export class SwitchMixupEquip extends BaseEquip {
     return typeObj
   }
   /**
-   * 按键
+   * 按键列表
    * ['00', '01', '10', '11']
    */
   get keyDots () {
     return this.switchStatus.keyDots.concat(this.switchStatus.extraKeyDots || [])
   }
   /**
-   * 按键数
+   * 按键总数
    */
   get keyCount () {
     return +this._getKeyCount()
   }
   /**
-   * 获取各类型按键数 [2,3] -> [开关, 情景]
+   * 获取各类型按键数量列表 [2,3] -> [开关, 情景]
    */
   get _keyCountList () {
     if (!this.typeStr || !this.typeStr.length) return [1]
@@ -90,7 +96,7 @@ export class SwitchMixupEquip extends BaseEquip {
     return keyList
   }
   /**
-   * 获取排序类型按键数
+   * 按键数列表，按主程类型排序
    *
    * 开关类型 - 开关为主入口
    * 情景类型 - 情景为主入口
@@ -113,7 +119,7 @@ export class SwitchMixupEquip extends BaseEquip {
    * 设置按键位
    * @param v 值
    * @param index 索引
-   * @param t 按键类型
+   * @param t 非主程类型 > 0 的任意值
    */
   setPower (v: number, index: number, t?: number) {
     const vb = new this.Converter(`${v}`, 10).toBinary()
@@ -123,9 +129,9 @@ export class SwitchMixupEquip extends BaseEquip {
     return this
   }
   /**
-   * 获取按键值
+   * 获取按键值 ['1', '0', '1']
    * @param index 索引
-   * @param t 按键类型
+   * @param t  非主程类型 > 0 的任意值
    */
   getPower (index?: number, t?: number): Array<string> {
     if (index !== undefined) {
@@ -139,9 +145,9 @@ export class SwitchMixupEquip extends BaseEquip {
     }
   }
   /**
-   * 获取按键位整型值
+   * 获取按键位整型值  [1, 0, 1]
    * @param index 索引
-   * @param t 按键类型 普通、情景等
+   * @param t  非主程类型 > 0 的任意值
    */
   getPowerInt (index?: number, t?: number): Array<number> {
     const powers = this.getPower(index, t)
