@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.29](https://github.com/ob-cloud/hardware-suit/compare/v1.1.26...v1.1.29) (2020-12-17)
+
+
+
 ### [1.1.27](https://github.com/ob-cloud/hardware-suit/compare/v1.1.24...v1.1.27) (2020-12-17)
 
 
