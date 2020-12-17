@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-29 17:46:03
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-12-17 15:43:49
+ * @Last Modified time: 2020-12-17 16:38:25
  */
 
 import { Converter } from '../utils/converter';
@@ -14,8 +14,8 @@ export class SwitchStatus extends Status {
   public state: string = '';
   keyDots: string[]; // 按键字节位
   typeIndex: string;
-  count: number[] = [1]; // 按键数
-  private _count: number;
+  count: number[] = [1]; // 按键数列表 [3, 3] ---> 开关 3， 情景 3
+  private _count: number; // 按键数
   constructor (status: string, count?: Array<number>, typeIndex?: string) {
     super(status)
     this.state = status.slice(0, 2) || '00'
@@ -42,9 +42,10 @@ export class SwitchStatus extends Status {
   private getKeyDots () {
     return this.__parseKeyDots(this.state, this._count)
   }
-  setKeyDot (v: string, index: number) {
-    if (index + 1 > this._count) return
+  setKeyDot (v: string, index: number): SwitchStatus {
+    if (index + 1 > this._count) return this
     this.keyDots[index] = v.toEven()
+    return this
   }
   getKeyDotByIndex (index: number) {
     if (index + 1 > this._count) return

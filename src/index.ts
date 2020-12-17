@@ -12,6 +12,7 @@ export * from './modules/ControlLampEquip';
 export * from './modules/AirConditionEquip';
 export * from './modules/HumidityEquip';
 export * from './modules/SwitchEquip';
+export * from './modules/SwitchMixupEquip';
 export * from './modules/SocketEquip';
 export * from './modules/CurtainEquip';
 export * from './modules/CardPowerEquip';

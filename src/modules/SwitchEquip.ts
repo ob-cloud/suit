@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-29 20:16:40
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-12-17 15:44:24
+ * @Last Modified time: 2020-12-17 17:00:40
  */
 import { SwitchStatus } from '../entity/SwitchStatus';
 import { BaseEquip } from './BaseEquip';
@@ -45,6 +45,10 @@ export class SwitchEquip extends BaseEquip {
   }
   /**
    * 开关类型标志
+   * {
+   *   normal: 1,
+   *   scene: 0
+   * }
    */
   get keyTypes () {
     if (!this.typeStr) return ''
@@ -61,9 +65,9 @@ export class SwitchEquip extends BaseEquip {
   }
   /**
    * 按键
+   * ['00', '01', '10', '11']
    */
   get keyDots () {
-    // ['00', '01', '10', '11']
     return this.switchStatus.keyDots
   }
   /**
@@ -97,7 +101,7 @@ export class SwitchEquip extends BaseEquip {
   }
   getBytes () {
     const keyDots = this.switchStatus.keyDots.reverse()
-    const status = new this.Converter(keyDots.join(''), 2).toHex()
+    const status = new this.Converter(keyDots.join('') || '00', 2).toHex()
     return this.bytes.format(status)
   }
 }
