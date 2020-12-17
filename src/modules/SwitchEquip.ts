@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-29 20:16:40
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-12-16 17:36:44
+ * @Last Modified time: 2020-12-16 18:26:16
  */
 import { SwitchStatus } from '../entity/SwitchStatus';
 import { BaseEquip } from './BaseEquip';
@@ -20,7 +20,7 @@ const SwitchKeyStatusMap: any = {
 export class SwitchEquip extends BaseEquip {
   switchStatus: SwitchStatus;
   keyList: any;
-  private readonly bytes = `{0}000000000000000`;
+  private readonly bytes = `{0}00000000000000`;
   constructor(status: string, deviceType?: string, deviceChildType?: string) {
     super(status, deviceType, deviceChildType)
     this.keyList = this.TypeHints.getSocketSwitchTypeIndex(deviceType, deviceChildType)
