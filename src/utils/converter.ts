@@ -89,6 +89,9 @@ export class Converter {
   public fill(len: number, value: string = ''): string {
     return _fillLength(value || this.value, len);
   }
+  public fillBinary (value: string = ''): string {
+    return this.fill(8, value)
+  }
 }
 
 export const toBinary = _toBinary;

@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-21 16:59:16
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-12-17 10:49:36
+ * @Last Modified time: 2020-12-17 15:50:45
  */
 
 import { BaseEquip } from './BaseEquip';
@@ -149,7 +149,8 @@ export class AirConditionEquip extends BaseEquip {
    * @param mode 模式值（1 自动，2 制冷， 3 抽湿， 4 送风， 5 制热）
    */
   setMode (mode: number): AirConditionEquip {
-    this.airModel.setMode(ModeMap[mode > 4 ? 1 : mode])
+    mode = mode > 5 ? 1 : mode
+    this.airModel.setMode(ModeMap[mode])
     // if ([2, 3].includes(mode)) this.setSpeed(0) // 自动
     // 制冷、抽湿， 自动风， 否则 弱风
     this.setSpeed([1, 2, 3].includes(mode) ? 0 : 1)

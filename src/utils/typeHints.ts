@@ -53,7 +53,7 @@ export class _TypeHints {
    * @param deviceChildType 设备子类型
    */
   private __getTypeIndex(typeIndex: object, deviceType: string, deviceChildType: string): string {
-    return (typeIndex as any)[`${deviceType}${deviceChildType}`]
+    return (typeIndex as any)[`${deviceType.toHexNumber().toEvenHex()}${deviceChildType.toHexNumber().toEvenHex()}`]
   }
 
   /**
