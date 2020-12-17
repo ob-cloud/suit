@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.27](https://github.com/ob-cloud/hardware-suit/compare/v1.1.24...v1.1.27) (2020-12-17)
+
+
+### Bug Fixes
+
+* 温度模式 ([d7c00b5](https://github.com/ob-cloud/hardware-suit/commit/d7c00b5))
+
+
+
 ### [1.1.25](https://github.com/ob-cloud/hardware-suit/compare/v1.1.22...v1.1.25) (2020-12-16)
 
 
