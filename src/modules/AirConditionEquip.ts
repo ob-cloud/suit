@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-21 16:59:16
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-12-16 17:57:31
+ * @Last Modified time: 2020-12-17 10:49:36
  */
 
 import { BaseEquip } from './BaseEquip';
@@ -289,16 +289,16 @@ export class AirConditionEquip extends BaseEquip {
    * 温度是否可设置
    */
   isTemperatureValid (): boolean {
-    return this.isPowerOn() && ['1', '4'].includes(this.getMode())
+    return this.isPowerOn() && ['2', '5'].includes(this.getMode())
   }
   /**
    * 风速是否可设置
    */
   isFanSpeedValid (): boolean {
-    return this.isPowerOn() && ['0', '1', '4'].includes(this.getMode())
+    return this.isPowerOn() && ['1', '2', '5'].includes(this.getMode())
   }
   isWingValid (): boolean {
-    return this.isPowerOn() && ['0', '1', '4'].includes(this.getMode())
+    return this.isPowerOn() && ['1', '2', '5'].includes(this.getMode())
   }
   /**
    * 是否有左右摆风
