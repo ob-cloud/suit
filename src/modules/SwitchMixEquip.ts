@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-29 20:16:40
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-12-17 18:31:09
+ * @Last Modified time: 2020-12-18 11:54:41
  */
 import { SwitchMixStatus } from '../entity/SwitchMixStatus';
 import { BaseEquip } from './BaseEquip';
@@ -152,6 +152,15 @@ export class SwitchMixEquip extends BaseEquip {
   getPowerInt (index?: number, t?: number): Array<number> {
     const powers = this.getPower(index, t)
     return powers.map(item => +item > 1 ? 0 : +item)
+  }
+
+  /**
+   * 获取状态描述
+   */
+  getStatusDescriptor () {
+    const power = this.getPowerInt()
+    console.log('------ ', this.deviceChildType, power)
+    return power.map(p => SwitchKeyStatusMap[p]).join(',')
   }
 
   getBytes () {

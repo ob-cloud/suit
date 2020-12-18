@@ -5,6 +5,8 @@ import { LampStatus } from '../entity/LampStatus';
 import { SensorStatus } from '../entity/sensor/SensorStatus';
 import { SocketStatus } from '../entity/SocketStatus';
 import { CardPowerEquip } from '../modules/CardPowerEquip';
+import { SwitchMixEquip } from '../modules/SwitchMixEquip';
+import { CurtainEquip } from '../modules/CurtainEquip';
 
 /**
  * 状态描述器
@@ -138,7 +140,7 @@ export class _Descriptor {
   }
 
   /**
-   * 获取开关状态描述
+   * TODO 获取开关状态描述
    * @param status 状态码 16位字符串
    * @param deviceType 设备主类型
    * @param deviceChildType 设备子类型
@@ -160,26 +162,47 @@ export class _Descriptor {
       const statusBitStr = fillLength(socketStatus.getPlugStatus(), bitlen);
       return this.getDescriptors(deviceType, statusBitStr);
     }
-    if (TypeHints.isTouchSocketSwitch(deviceChildType)) {
-      const statusBitStr = fillLength(socketStatus.getTouchStatus(), bitlen);
-      return this.getDescriptors(deviceType, statusBitStr);
-    }
-    if (TypeHints.isNormalSocketSwitch(deviceChildType)) {
-      const statusBitStr = fillLength(socketStatus.getTouchStatus(), bitlen);
-      return this.getDescriptors(deviceType, statusBitStr);
-    }
-    if (TypeHints.isMixSocketSwitch(deviceChildType)) {
-      const statusBitStr = fillLength(socketStatus.getMixupStatus(), bitlen);
-      return this.getDescriptors(deviceType, statusBitStr);
-    }
-    if (TypeHints.isSceneSocketSwitch(deviceChildType)) {
-      const statusBitStr = fillLength(socketStatus.getSceneStatus(), bitlen);
-      return this.getDescriptors(deviceType, statusBitStr);
-    }
-    if (TypeHints.isXkeySocketSwitch(deviceChildType)) {
-      return socketStatus.getTouchStatus() === '00' ? '关' : '开'
+    // if (TypeHints.isTouchSocketSwitch(deviceChildType)) {
+    //   const statusBitStr = fillLength(socketStatus.getTouchStatus(), bitlen);
+    //   return this.getDescriptors(deviceType, statusBitStr);
+    // }
+    // if (TypeHints.isNormalSocketSwitch(deviceChildType)) {
+    //   const statusBitStr = fillLength(socketStatus.getTouchStatus(), bitlen);
+    //   return this.getDescriptors(deviceType, statusBitStr);
+    // }
+    // if (TypeHints.isMixSocketSwitch(deviceChildType)) {
+    //   const statusBitStr = fillLength(socketStatus.getMixupStatus(), bitlen);
+    //   return this.getDescriptors(deviceType, statusBitStr);
+    // }
+    // if (TypeHints.isSceneSocketSwitch(deviceChildType)) {
+    //   const statusBitStr = fillLength(socketStatus.getSceneStatus(), bitlen);
+    //   return this.getDescriptors(deviceType, statusBitStr);
+    // }
+    // if (TypeHints.isXkeySocketSwitch(deviceChildType)) {
+    //   return socketStatus.getTouchStatus() === '00' ? '关' : '开'
+    // }
+    // console.log('deviceChildType === ', deviceChildType, TypeHints.isXkeySocketSwitch(deviceChildType, deviceType))
+    if (TypeHints.isXkeySocketSwitch(deviceChildType, deviceType)) {
+      // return socketStatus.getTouchStatus() === '00' ? '关' : '开'
+      const equip = new SwitchMixEquip(status, deviceType, deviceChildType)
+      return equip.getStatusDescriptor()
     }
     return '';
+  }
+
+  /**
+   * 获取窗帘状态描述
+   * @param status 状态码 16位字符串
+   * @param deviceType 设备主类型
+   * @param deviceChildType 设备子类型
+   */
+  public getSmartSwitchDescriptor (status: string, deviceType: string, deviceChildType?: string): string {
+    const TypeHints = this.TypeHints as any;
+    if (TypeHints.isCurtainSmartSwitch(deviceChildType, deviceType)) {
+      const curtain = new CurtainEquip(status, deviceType, deviceChildType)
+      return curtain.getStatusDescriptor()
+    }
+    return ''
   }
 
   /**
@@ -250,6 +273,7 @@ export class _Descriptor {
    * @param deviceChildType 设备子类型
    */
   public getStatusDescriptor (status: string, deviceType: string, deviceChildType: string): string {
+
     const deviceTypeKey = Array.from(Object.keys(this.Suiter)).find(suitKey => {
       const suitKeyCapital = suitKey.toCapital()
       return this.TypeHints[`is${suitKeyCapital}`].call(this.TypeHints, deviceType, deviceChildType) || '';

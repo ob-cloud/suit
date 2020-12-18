@@ -90,7 +90,7 @@ export class Converter {
     return _fillLength(value || this.value, len);
   }
   public fillBinary (value: string = ''): string {
-    return this.fill(8, value)
+    return this.fill((this.value.length || 1) * 8, value)
   }
 }
 

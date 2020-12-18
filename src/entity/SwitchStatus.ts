@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-29 17:46:03
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-12-17 16:38:25
+ * @Last Modified time: 2020-12-18 12:45:08
  */
 
 import { Converter } from '../utils/converter';
@@ -31,7 +31,7 @@ export class SwitchStatus extends Status {
    */
   __parseKeyDots (state: string, count: number) {
     let keyList = []
-    const converter = new Converter(state, 16)
+    const converter = new Converter(state || '00', 16)
     const bits = converter.fillBinary(converter.toBinary())
     let i = 0
     for (let index = 0; index < count; index++) {
