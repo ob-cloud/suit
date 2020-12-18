@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-29 17:46:03
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-12-18 12:45:08
+ * @Last Modified time: 2020-12-18 14:51:22
  */
 
 import { Converter } from '../utils/converter';
@@ -12,7 +12,7 @@ import { Status } from './Status';
  */
 export class SwitchStatus extends Status {
   public state: string = '';
-  keyDots: string[]; // 按键字节位
+  // keyDots: string[]; // 按键字节位
   typeIndex: string; // 类型索引 3|3
   count: number[] = [1]; // 按键数列表 [3, 3] ---> 开关 3， 情景 3
   private _count: number; // 主程按键数，普通开关面板 -> 开关，情景 -> 情景， 混合 -> 情景
@@ -22,7 +22,11 @@ export class SwitchStatus extends Status {
     this.count = count || [1]
     this._count = this.count[0]
     this.typeIndex = typeIndex || ''
-    this.keyDots = this.getKeyDots()
+    // this.keyDots = this.getKeyDots()
+  }
+  // 按键字节位
+  get keyDots () {
+    return this.getKeyDots()
   }
   /**
    * 解析按键坑位状态码

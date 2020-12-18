@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-29 20:16:40
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-12-18 11:54:41
+ * @Last Modified time: 2020-12-18 15:38:27
  */
 import { SwitchMixStatus } from '../entity/SwitchMixStatus';
 import { BaseEquip } from './BaseEquip';
@@ -31,9 +31,9 @@ const SwitchKeyStatusMap: any = {
 export class SwitchMixEquip extends BaseEquip {
   switchStatus: SwitchMixStatus;
   typeStr: any;
-  private readonly bytes = `{0}{1}000000000000`;
+  bytes = `{0}{1}000000000000`;
   /**
-   * 面板开关(普通开关、情景开关、混合开关[普通+情景])
+   * 面板开关(普通开关、情景开关、单线开挂、混合开关[普通+情景])
    * @param status 状态
    * @param deviceType 主类型
    * @param deviceChildType 子类型
@@ -159,7 +159,6 @@ export class SwitchMixEquip extends BaseEquip {
    */
   getStatusDescriptor () {
     const power = this.getPowerInt()
-    console.log('------ ', this.deviceChildType, power)
     return power.map(p => SwitchKeyStatusMap[p]).join(',')
   }
 

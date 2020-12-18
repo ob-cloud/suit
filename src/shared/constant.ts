@@ -46,3 +46,69 @@ export const WingDescriptorMap: any = {
   'u0': '',
   'u1': '上下'
 }
+
+
+export enum WireMode {
+  OFF = 0,
+  ON = 1,
+  COLD = 2,
+  HOT = 3
+}
+export const WireModeMap: any = {
+  [WireMode.OFF]: '00',
+  [WireMode.ON]: '01',
+  [WireMode.ON]: '01',
+  [WireMode.COLD]: '21',
+  [WireMode.HOT]: '51',
+}
+export const WireModeDescriptorMap: any = {
+  [WireMode.OFF]: '关机',
+  [WireMode.ON]: '开机',
+  [WireMode.COLD]: '制冷',
+  [WireMode.HOT]: '制热',
+}
+
+export enum WireSpeed {
+  AUTO = 0,
+  WEAK = 1,
+  MEDIUM = 2,
+  STRONG = 3
+}
+export const WireSpeedMap: any = {
+  [WireSpeed.AUTO]: '00',
+  [WireSpeed.WEAK]: '01',
+  [WireSpeed.MEDIUM]: '02',
+  [WireSpeed.STRONG]: '03',
+}
+export const WireSpeedDescriptorMap: any = {
+  [WireSpeed.AUTO]: '自动',
+  [WireSpeed.WEAK]: '弱风',
+  [WireSpeed.MEDIUM]: '中风',
+  [WireSpeed.STRONG]: '强风',
+}
+
+export enum WireHWing {
+  ON = 1,
+  OFF = 0
+}
+export const WireHWingMap: any = {
+  [WireHWing.ON]: '01',
+  [WireHWing.OFF]: '00'
+}
+export const WireHWingDescriptorMap: any = {
+  [WireHWing.ON]: '左右',
+  [WireHWing.OFF]: ''
+}
+
+export enum WireVWing {
+  ON = 1,
+  OFF = 0
+}
+export const WWireVWingMap: any = {
+  [WireVWing.ON]: '01',
+  [WireVWing.OFF]: '00'
+}
+export const WireVWingDescriptorMap: any = {
+  [WireVWing.ON]: '上下',
+  [WireVWing.OFF]: ''
+}

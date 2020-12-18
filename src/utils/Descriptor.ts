@@ -7,6 +7,7 @@ import { SocketStatus } from '../entity/SocketStatus';
 import { CardPowerEquip } from '../modules/CardPowerEquip';
 import { SwitchMixEquip } from '../modules/SwitchMixEquip';
 import { CurtainEquip } from '../modules/CurtainEquip';
+import { WireConditionEquip } from '../modules/WireConditionEquip';
 
 /**
  * 状态描述器
@@ -246,17 +247,10 @@ export class _Descriptor {
     }
     return '';
   }
-  public getSensorsDescriptor(
-    status: string,
-    deviceType: string,
-    deviceChildType: string
-  ): string {
+  public getSensorsDescriptor(status: string, deviceType: string, deviceChildType: string): string {
     if (!deviceChildType) {
       const sensorStatus = new SensorStatus(status);
-      return this.getMainDescriptor(
-        deviceType,
-        sensorStatus.getSensorNormalStatus()
-      );
+      return this.getMainDescriptor(deviceType, sensorStatus.getSensorNormalStatus());
     }
     const TypeHints = this.TypeHints as any;
     if (TypeHints.isPluginPowerSensors(deviceChildType, deviceType)) {
@@ -264,6 +258,21 @@ export class _Descriptor {
       return cardPowerEquip.getStatusDescriptor()
     }
     return '';
+  }
+
+  /**
+   * 线控器状态描述
+   * @param status
+   * @param deviceType
+   * @param deviceChildType
+   */
+  getWireControlDescriptor(status: string, deviceType: string, deviceChildType: string): string {
+    const TypeHints = this.TypeHints as any;
+    if (TypeHints.isAcWireControl(deviceChildType, deviceType)) {
+      const condition = new WireConditionEquip(status, deviceType, deviceChildType)
+      return condition.getStatusDescriptor()
+    }
+    return ''
   }
 
   /**
