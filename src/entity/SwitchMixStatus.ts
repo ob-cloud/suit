@@ -5,12 +5,10 @@
  * @Last Modified time: 2020-12-17 16:57:01
  */
 
-import { SwitchStatus } from './SwitchStatus';
+import { OrderEnum, SwitchStatus } from './SwitchStatus';
 
 export class SwitchMixStatus extends SwitchStatus {
   extraState: string; // 次级状态（非主程）
-  extraCount: number; // 非主程面板按键数
-  extraKeyDots: string[]; // 按键列表
   /**
    * 混合面板(情景 + 开关)
    * @param status 状态码
@@ -19,11 +17,16 @@ export class SwitchMixStatus extends SwitchStatus {
    */
   constructor (status: string, count?: Array<number>, typeIndex?: string) {
     super(status, count, typeIndex)
-    this.extraCount = this.count[1] || 0
     this.extraState = status.slice(2, 4)
-    this.extraKeyDots = this.__parseKeyDots(this.extraState, this.extraCount)
   }
-
+  // 按键列表
+  get extraKeyDots(): string[] {
+    return this.__parseBitState(this.extraState, this.extraCount)
+  }
+  // 非主程面板按键数
+  get extraCount(): number {
+    return this.count[OrderEnum.Secondary] || 0
+  }
   /**
    * 设置按键值
    * @param v 二进制值

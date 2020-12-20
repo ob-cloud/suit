@@ -38,7 +38,7 @@ String.prototype.toEvenHexWithArray = function(hex: Array<string>): string {
   if (!hex || !hex.length) return ''
   return hex.map(h => h.toEvenHex()).join('')
 }
-String.prototype.format = function(..._args: readonly string[]) {
+String.prototype.format = function(..._args: string[]) {
   if (arguments.length === 0) {
     return this.toString();
   }
