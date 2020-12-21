@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-29 20:16:40
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-12-21 17:18:38
+ * @Last Modified time: 2020-12-21 17:55:33
  */
 import { SwitchMixStatus } from '../entity/SwitchMixStatus';
 import { OrderEnum } from '../entity/SwitchStatus';
@@ -224,9 +224,10 @@ export class SwitchMixEquip extends BaseEquip {
   }
 
   getBytes() {
+    // 按键从右至左取值，构建字节码需先取反
     let keyDots = [...this.switchStatus.keyDots]
     keyDots = keyDots.reverse()
-    if (this.isScene || this.isSwitchScene) { // 情景 8位
+    if (this.isScene || this.isSwitchScene) { // 情景开关按字节 8位获取按键
       keyDots = keyDots.map(k => `${+k}`)
     }
     const extraDots = [...this.switchStatus.extraKeyDots].reverse()
