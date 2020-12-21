@@ -1,44 +1,74 @@
 
+///// 红外空调 ///////
+
+// 电源
+export enum PowerEnum {
+  ON = 'on',
+  OFF = 'off'
+}
 // 模式
+export enum ModeEnum {
+  AUTO = 1, // 自动
+  COLD = 2, // 制冷
+  WEDY = 3, // 抽湿
+  WING = 4, // 送风
+  HOT = 5 // 制热
+}
 export const ModeMap: any = {
-  1: 'a',
-  2: 'r',
-  3: 'd',
-  4: 'w',
-  5: 'h'
+  [ModeEnum.AUTO]: 'a',
+  [ModeEnum.COLD]: 'r',
+  [ModeEnum.WEDY]: 'd',
+  [ModeEnum.WING]: 'w',
+  [ModeEnum.HOT]: 'h'
 }
 /**
  * 模式描述表
  */
 export const ModeDescriptorMap: any = {
-  1: '自动',
-  2: '制冷',
-  3: '抽湿',
-  4: '送风',
-  5: '制热'
+  [ModeEnum.AUTO]: '自动',
+  [ModeEnum.COLD]: '制冷',
+  [ModeEnum.WEDY]: '抽湿',
+  [ModeEnum.WING]: '送风',
+  [ModeEnum.HOT]: '制热'
 }
+
 // 风速
+export enum SpeedEnum {
+  AUTO = 0,
+  WEAK = 1,
+  MEDIUM = 2,
+  STRONG = 3
+}
 export const SpeedMap: any = {
-  0: 's0',
-  1: 's1',
-  2: 's2',
-  3: 's3'
+  [SpeedEnum.AUTO]: 's0',
+  [SpeedEnum.WEAK]: 's1',
+  [SpeedEnum.MEDIUM]: 's2',
+  [SpeedEnum.STRONG]: 's3'
 }
 export const SpeedDescriptorMap: any = {
-  0: '自动',
-  1: '弱',
-  2: '中',
-  3: '强'
+  [SpeedEnum.AUTO]: '自动',
+  [SpeedEnum.WEAK]: '弱',
+  [SpeedEnum.MEDIUM]: '中',
+  [SpeedEnum.STRONG]: '强'
 }
 // 左右摆风
-export const HorizontalWingMap: any = {
-  0: 'l0', // 关闭
-  1: 'l1'
+export enum HWingEnum {
+  ON = 1,
+  OFF = 0
 }
+export const HorizontalWingMap: any = {
+  [HWingEnum.OFF]: 'l0', // 关闭
+  [HWingEnum.ON]: 'l1'
+}
+
 // 上下摆风
+export enum VWingEnum {
+  ON = 1,
+  OFF = 0
+}
 export const VerticalWingMap: any = {
-  0: 'u0', // 关闭
-  1: 'u1'
+  [VWingEnum.OFF]: 'u0', // 关闭
+  [VWingEnum.ON]: 'u1'
 }
 export const WingDescriptorMap: any = {
   'l0': '',
@@ -48,6 +78,9 @@ export const WingDescriptorMap: any = {
 }
 
 
+////// 线控空调 ///////
+
+// 模式
 export enum WireMode {
   OFF = 0,
   ON = 1,
@@ -62,12 +95,13 @@ export const WireModeMap: any = {
   [WireMode.HOT]: '51',
 }
 export const WireModeDescriptorMap: any = {
-  [WireMode.OFF]: '关机',
-  [WireMode.ON]: '开机',
+  [WireMode.OFF]: '关',
+  [WireMode.ON]: '开',
   [WireMode.COLD]: '制冷',
   [WireMode.HOT]: '制热',
 }
 
+// 风速
 export enum WireSpeed {
   AUTO = 0,
   WEAK = 1,
@@ -87,6 +121,7 @@ export const WireSpeedDescriptorMap: any = {
   [WireSpeed.STRONG]: '强风',
 }
 
+// 左右摆风
 export enum WireHWing {
   ON = 1,
   OFF = 0
@@ -100,6 +135,7 @@ export const WireHWingDescriptorMap: any = {
   [WireHWing.OFF]: ''
 }
 
+// 上下摆风
 export enum WireVWing {
   ON = 1,
   OFF = 0
