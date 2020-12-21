@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-29 20:16:40
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-12-18 15:38:27
+ * @Last Modified time: 2020-12-21 17:18:38
  */
 import { SwitchMixStatus } from '../entity/SwitchMixStatus';
 import { OrderEnum } from '../entity/SwitchStatus';
@@ -47,7 +47,7 @@ const SwitchKeyStatusMap: any = {
 const DEFAULT_KEY_COUNT = 0 // 默认按键数
 
 // 按键类型范式
-enum KeyTypePatternEnum {
+export enum KeyTypePatternEnum {
   SWITCH = '10',
   SCENE = '01',
   SWITCHSCENE = '11',
@@ -70,8 +70,9 @@ export class SwitchMixEquip extends BaseEquip {
   constructor(status: string, deviceType ? : string, deviceChildType ? : string) {
     super(status, deviceType, deviceChildType)
     this.typeStr = this.TypeHints.getSocketSwitchTypeIndex(deviceType, deviceChildType)
-    this.switchStatus = new SwitchMixStatus(status, this.orderCount)
+    this.switchStatus = new SwitchMixStatus(status, this.orderCount, this.keyTypePattern)
   }
+
   /**
    * 类型索引 1|3
    */
@@ -145,7 +146,7 @@ export class SwitchMixEquip extends BaseEquip {
    * 插座开关 - 插座
    */
   get orderCount(): number[] {
-    const countList = this._keyCountList
+    const countList = [...this._keyCountList]
     if (!countList.length) return []
     // 开关
     if (countList.length === 1 || this.isSwitch) return countList
@@ -223,8 +224,12 @@ export class SwitchMixEquip extends BaseEquip {
   }
 
   getBytes() {
-    const keyDots = this.switchStatus.keyDots.reverse()
-    const extraDots = this.switchStatus.extraKeyDots.reverse()
+    let keyDots = [...this.switchStatus.keyDots]
+    keyDots = keyDots.reverse()
+    if (this.isScene || this.isSwitchScene) { // 情景 8位
+      keyDots = keyDots.map(k => `${+k}`)
+    }
+    const extraDots = [...this.switchStatus.extraKeyDots].reverse()
     const status = new this.Converter(keyDots.join('') || '00', 2).toHex()
     const extraStatus = new this.Converter(extraDots.join('') || '00', 2).toHex()
     return this.bytes.format(status, extraStatus)

@@ -2,27 +2,26 @@
  * @Author: eamiear
  * @Date: 2020-08-29 17:46:03
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-12-17 16:57:01
+ * @Last Modified time: 2020-12-21 16:10:33
  */
 
 import { OrderEnum, SwitchStatus } from './SwitchStatus';
 
 export class SwitchMixStatus extends SwitchStatus {
   extraState: string; // 次级状态（非主程）
+  extraKeyDots: string[]; // 按键列表
   /**
    * 混合面板(情景 + 开关)
    * @param status 状态码
    * @param count 按键数量列表
-   * @param typeIndex 类型索引
+   * @param pattern 类型范式
    */
-  constructor (status: string, count?: Array<number>, typeIndex?: string) {
-    super(status, count, typeIndex)
+  constructor (status: string, count?: Array<number>, pattern?: string) {
+    super(status, count, pattern)
     this.extraState = status.slice(2, 4)
+    this.extraKeyDots = this.__parseBitState(this.extraState, this.extraCount)
   }
-  // 按键列表
-  get extraKeyDots(): string[] {
-    return this.__parseBitState(this.extraState, this.extraCount)
-  }
+
   // 非主程面板按键数
   get extraCount(): number {
     return this.count[OrderEnum.Secondary] || 0

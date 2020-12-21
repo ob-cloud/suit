@@ -11,20 +11,18 @@ export class Status {
    * 并反正顺序返回 ['01', '11', '10', '00'] => ["00", "10", "11", "01"]
    * @param state 16进制状态码('01')
    * @param count 码数量
+   * @param splitSize 分割位数
    */
-  __parseBitState (state: string, count: number) {
+  __parseBitState (state: string, count: number, splitSize: number = 2) {
     let keyList = []
     const converter = new Converter(state || '00', 16)
-    const bits = converter.fillBinary(converter.toBinary())
-    // let i = 0
-    // for (let index = 0; index < count; index++) {
-    //   keyList[index] = bits.slice(i, i + 2)
-    //   i += 2
-    // }
-    // return keyList.reverse()
+    const bits = converter.fill(8, converter.toBinary())
+    let i = 0
     for (let index = count; index > 0; index--) {
-      keyList.push(bits.slice(bits.length - 2, bits.length))
+      keyList.push(bits.slice(bits.length - splitSize * (i + 1), bits.length - splitSize * i))
+      i += 1
     }
+    if (splitSize === 1) keyList = keyList.map(k => this.adaptHex(k))
     return keyList
   }
   public adaptHex(hex: string): string {
