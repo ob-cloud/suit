@@ -28,7 +28,6 @@ export class SwitchPlugStatus extends SwitchStatus {
     this.kWhState = status.slice(12, 16)
 
     this.state = status.slice(4, 6)
-
     this.extraCount = 0
     this.extraState = ''
     this.extraKeyDots = []

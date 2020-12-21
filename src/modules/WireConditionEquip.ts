@@ -15,43 +15,24 @@ import {
 } from '../shared/constant';
 import { WireAirConditionModel } from '../entity/WireConditionStatus';
 
-// 线控空调
 export class WireConditionEquip extends BaseEquip {
   airModel: WireAirConditionModel;
   /** 预留_模式_风速_温度_上下摆风_左右摆风_室温 */
   private readonly bytes = `00{0}{1}{2}{3}{4}{5}`;
 
   /**
-   * 空调套件操作
+   * 线控空调
    * @param status          16进制状态字符串
    * @param deviceType      设备类型
    * @param deviceChildType 设备子类型
-   * @param ac              空调对象信息
    */
   constructor(status: string = '', deviceType ? : string, deviceChildType ? : string) {
     super(status, deviceType, deviceChildType)
     this.airModel = new WireAirConditionModel(status)
-    this.init()
   }
   static get defaultTemp() {
     return 26
   }
-  init() {
-    // const keyValue = this.airModel.getKeyValue()
-    // if (!keyValue) return
-    // if (['on', 'off'].includes(keyValue)) {
-    //   this.setPower(keyValue === 'on')
-    // } else {
-    //   const keys = keyValue.split('_')
-    //   if (keys.filter(i => i).length) this.airModel.setPower('on')
-    //   keys[0] && this.setMode(+this.getMode(keys[0]))
-    //   keys[1] && this.setSpeed(+this.getSpeed(keys[1]))
-    //   this.setTemperature(+this.getTemperature(new this.Converter(keys[2] ? keys[2] : `${WireConditionEquip.defaultTemp}`, 10).toHex()))
-    //   keys[3] && this.setVerticalWing(+this.getVerticalWing(keys[3]))
-    //   keys[4] && this.setHorizontalWing(+this.getHorizontalWing(keys[4]))
-    // }
-  }
-
   /**
    * 设置空调温度值
    * @param temp 十进制温度值
@@ -69,6 +50,12 @@ export class WireConditionEquip extends BaseEquip {
     const temp = v || this.airModel.getTemperature()
     const tmepDecimal = new this.Converter(temp, 16).toDecimal()
     return tmepDecimal
+  }
+  /**
+   * 获取温度存储值（hex）
+   */
+  getTemperatureRawValue(): string {
+    return this.airModel.getTemperature()
   }
   /**
    * 获取温度文本
@@ -99,9 +86,9 @@ export class WireConditionEquip extends BaseEquip {
     return modeKey || ''
   }
   /**
-   * 获取空调模式值: 0x00， 01，21， 51
+   * 获取空调模式值: 21， 51
    */
-  getModeValue(): string {
+  getModeRawValue(): string {
     return this.airModel.getMode()
   }
   /**
@@ -130,7 +117,7 @@ export class WireConditionEquip extends BaseEquip {
   /**
    * 获取风速值: 00, 01, 02, 03
    */
-  getSpeedValue(): string {
+  getSpeedRawValue(): string {
     return this.airModel.getSpeed()
   }
   get speedText(): string {
@@ -157,7 +144,7 @@ export class WireConditionEquip extends BaseEquip {
   /**
    * 获取左右摆风值 00， 01
    */
-  getHorizontalWingValue(): string {
+  getHorizontalWingRawValue(): string {
     return this.airModel.getHorizontalWing()
   }
   /**
@@ -187,7 +174,7 @@ export class WireConditionEquip extends BaseEquip {
   /**
    * 获取摆风值 00， 01
    */
-  getVerticalWingVlaue(): string {
+  getVerticalWingRawValue(): string {
     return this.airModel.getVerticalWing()
   }
   /**
@@ -236,7 +223,7 @@ export class WireConditionEquip extends BaseEquip {
    * 电源是否开启
    */
   get isPowerOn(): boolean {
-    return this.getPower() === WireModeMap[WireMode.ON]
+    return this.getPower() === WireModeMap[WireMode.ON] || !!+this.getModeRawValue()
   }
   /**
    * 温度是否可设置
@@ -261,23 +248,22 @@ export class WireConditionEquip extends BaseEquip {
    */
   getPowerBytes() {
     const mode = this.getPower()
-    const speed = this.getSpeedValue()
-    const temperature = this.getTemperature()
-    const vwing = this.getVerticalWingVlaue()
-    const hwing = this.getHorizontalWingValue()
+    const speed = this.getSpeedRawValue()
+    const temperature = this.getTemperatureRawValue()
+    const vwing = this.getVerticalWingRawValue()
+    const hwing = this.getHorizontalWingRawValue()
     return this.bytes.format(mode, speed, temperature, vwing, hwing, this.airModel.roomTemp);
   }
   getBytes() {
-    const mode = this.getModeValue()
-    const speed = this.getSpeedValue()
-    const temperature = this.getTemperature()
-    const vwing = this.getVerticalWingVlaue()
-    const hwing = this.getHorizontalWingValue()
+    const mode = this.getModeRawValue()
+    const speed = this.getSpeedRawValue()
+    const temperature = this.getTemperatureRawValue()
+    const vwing = this.getVerticalWingRawValue()
+    const hwing = this.getHorizontalWingRawValue()
     return this.bytes.format(mode, speed, temperature, vwing, hwing, this.airModel.roomTemp);
   }
 
   getStatusDescriptor () {
-    const isPowerOn = this.isPowerOn ? this.isPowerOn : !!this.getModeValue()
-    return isPowerOn ? WireModeDescriptorMap[WireMode.ON] : WireModeDescriptorMap[WireMode.OFF]
+    return this.isPowerOn ? WireModeDescriptorMap[WireMode.ON] : WireModeDescriptorMap[WireMode.OFF]
   }
 }
