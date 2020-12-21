@@ -264,6 +264,13 @@ export class WireConditionEquip extends BaseEquip {
   }
 
   getStatusDescriptor () {
-    return this.isPowerOn ? WireModeDescriptorMap[WireMode.ON] : WireModeDescriptorMap[WireMode.OFF]
+    // return this.isPowerOn ? WireModeDescriptorMap[WireMode.ON] : WireModeDescriptorMap[WireMode.OFF]
+    if (this.isPowerOn) {
+      const modeValue = this.getModeRawValue()
+      if (!modeValue) return WireModeDescriptorMap[WireMode.ON]
+      if (WireModeMap[WireMode.COLD] === modeValue) return WireModeDescriptorMap[WireMode.COLD]
+      if (WireModeMap[WireMode.HOT] === modeValue) return WireModeDescriptorMap[WireMode.HOT]
+    }
+    return WireModeDescriptorMap[WireMode.OFF]
   }
 }
