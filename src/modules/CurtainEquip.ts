@@ -50,7 +50,7 @@ export class CurtainEquip extends BaseEquip {
   }
 
   get curStatusInt () {
-    return +new this.Converter(this.curStatus, 2).toDecimal()
+    return +new this.Converter(this.curStatus, 16).toDecimal()
   }
 
   /**
