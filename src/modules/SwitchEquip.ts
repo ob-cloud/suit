@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-29 20:16:40
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-12-17 17:00:40
+ * @Last Modified time: 2020-12-22 11:37:49
  */
 import { BaseEquip } from './BaseEquip';
 import { SwitchMixEquip } from './SwitchMixEquip';
@@ -11,6 +11,7 @@ import { SwitchPlugEquip } from './SwitchPlugEquip';
 export class SwitchEquip extends BaseEquip {
   switchStatus: any;
   equip: any = {};
+  flag: any;
   /**
    * 开关工厂函数
    * @param status 状态字符串
@@ -26,11 +27,12 @@ export class SwitchEquip extends BaseEquip {
    * const status = equip.getBytes()
    * const statusDescriptor = equip.getStatusDescriptor()
    */
-  constructor(status: string, deviceType?: string, deviceChildType?: string) {
+  constructor(status: string, deviceType?: string, deviceChildType?: string, flag?: any) {
     super(status, deviceType, deviceChildType)
+    this.flag = flag
   }
   create () {
-    let equip = new SwitchMixEquip(this.status, this.deviceType, this.deviceChildType)
+    let equip = new SwitchMixEquip(this.status, this.deviceType, this.deviceChildType, this.flag)
     if (equip.isSocket) {
       equip = new SwitchPlugEquip(this.status, this.deviceType, this.deviceChildType)
     }

@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-21 16:59:16
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-12-21 10:37:30
+ * @Last Modified time: 2020-12-22 15:04:35
  */
 
 import { BaseEquip } from './BaseEquip';
@@ -22,7 +22,7 @@ import {
   WingDescriptorMap
 } from '../shared/constant';
 
-enum ConditionTempEnum {
+export enum ConditionTempEnum {
   default = 26,
   min = 16,
   max = 30

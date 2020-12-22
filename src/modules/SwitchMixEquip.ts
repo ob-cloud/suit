@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-29 20:16:40
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-12-21 17:55:33
+ * @Last Modified time: 2020-12-22 15:01:33
  */
 import { SwitchMixStatus } from '../entity/SwitchMixStatus';
 import { OrderEnum } from '../entity/SwitchStatus';
@@ -63,7 +63,7 @@ export enum KeyTypePatternEnum {
   SCENERADAR = '01001', // 雷达情景
   SWITCHIR = '100001', // 红外开关
   SCENEIR = '010001', // 红外情景
-  SWITCHISCENEIR = '110001', // 红外开关+情景
+  SWITCHSCENEIR = '110001', // 红外开关+情景
   SCENECURTAIN = '0100001', // 窗帘
 }
 
@@ -76,11 +76,25 @@ export class SwitchMixEquip extends BaseEquip {
    * @param status 状态
    * @param deviceType 主类型
    * @param deviceChildType 子类型
+   * @param flag 标志位
    */
-  constructor(status: string, deviceType ? : string, deviceChildType ? : string) {
+  constructor(status: string, deviceType ? : string, deviceChildType ? : string, flag?: any) {
     super(status, deviceType, deviceChildType)
     this.typeStr = this.TypeHints.getSocketSwitchTypeIndex(deviceType, deviceChildType)
-    this.switchStatus = new SwitchMixStatus(status, this.orderCount, this.keyTypePattern)
+    this.switchStatus = new SwitchMixStatus(this.__parseStatus(status, flag), this.orderCount, this.keyTypePattern)
+  }
+
+  /**
+   * 解析状态码，情景类型： 操作时置零，获取状态时不置零，其他类型不处理
+   * @param status 状态码串
+   * @param flag 是否
+   */
+  private __parseStatus (status: string, flag: boolean = false) {
+    const isScene = this.isScene || this.isSwitchScene || this.isCurtain || this.isRadarScene || this.isInfraredScene
+    if (isScene) {
+      return !flag ? `00${status.slice(2)}` : status
+    }
+    return status
   }
 
   /**
@@ -194,10 +208,22 @@ export class SwitchMixEquip extends BaseEquip {
     return this.keyTypePattern === KeyTypePatternEnum.SOCKET
   }
   get isRadar () {
-    return [`${KeyTypePatternEnum.SWITCHRADAR}`, `${KeyTypePatternEnum.SCENERADAR}`].includes(this.keyTypePattern)
+    return this.isRadarSwitch || this.isRadarScene
+  }
+  get isRadarSwitch () {
+    return this.keyTypePattern === KeyTypePatternEnum.SWITCHRADAR
+  }
+  get isRadarScene () {
+    return this.keyTypePattern === KeyTypePatternEnum.SCENERADAR
   }
   get isInfrared () {
-    return [`${KeyTypePatternEnum.SWITCHIR}`, `${KeyTypePatternEnum.SCENEIR}`, `${KeyTypePatternEnum.SWITCHISCENEIR}`].includes(this.keyTypePattern)
+    return this.isInfraredSwitch || this.isInfraredScene
+  }
+  get isInfraredSwitch () {
+    return this.keyTypePattern === KeyTypePatternEnum.SWITCHIR
+  }
+  get isInfraredScene () {
+    return [`${KeyTypePatternEnum.SCENEIR}`, `${KeyTypePatternEnum.SWITCHSCENEIR}`].includes(this.keyTypePattern)
   }
   get isCurtain () {
     return this.keyTypePattern === KeyTypePatternEnum.SCENECURTAIN

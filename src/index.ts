@@ -18,3 +18,4 @@ export * from './modules/SwitchPlugEquip';
 export * from './modules/SocketEquip';
 export * from './modules/CurtainEquip';
 export * from './modules/CardPowerEquip';
+export * from './modules/SensorAcEquip';

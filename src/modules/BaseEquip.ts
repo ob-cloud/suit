@@ -2,7 +2,7 @@
  * @Author: eamiear
  * @Date: 2020-08-20 17:38:47
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-08-28 16:52:38
+ * @Last Modified time: 2020-12-22 14:58:27
  */
 import Suiter, { SuitStatus, SuitTypes } from '../utils/suiter';
 import { TypeHints } from '../utils/typeHints';
@@ -17,7 +17,7 @@ export class BaseEquip {
 
   public readonly deviceType: string | undefined = '';
   public readonly deviceChildType: string | undefined = '';
-  public readonly status: string = '';
+  public status: string = '';
   constructor(status: string, deviceType?: string, deviceChildType?: string) {
     this.Suiter = Suiter;
     this.SuitStatus = SuitStatus;

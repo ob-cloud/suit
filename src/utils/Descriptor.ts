@@ -8,6 +8,7 @@ import { CardPowerEquip } from '../modules/CardPowerEquip';
 import { CurtainEquip } from '../modules/CurtainEquip';
 import { WireConditionEquip } from '../modules/WireConditionEquip';
 import { SwitchEquip } from '../modules/SwitchEquip';
+import { SensorAcEquip } from '../modules/SensorAcEquip';
 
 /**
  * 状态描述器
@@ -158,7 +159,7 @@ export class _Descriptor {
     const TypeHints = this.TypeHints as any;
     if (TypeHints.isXkeySocketSwitch(deviceChildType, deviceType)) {
       // const equip = new SwitchMixEquip(status, deviceType, deviceChildType)
-      const factory = new SwitchEquip(status, deviceType, deviceChildType)
+      const factory = new SwitchEquip(status, deviceType, deviceChildType, true)
       const equip = factory.create()
       return equip.getStatusDescriptor()
     }
@@ -230,6 +231,10 @@ export class _Descriptor {
     if (TypeHints.isPluginPowerSensors(deviceChildType, deviceType)) {
       const cardPowerEquip = new CardPowerEquip(status, deviceType, deviceChildType)
       return cardPowerEquip.getStatusDescriptor()
+    }
+    if (TypeHints.isAcSensors(deviceChildType, deviceType)) {
+      const acEquip = new SensorAcEquip(status, deviceType, deviceChildType)
+      return acEquip.getStatusDescriptor()
     }
     return '';
   }

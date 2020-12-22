@@ -14,11 +14,13 @@ import {
   WWireVWingMap
 } from '../shared/constant';
 import { WireAirConditionModel } from '../entity/WireConditionStatus';
+import { ConditionTempEnum } from './AirConditionEquip';
 
 export class WireConditionEquip extends BaseEquip {
   airModel: WireAirConditionModel;
   /** 预留_模式_风速_温度_上下摆风_左右摆风_室温 */
-  private readonly bytes = `00{0}{1}{2}{3}{4}{5}`;
+  // 预留先移除
+  private readonly bytes = `{0}{1}{2}{3}{4}{5}`;
 
   /**
    * 线控空调
@@ -28,17 +30,18 @@ export class WireConditionEquip extends BaseEquip {
    */
   constructor(status: string = '', deviceType ? : string, deviceChildType ? : string) {
     super(status, deviceType, deviceChildType)
-    this.airModel = new WireAirConditionModel(status)
+    this.status = `00${status}`
+    this.airModel = new WireAirConditionModel(this.status)
   }
   static get defaultTemp() {
-    return 26
+    return ConditionTempEnum.default
   }
   /**
    * 设置空调温度值
    * @param temp 十进制温度值
    */
   setTemperature(temp: number): WireConditionEquip {
-    const temperature = temp < 18 ? temp + 1 : temp > 30 ? temp - 1 : temp
+    const temperature = temp < ConditionTempEnum.min ? temp + 1 : temp > ConditionTempEnum.max ? temp - 1 : temp
     const tempHex = new this.Converter(`${temperature}`, 10).toHex()
     this.airModel.setTemperature(tempHex)
     return this
