@@ -5,7 +5,7 @@
  * @Last Modified time: 2020-12-21 17:19:55
  */
 
-import { KeyTypePatternEnum } from '../modules/SwitchMixEquip';
+import { ScenePatterns } from '../modules/SwitchMixEquip';
 import { Status } from './Status';
 
 export enum OrderEnum {
@@ -40,7 +40,7 @@ export class SwitchStatus extends Status {
    * 情景 一个 bit 表示一个按键
    */
   private getKeyDots () {
-    const bit = [`${KeyTypePatternEnum.SCENE}`, `${KeyTypePatternEnum.SWITCHSCENE}`].includes(this.pattern) ? 1 : 2
+    const bit = ScenePatterns.includes(this.pattern) ? 1 : 2
     return this.__parseBitState(this.state, this._count, bit)
   }
   /**

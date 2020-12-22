@@ -67,6 +67,15 @@ export enum KeyTypePatternEnum {
   SCENECURTAIN = '0100001', // 窗帘
 }
 
+export const ScenePatterns = [
+  `${KeyTypePatternEnum.SCENE}`,
+  `${KeyTypePatternEnum.SWITCHSCENE}`,
+  `${KeyTypePatternEnum.SCENERADAR}`,
+  `${KeyTypePatternEnum.SCENEIR}`,
+  `${KeyTypePatternEnum.SWITCHSCENEIR}`,
+  `${KeyTypePatternEnum.SCENECURTAIN}`,
+]
+
 export class SwitchMixEquip extends BaseEquip {
   switchStatus: SwitchMixStatus;
   typeStr: any;
@@ -148,7 +157,7 @@ export class SwitchMixEquip extends BaseEquip {
     return +keys.reduce((a: any, b: any) => +a + (+b)) || DEFAULT_KEY_COUNT
   }
   /**
-   * 获取各类型按键数量列表 [2,3,....] -> [开关, 情景,...]
+   * 获取各类型按键数量列表 [2,3,....] ===> [开关数量, 情景数量,...]
    */
   get _keyCountList() {
     if (!this.typeStr || !this.typeStr.length) return [DEFAULT_KEY_COUNT]
@@ -265,6 +274,20 @@ export class SwitchMixEquip extends BaseEquip {
   getPowerInt(index ? : number, t ? : number): Array < number > {
     const powers = this.getPower(index, t)
     return powers.map(item => +item > 1 ? 0 : +item)
+  }
+
+  getCurtainPowerInt() {
+    // bit [0, 1, 0] --> 开、停、关  ==> {1: 1}
+    const powerInts = this.getPowerInt()
+    if (this.orderCount[0] === 6) {
+      const panel1 = powerInts.slice(0, 3)
+      const panel2 = powerInts.slice(3)
+      const p1 = panel1.map((p, i) => { return p && {[i]: p}}).filter(i => i)
+      const p2 = panel2.map((p, i) => { return p && {[i]: p}}).filter(i => i)
+      return p1.concat(p2)
+    } else {
+      return powerInts.map((p, i) => { return p && {[i]: p}}).filter(i => i)
+    }
   }
 
   /**
