@@ -77,7 +77,7 @@ export class WireConditionEquip extends BaseEquip {
     mode = mode > 3 ? 2 : mode
     this.airModel.setMode(WireModeMap[mode])
     this.setSpeed(WireSpeed.AUTO)
-    this.setTemperature(WireConditionEquip.defaultTemp)
+    this.setTemperature(+this.getTemperature() || WireConditionEquip.defaultTemp)
     return this
   }
   /**
@@ -194,9 +194,10 @@ export class WireConditionEquip extends BaseEquip {
    * @param speed 风速
    * @param mode 模式
    */
-  setPowerOn(temp: number = 26, speed: number = 0): WireConditionEquip {
+  setPowerOn(): WireConditionEquip {
     this.airModel.setPower(WireModeMap[WireMode.ON])
-    this.setTemperature(temp).setSpeed(speed).setHorizontalWing(WireHWing.OFF).setVerticalWing(WireVWing.OFF)
+    this.setMode(WireMode.COLD).setHorizontalWing(WireHWing.OFF).setVerticalWing(WireVWing.OFF)
+    // this.setTemperature(temp).setSpeed(speed).setHorizontalWing(WireHWing.OFF).setVerticalWing(WireVWing.OFF)
     return this
   }
   /**
@@ -204,7 +205,8 @@ export class WireConditionEquip extends BaseEquip {
    */
   setPowerOff(): WireConditionEquip {
     this.airModel.setPower(WireModeMap[WireMode.OFF])
-    this.setTemperature(WireConditionEquip.defaultTemp).setSpeed(WireSpeed.AUTO).setHorizontalWing(WireHWing.OFF).setVerticalWing(WireVWing.OFF)
+    this.setMode(WireMode.OFF).setHorizontalWing(WireHWing.OFF).setVerticalWing(WireVWing.OFF)
+    // this.setTemperature(WireConditionEquip.defaultTemp).setSpeed(WireSpeed.AUTO).setHorizontalWing(WireHWing.OFF).setVerticalWing(WireVWing.OFF)
     return this
   }
   setPower(power: boolean): WireConditionEquip {
@@ -259,6 +261,7 @@ export class WireConditionEquip extends BaseEquip {
   }
   getBytes() {
     const mode = this.getModeRawValue()
+    console.log('mode ---- ', this.getModeRawValue())
     const speed = this.getSpeedRawValue()
     const temperature = this.getTemperatureRawValue()
     const vwing = this.getVerticalWingRawValue()
