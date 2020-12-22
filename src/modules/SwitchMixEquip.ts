@@ -9,13 +9,15 @@ import { OrderEnum } from '../entity/SwitchStatus';
 import { BaseEquip } from './BaseEquip';
 
 // 按键类型索引 3|3
-// 开关|情景|单线|插座|雷达
+// 开关|情景|单线|插座|雷达|红外|窗帘
 enum SwitchKeyTypeIndex {
   SWITCH = 0, // 普通
   SCENE = 1, // 情景
   LINE = 2, // 单线
   SOCKET = 3, // 插座
   RADAR = 4, // 雷达
+  INFRARED = 5, // 红外
+  CURTAIN = 6, // 窗帘
 }
 
 // 开关类型
@@ -25,13 +27,17 @@ const SwitchKeyTypeIndexMap: any = {
   [SwitchKeyTypeIndex.LINE]: 'line',
   [SwitchKeyTypeIndex.SOCKET]: 'socket',
   [SwitchKeyTypeIndex.RADAR]: 'radar',
+  [SwitchKeyTypeIndex.INFRARED]: 'infrared',
+  [SwitchKeyTypeIndex.CURTAIN]: 'curtain',
 }
 const SwitchTypeIndexObj: any = {
   switch: 0,
   scene: 0,
   line: 0,
   socket: 0,
-  radar: 0
+  radar: 0,
+  infrared: 0,
+  curtain: 0
 }
 
 // 按键状态
@@ -48,13 +54,17 @@ const DEFAULT_KEY_COUNT = 0 // 默认按键数
 
 // 按键类型范式
 export enum KeyTypePatternEnum {
-  SWITCH = '10',
-  SCENE = '01',
-  SWITCHSCENE = '11',
-  LINE = '001',
-  SOCKET = '0001',
-  SWITCHRADAR = '10001',
-  SCENERADAR = '01001'
+  SWITCH = '10',  // 开关
+  SCENE = '01',   // 情景
+  SWITCHSCENE = '11', // 开关 + 情景
+  LINE = '001', // 单线
+  SOCKET = '0001', // 插座
+  SWITCHRADAR = '10001', // 雷达开关
+  SCENERADAR = '01001', // 雷达情景
+  SWITCHIR = '100001', // 红外开关
+  SCENEIR = '010001', // 红外情景
+  SWITCHISCENEIR = '110001', // 红外开关+情景
+  SCENECURTAIN = '0100001', // 窗帘
 }
 
 export class SwitchMixEquip extends BaseEquip {
@@ -124,7 +134,7 @@ export class SwitchMixEquip extends BaseEquip {
     return +keys.reduce((a: any, b: any) => +a + (+b)) || DEFAULT_KEY_COUNT
   }
   /**
-   * 获取各类型按键数量列表 [2,3] -> [开关, 情景]
+   * 获取各类型按键数量列表 [2,3,....] -> [开关, 情景,...]
    */
   get _keyCountList() {
     if (!this.typeStr || !this.typeStr.length) return [DEFAULT_KEY_COUNT]
@@ -154,8 +164,18 @@ export class SwitchMixEquip extends BaseEquip {
     // 主要主程
     if (this.isScene || this.isSwitchScene || this.isLine || this.isSocket) return countList.reverse().slice(0, 2)
 
-    // 雷达主程
+    // 雷达主程，取开关或情景值。 eg [1, 0, 0, 0, 1] || [0, 1, 0, 0, 1]
     if (this.isRadar) return [countList.find(i => !!i) || DEFAULT_KEY_COUNT]
+
+    // 红外主程，取开关或情景值，两者包含取情景。 eg 100001, 010001, 110001
+    if (this.isInfrared) {
+      const list = countList.filter(i => i)
+      if (list.length === 2) return [...list]
+      if (list.length === 3) return list.slice(0, 2)
+    }
+    // 窗帘主程， 取情景。 2按键取3bit, 4按键取6bit
+    if (this.isCurtain)  return [countList.find(i => !!i) || DEFAULT_KEY_COUNT]
+
     return []
   }
   get isSwitch () {
@@ -175,6 +195,12 @@ export class SwitchMixEquip extends BaseEquip {
   }
   get isRadar () {
     return [`${KeyTypePatternEnum.SWITCHRADAR}`, `${KeyTypePatternEnum.SCENERADAR}`].includes(this.keyTypePattern)
+  }
+  get isInfrared () {
+    return [`${KeyTypePatternEnum.SWITCHIR}`, `${KeyTypePatternEnum.SCENEIR}`, `${KeyTypePatternEnum.SWITCHISCENEIR}`].includes(this.keyTypePattern)
+  }
+  get isCurtain () {
+    return this.keyTypePattern === KeyTypePatternEnum.SCENECURTAIN
   }
   /**
    * 设置按键位
