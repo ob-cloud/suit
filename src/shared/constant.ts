@@ -90,7 +90,6 @@ export enum WireMode {
 export const WireModeMap: any = {
   [WireMode.OFF]: '00',
   [WireMode.ON]: '01',
-  [WireMode.ON]: '01',
   [WireMode.COLD]: '21',
   [WireMode.HOT]: '51',
 }
