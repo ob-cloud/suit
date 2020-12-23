@@ -180,6 +180,20 @@ export class _Descriptor {
     }
     return ''
   }
+  /**
+   * 获取电机状态描述
+   * @param status 状态码 16位字符串
+   * @param deviceType 设备主类型
+   * @param deviceChildType 设备子类型
+   */
+  public getSmartMotorDescriptor (status: string, deviceType: string, deviceChildType?: string): string {
+    const TypeHints = this.TypeHints as any;
+    if (TypeHints.isCurtainSmartMotor(deviceChildType, deviceType)) { // 同 智能窗帘
+      const curtain = new CurtainEquip(status, deviceType, deviceChildType)
+      return curtain.getStatusDescriptor()
+    }
+    return ''
+  }
 
   /**
    * 获取灯状态描述
