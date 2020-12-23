@@ -11,10 +11,18 @@ import { CurtainStatus } from '../entity/CurtainStatus';
   OPEN = 2,
 }
 
-const CurtainStatusMap:any = {
+// 操作值与描述映射表
+export const CurtainStatusMap:any = {
   [CurtainStatusEnum.STOP]: '关',
   [CurtainStatusEnum.PAUSE]: '暂停',
   [CurtainStatusEnum.OPEN]: '开'
+}
+
+// 值与索引对应表
+const CurtainStatusBitMap:any = {
+  [CurtainStatusEnum.STOP]: 2,
+  [CurtainStatusEnum.PAUSE]: 1,
+  [CurtainStatusEnum.OPEN]: 0
 }
 
 /**
@@ -55,12 +63,25 @@ export class CurtainEquip extends BaseEquip {
 
   /**
    * 获取按键电源/活跃状态
+   * [0, 1, 0] --> 开、停、关 --- 2、0、1 （power 值）
    */
   getPower () {
     const v = this.curStatusInt
     let power = [0, 0, 0]
-    if (v >= 0) power[v] = 1
+    if (v >= 0) power[CurtainStatusBitMap[v]] = 1
     return power
+  }
+  /**
+   * 与SwitchMixEquip的方法保持一致
+   * // bit [0, 1, 0] --> 开、停、关  ==> {1: 1}
+   */
+  getCurtainPowerInt() {
+    const powerInts = this.getPower()
+    const powerMap: any = {0: 'ON', 1: 'PAUSE', 2: 'OFF'}
+    let power = []
+    const defaultPower = [{OFF: 0}]
+    power = powerInts.map((p:any, i:any) => { return p && {[powerMap[i]]: p}}).filter((t:any) => t)
+    return power.length ? power : defaultPower
   }
 
   /**

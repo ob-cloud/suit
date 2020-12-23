@@ -2,11 +2,12 @@
  * @Author: eamiear
  * @Date: 2020-08-29 20:16:40
  * @Last Modified by: eamiear
- * @Last Modified time: 2020-12-22 15:01:33
+ * @Last Modified time: 2020-12-23 14:44:26
  */
 import { SwitchMixStatus } from '../entity/SwitchMixStatus';
 import { OrderEnum } from '../entity/SwitchStatus';
 import { BaseEquip } from './BaseEquip';
+import { CurtainStatusMap } from './CurtainEquip';
 
 // 按键类型索引 3|3
 // 开关|情景|单线|插座|雷达|红外|窗帘
@@ -237,6 +238,10 @@ export class SwitchMixEquip extends BaseEquip {
   get isCurtain () {
     return this.keyTypePattern === KeyTypePatternEnum.SCENECURTAIN
   }
+  // 全部情景类型
+  get isMixScene () {
+    return ScenePatterns.includes(this.keyTypePattern)
+  }
   /**
    * 设置按键位
    * @param v 值
@@ -276,24 +281,43 @@ export class SwitchMixEquip extends BaseEquip {
     return powers.map(item => +item > 1 ? 0 : +item)
   }
 
+  /**
+   * 获取窗帘电源值
+   * [{ON:1}]
+   */
   getCurtainPowerInt() {
     // bit [0, 1, 0] --> 开、停、关  ==> {1: 1}
     const powerInts = this.getPowerInt()
+    const powerMap: any = {0: 'ON', 1: 'PAUSE', 2: 'OFF'}
+    let power = []
+    const defaultPower = [{OFF: 0}]
     if (this.orderCount[0] === 6) {
-      const panel1 = powerInts.slice(0, 3)
-      const panel2 = powerInts.slice(3)
-      const p1 = panel1.map((p, i) => { return p && {[i]: p}}).filter(i => i)
-      const p2 = panel2.map((p, i) => { return p && {[i]: p}}).filter(i => i)
-      return p1.concat(p2)
+      const panel1 = powerInts.slice(0, 3).map((p, i) => { return p && {[powerMap[i]]: p}}).filter(i => i)
+      const panel2 = powerInts.slice(3).map((p, i) => { return p && {[powerMap[i]]: p}}).filter(i => i)
+      const p1 = !panel1.length ? defaultPower : panel1
+      const p2 = !panel2.length ? defaultPower : panel2
+      power = p1.concat(p2)
     } else {
-      return powerInts.map((p, i) => { return p && {[i]: p}}).filter(i => i)
+      power = powerInts.map((p, i) => { return p && {[powerMap[i]]: p}}).filter(i => i)
     }
+    return power.length ? power : defaultPower
+  }
+  /**
+   * 获取窗帘开关状态描述
+   */
+  getCurtainPowerStatusDescriptor () {
+    const powerInts = this.getPowerInt()
+    const _default = new Array(this.orderCount[0] / 3).fill(0)
+    const status = powerInts.filter(i => i)
+    const descriptor = status.length ? status : _default
+    return descriptor.map(s => CurtainStatusMap[s]).join(' | ')
   }
 
   /**
    * 获取状态描述
    */
   getStatusDescriptor() {
+    if (this.isCurtain) return this.getCurtainPowerStatusDescriptor()
     const power = this.getPowerInt()
     return power.map(p => SwitchKeyStatusMap[p]).join(',')
   }
@@ -302,7 +326,7 @@ export class SwitchMixEquip extends BaseEquip {
     // 按键从右至左取值，构建字节码需先取反
     let keyDots = [...this.switchStatus.keyDots]
     keyDots = keyDots.reverse()
-    if (this.isScene || this.isSwitchScene) { // 情景开关按字节 8位获取按键
+    if (this.isMixScene) { // 情景开关按字节 8位获取按键
       keyDots = keyDots.map(k => `${+k}`)
     }
     const extraDots = [...this.switchStatus.extraKeyDots].reverse()
