@@ -76,7 +76,7 @@ export class WireConditionEquip extends BaseEquip {
   setMode(mode: number): WireConditionEquip {
     mode = mode > 3 ? 2 : mode
     this.airModel.setMode(WireModeMap[mode])
-    this.setSpeed(WireSpeed.AUTO)
+    this.setSpeed(+this.getSpeed() || WireSpeed.AUTO)
     this.setTemperature(+this.getTemperature() || WireConditionEquip.defaultTemp)
     return this
   }
