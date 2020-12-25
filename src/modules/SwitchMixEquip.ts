@@ -326,7 +326,7 @@ export class SwitchMixEquip extends BaseEquip {
     // 按键从右至左取值，构建字节码需先取反
     let keyDots = [...this.switchStatus.keyDots]
     keyDots = keyDots.reverse()
-    if (this.isMixScene) { // 情景开关按字节 8位获取按键
+    if (this.isMixScene) { // 情景开关按字节 8位获取按键 || 插座按前四位bit 一个bit一个按键
       keyDots = keyDots.map(k => `${+k}`)
     }
     const extraDots = [...this.switchStatus.extraKeyDots].reverse()

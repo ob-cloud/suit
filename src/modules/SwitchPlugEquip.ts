@@ -21,7 +21,7 @@ export class SwitchPlugEquip extends SwitchMixEquip {
   constructor(status: string, deviceType?: string, deviceChildType?: string) {
     super(status, deviceType, deviceChildType)
     this.switchStatus = new SwitchPlugStatus(status, this.orderCount)
-    this.bytes = `0000{0}0000000000`
+    this.bytes = `{0}0000000000`
   }
   /**
    * 获取状态描述
@@ -32,7 +32,9 @@ export class SwitchPlugEquip extends SwitchMixEquip {
   }
 
   getBytes () {
-    const keyDots = this.switchStatus.keyDots.reverse()
+    let keyDots = [...this.switchStatus.keyDots]
+    keyDots = keyDots.reverse()
+    keyDots = keyDots.map(k => `${+k}`)
     const status = new this.Converter(keyDots.join('') || '00', 2).toHex()
     return this.bytes.format(status)
   }

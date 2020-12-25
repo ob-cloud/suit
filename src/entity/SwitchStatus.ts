@@ -39,7 +39,7 @@ export class SwitchStatus extends Status {
    * 并获取按键正序
    * 情景 一个 bit 表示一个按键
    */
-  private getKeyDots () {
+  getKeyDots () {
     const bit = ScenePatterns.includes(this.pattern) ? 1 : 2
     return this.__parseBitState(this.state, this._count, bit)
   }

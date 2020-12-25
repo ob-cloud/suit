@@ -31,6 +31,12 @@ export class SwitchPlugStatus extends SwitchStatus {
     this.extraCount = 0
     this.extraState = ''
     this.extraKeyDots = []
+
+    this.keyDots = this.getKeyDots()
+  }
+
+  getKeyDots () {
+    return this.__parseBitState(this.state, this._count, 1)
   }
 
   setExtraKeyDots (v: string, index: number):SwitchPlugStatus {
